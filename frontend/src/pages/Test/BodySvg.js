@@ -1,4 +1,6 @@
-
+// copy-pasted the svg file into a React component,
+// moved the svg styles into styles.css
+// and added the selection logic
 export default function BodySvg({ onPartClick, selected, style }) {
     const makeClickHandler = (name) => (e) => onPartClick(name);
 
@@ -174,7 +176,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M75.656-378H143.91v78.97H75.656Z"
                         transform="translate(622.984 541.414)"
                         onClick={makeClickHandler("head")}
-                        style={{ fill: selected.includes("head") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("head") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -185,7 +187,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M73.033-339.311h75.709v56.141H73.033Z"
                         transform="translate(621.88 557.702)"
                         onClick={makeClickHandler("neck")}
-                        style={{ fill: selected.includes("neck") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("neck") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -196,7 +198,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M59.976-235.922H172.957v96.049H59.976Z"
                         transform="translate(616.383 601.228)"
                         onClick={makeClickHandler("torso")}
-                        style={{ fill: selected.includes("torso") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("torso") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -208,7 +210,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(617.601 587.931)"
                         onClick={makeClickHandler("upper-abdomen")}
                         style={{
-                            fill: selected.includes("upper-abdomen") ? "red" : "blue"
+                            fill: selected.includes("upper-abdomen") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -220,7 +222,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M95.328-319.639h61.323v91.09H95.328Z"
                         transform="translate(631.266 565.984)"
                         onClick={makeClickHandler("left-chest")}
-                        style={{ fill: selected.includes("left-chest") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-chest") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -232,7 +234,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(616.773 565.984)"
                         onClick={makeClickHandler("right-chest")}
                         style={{
-                            fill: selected.includes("right-chest") ? "red" : "blue"
+                            fill: selected.includes("right-chest") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -245,7 +247,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(641.618 566.536)"
                         onClick={makeClickHandler("left-shoulder")}
                         style={{
-                            fill: selected.includes("left-shoulder") ? "red" : "blue"
+                            fill: selected.includes("left-shoulder") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -257,7 +259,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M129.431-292.945h53.088v71.532H129.431Z"
                         transform="translate(645.623 577.222)"
                         onClick={makeClickHandler("left-elbow")}
-                        style={{ fill: selected.includes("left-elbow") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-elbow") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -268,7 +270,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M143.525-263.9h64.527v87.356H143.525Z"
                         transform="translate(651.556 589.449)"
                         onClick={makeClickHandler("left-wrist")}
-                        style={{ fill: selected.includes("left-wrist") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-wrist") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -279,7 +281,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M169.754-216.033h49.631v61.262H169.754Z"
                         transform="translate(662.599 609.602)"
                         onClick={makeClickHandler("left-hand")}
-                        style={{ fill: selected.includes("left-hand") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-hand") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -290,7 +292,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M-5-154.771H44.631v-61.262H-5Z"
                         transform="translate(589.028 609.602)"
                         onClick={makeClickHandler("right-hand")}
-                        style={{ fill: selected.includes("right-hand") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("right-hand") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -302,7 +304,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(610.423 566.536)"
                         onClick={makeClickHandler("right-shoulder")}
                         style={{
-                            fill: selected.includes("right-shoulder") ? "red" : "blue"
+                            fill: selected.includes("right-shoulder") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -315,7 +317,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(604.904 577.222)"
                         onClick={makeClickHandler("right-elbow")}
                         style={{
-                            fill: selected.includes("right-elbow") ? "red" : "blue"
+                            fill: selected.includes("right-elbow") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -328,7 +330,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(595.516 589.449)"
                         onClick={makeClickHandler("right-wrist")}
                         style={{
-                            fill: selected.includes("right-wrist") ? "red" : "blue"
+                            fill: selected.includes("right-wrist") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -340,7 +342,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M94.672-201.607h67.323V-59.274H94.672Z"
                         transform="translate(630.99 615.675)"
                         onClick={makeClickHandler("left-thigh")}
-                        style={{ fill: selected.includes("left-thigh") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-thigh") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -351,7 +353,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M104.7-125.416l46.112-8.131,10.477,59.417L115.176-66Z"
                         transform="translate(635.211 644.328)"
                         onClick={makeClickHandler("left-knee")}
-                        style={{ fill: selected.includes("left-knee") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-knee") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -362,7 +364,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M107.459-115.7h50.55V18.241h-50.55Z"
                         transform="translate(636.373 651.839)"
                         onClick={makeClickHandler("left-ankle")}
-                        style={{ fill: selected.includes("left-ankle") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-ankle") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -373,7 +375,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M112.377-33.738h64.061V20.54H112.377Z"
                         transform="translate(638.443 686.347)"
                         onClick={makeClickHandler("left-foot")}
-                        style={{ fill: selected.includes("left-foot") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("left-foot") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -385,7 +387,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(615.254 615.675)"
                         onClick={makeClickHandler("right-thigh")}
                         style={{
-                            fill: selected.includes("right-thigh") ? "red" : "blue"
+                            fill: selected.includes("right-thigh") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -397,7 +399,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M111.452-125.416,65.34-133.546,54.863-74.129,100.975-66Z"
                         transform="translate(614.231 644.328)"
                         onClick={makeClickHandler("right-knee")}
-                        style={{ fill: selected.includes("right-knee") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("right-knee") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
@@ -409,7 +411,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         transform="translate(614.84 651.839)"
                         onClick={makeClickHandler("right-ankle")}
                         style={{
-                            fill: selected.includes("right-ankle") ? "red" : "blue"
+                            fill: selected.includes("right-ankle") ? "#FFAE00" : "#110078"
                         }}
                     />
                 </g>
@@ -421,7 +423,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         d="M105.947-33.738H41.885V20.54h64.061Z"
                         transform="translate(608.767 686.347)"
                         onClick={makeClickHandler("right-foot")}
-                        style={{ fill: selected.includes("right-foot") ? "red" : "blue" }}
+                        style={{ fill: selected.includes("right-foot") ? "#FFAE00" : "#110078" }}
                     />
                 </g>
             </g>
