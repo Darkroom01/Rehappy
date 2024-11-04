@@ -1,4 +1,4 @@
-package com.rehappy.rehappy;
+package com.rehappy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

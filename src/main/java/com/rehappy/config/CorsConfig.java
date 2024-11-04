@@ -1,4 +1,4 @@
-package com.rehappy.rehappy.config;
+package com.rehappy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

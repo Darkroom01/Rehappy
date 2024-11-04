@@ -1,4 +1,4 @@
-package com.rehappy.rehappy.controller;
+package com.rehappy.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
