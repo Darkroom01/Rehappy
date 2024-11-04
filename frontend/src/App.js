@@ -1,13 +1,21 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Test from '../src/pages/Test/test'
+// App.js
+import React, {useState} from "react";
+import UserForm from "./components/UserForm";
+import UserList from "./components/UserList";
 
 function App() {
+    const [refreshUsers, setRefreshUsers] = useState(false);
+
+    const handleUserCreated = () => {
+        setRefreshUsers((prev) => !prev); // refreshUsers 상태 토글
+    };
+
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Test />} />
-            </Routes>
-        </BrowserRouter>
+        <div>
+            <UserForm onUserCreated={handleUserCreated} />
+            <UserList refreshTrigger={refreshUsers} />
+        </div>
     );
 }
+
 export default App;
