@@ -17,18 +17,20 @@ export const Container=styled.div`
 `
 
 export const InputInformation =styled.div`
-    width: 60%;
-    height: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     background-color: #D7E8FF;
-    border-radius: 12px 0 0 12px;
+    border-radius:0 12px 12px 0;
+    align-items: center;
 `
 export const Inputs =styled.div`
     display: flex;
     flex-direction: column;
-    margin-left: 40px;
+    width: 80%;
+    margin-left: 50px;
+    margin-bottom: 20px;
 `
 export const InputName =styled.div`
     font-family: NanumGothic;
@@ -36,31 +38,29 @@ export const InputName =styled.div`
 `
 export const Input=styled.input`
     width: 80%;
-    height: 25px;
+    height: 30px;
     border-radius: 5px;
     border: 1px solid #d9d9d9;
-
 `
 export const Right=styled.div`
-    width: 40%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 
 `
 export const Logo=styled.img`
-    width: 250px;
-    margin-top: 40px;
-   
+    width: 300px;
 `
-export const SignupBtn=styled.button`
+export const LoginBtn=styled.button`
     background-color: #110078;
     height: 45px;
-    width: 150px;
+    width: 70%;
     border-radius: 12px;
     border: none;
     cursor: pointer;
     color: white;
-    margin-top: -20px;
     font-family: NanumGothic;
+    margin-top: 10px;
 `
