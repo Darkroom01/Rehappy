@@ -1,20 +1,17 @@
-// App.js
-import React, {useState} from "react";
-import UserForm from "./components/UserForm";
-import UserList from "./components/UserList";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Test from '../src/pages/Test/test'
+import Chanho from '../src/pages/chanhomade/chanhomade'
+import Signup from '../src/pages/SignUp/signup'
 
 function App() {
-    const [refreshUsers, setRefreshUsers] = useState(false);
-
-    const handleUserCreated = () => {
-        setRefreshUsers((prev) => !prev); // refreshUsers 상태 토글
-    };
-
     return (
-        <div>
-            <UserForm onUserCreated={handleUserCreated} />
-            <UserList refreshTrigger={refreshUsers} />
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Test />} />
+                <Route path="/chanho" element={<Chanho />} />
+                <Route path="/signup" element={<Signup />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
