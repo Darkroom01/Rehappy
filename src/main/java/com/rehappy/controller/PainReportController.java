@@ -5,6 +5,7 @@ import com.rehappy.service.OpenAiService;
 import com.rehappy.service.PainService;
 import com.rehappy.service.UserService;
 import com.rehappy.Util.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class PainReportController {
         this.openAiService = openAiService;
     }
 
+    @Operation(summary = "통증 보고서 생성", description = "통증 기록을 바탕으로 보고서 생성")
     @PostMapping
     public ResponseEntity<?> generateReport(@RequestHeader("Authorization") String token) {
         try {
