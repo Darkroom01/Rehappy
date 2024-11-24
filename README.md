@@ -1,3 +1,5 @@
+### http://localhost:8080/swagger-ui/index.html#/ ###
+
 ### application.properties ###
 spring.application.name=Rehappy
 

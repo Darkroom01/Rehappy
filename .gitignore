@@ -91,3 +91,6 @@ Desktop.ini
 ### Test output ###
 /test-output/
 /test-results/
+
+### Spring Boot ###
+src/main/resources/application.properties
