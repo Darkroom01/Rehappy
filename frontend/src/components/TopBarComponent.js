@@ -75,8 +75,7 @@ export default function TopBarComponent({ fontColor }) {
     };
 
     const handleGoCommunity = () => {
-        // navigate('/review');
-        alert('만든 페이지 주소 연결해야됨\ncomponents/TopBarComponent.js 파일의 handleGoCommunity 함수')
+        navigate('/community');
     };
 
     const handleGoFindHospital = () => {
