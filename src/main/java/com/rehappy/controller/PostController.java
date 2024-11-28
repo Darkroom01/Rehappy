@@ -105,6 +105,17 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "게시글 검색", description = "제목과 내용에 키워드를 포함하는 게시글을 검색합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "검색 결과 반환 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<List<PostDto>> searchPosts(
+            @Parameter(description = "검색 키워드", example = "통증 관리") @RequestParam String keyword) {
+        return ResponseEntity.ok(postService.searchPosts(keyword));
+    }
+
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
