@@ -101,12 +101,21 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+    public List<PostDto> searchPosts(String keyword) {
+        List<Post> posts = postRepository.searchByTitleOrContent(keyword);
+        return posts.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
     private PostDto convertToDto(Post post) {
         return PostDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .author(post.getAuthor())
+                .authorName(post.getAuthorName())
                 .category(post.getCategory())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
