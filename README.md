@@ -19,18 +19,11 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 <b>1. 환경 변수 파일 생성 <br></b>
 frontend 폴더(node_modules, public, src와 같은 위치)에서 .env 파일 만들기<br>
 
-<b>2. 몰래 써야 하는 api 키가 깃허브에 커밋되지 않도록 .gitignore 파일에 환경 변수 파일 추가 <br></b>
-방금 만든 .env와 같은 위치의 .gitignore에 들어가서 .DS_Store와 .env.local 사이에 .env 추가<br>
-예)<br>
-   &nbsp;&nbsp;.DS_Store<br>
-   &nbsp;&nbsp;.env<br>
-   &nbsp;&nbsp;.env.local<br>
-
-<b>3. 저장 <br></b>
+<b>2. 저장 <br></b>
 .env 파일에 들어가서 &nbsp;&nbsp; REACT_APP_원하는이름=내API키 &nbsp;&nbsp; 이런 형식으로 저장<br>
 예) REACT_APP_GOOGLE_PLACES_API_KEY = 내API키<br>
 
-<b>4. 사용 <br></b>
+<b>3. 사용 <br></b>
 사용할 때는 평소 변수 생성하듯이 쓰면 되는데, 내가 설정한 API 변수명 앞에 process.env.를 붙여서<br>
 const apiKey = process.env.REACT_APP_GOOGLE_PLACES_API_KEY;<br>
 이렇게 사용하면 된다.

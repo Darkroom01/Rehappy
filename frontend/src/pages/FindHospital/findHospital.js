@@ -12,6 +12,8 @@ import { Reset } from "styled-reset";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CategorySelector from "./Components/categorySelector";
+import {getNearbyHospitals} from "./functions";
+import MapComponent from "./Components/map";
 
 export default function FindHospital() {
     const apiKey = process.env.REACT_APP_GOOGLE_PLACES_API_KEY;
@@ -28,28 +30,14 @@ export default function FindHospital() {
         종합병원: "종합병원은 다양한 진료과목과 전문의가 있는 대형 병원입니다.",
     };
 
-    const getNearbyHospitals = async (lat, lng, keyword) => {
-        try {
-            const response = await axios.get("http://localhost:8080/api/nearby-hospitals", {
-                params: {
-                    lat,
-                    lng,
-                    keyword,
-                    language: "ko"
-                },
-            });
-            return response.data.results || [];
-        } catch (error) {
-            console.error("Error fetching hospitals:", error);
-            return [];
-        }
-    };
+
 
     // 검색어(keyword)에 따라 데이터 가져오기
     useEffect(() => {
         const fetchHospitals = async () => {
             const data = await getNearbyHospitals(mapCenter.lat, mapCenter.lng, keyword);
             setHospitals(data);
+            console.log('병원 데이터:',data)
         };
         fetchHospitals();
     }, [mapCenter, keyword]); // mapCenter와 keyword 변경 시 API 호출
@@ -70,45 +58,16 @@ export default function FindHospital() {
             <Reset/>
             <ContentsContainer>
                 {/* 지도 로드 */}
-                <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
-                    <GoogleMap
-                        mapContainerStyle={{ position: "absolute", right: 0, width: 'calc(100% - 300px)', height: '100%' }}
-                        zoom={14}
-                        center={mapCenter}
-                        onLoad={(map) => setMapInstance(map)} // Google Map 인스턴스 저장
-                        onDragEnd={handleDragEnd} // 지도 드래그 이벤트
-                        onError={(e) => console.error('Error loading map', e)}
-                    >
-                        {hospitals.map((hospital, index) => (
-                            <Marker
-                                key={index}
-                                position={{
-                                    lat: hospital.geometry.location.lat,
-                                    lng: hospital.geometry.location.lng,
-                                }}
-                                title={hospital.name}
-                                onClick={() => setSelectedHospital(hospital)} // 마커 클릭 이벤트
-                            />
-                        ))}
-
-                        {/* InfoWindow */}
-                        {selectedHospital && (
-                            <InfoWindow
-                                position={{
-                                    lat: selectedHospital.geometry.location.lat,
-                                    lng: selectedHospital.geometry.location.lng,
-                                }}
-                                onCloseClick={() => setSelectedHospital(null)} // 닫기 버튼 이벤트
-                            >
-                                <div>
-                                    <h4>{selectedHospital.name}</h4>
-                                    <p>{selectedHospital.vicinity}</p>
-                                    <p>평점: {selectedHospital.rating || "정보 없음"}</p>
-                                </div>
-                            </InfoWindow>
-                        )}
-                    </GoogleMap>
-                </LoadScript>
+                <MapComponent
+                    apiKey={apiKey}
+                    libraries={libraries}
+                    mapCenter={mapCenter}
+                    setMapInstance={setMapInstance}
+                    handleDragEnd={handleDragEnd}
+                    hospitals={hospitals}
+                    selectedHospital={selectedHospital}
+                    setSelectedHospital={setSelectedHospital}
+                />
                 {/* 좌측 컨테이너 */}
                 <PlacesContainer>
                     <PlacesWrapper>
@@ -127,6 +86,12 @@ export default function FindHospital() {
                                     <h4>{hospital.name}</h4>
                                     <p>{hospital.vicinity}</p>
                                     <p>평점: {hospital.rating || "정보 없음"}</p>
+                                    {hospital?.opening_hours?.open_now !== undefined ? (
+                                        <p>open_now: {hospital.opening_hours.open_now ? "Open" : "Closed"}</p>
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+
                                 </HospitalInfo>
                             ))}
                         </Hospitals>

@@ -62,9 +62,14 @@ export const SearchButton = styled.div`
     background-position: center;
 `
 export const HospitalInfo = styled.div`
-    width: 100%;
+    width: calc(100% - 40px);
     height: auto;
-    margin-bottom: 50px;
+    padding: 25px 20px;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.11);
+    }
 `
 export const Hospitals = styled.div`
     width: 100%;
