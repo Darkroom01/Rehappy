@@ -1,4 +1,3 @@
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import {
     ContentsContainer, HospitalInfo, Hospitals,
     Logo,
@@ -10,7 +9,6 @@ import {
 } from "./style";
 import { Reset } from "styled-reset";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import CategorySelector from "./Components/categorySelector";
 import {getNearbyHospitals} from "./functions";
 import MapComponent from "./Components/map";
