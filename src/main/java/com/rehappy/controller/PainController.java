@@ -9,7 +9,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pains")
@@ -76,4 +78,62 @@ public class PainController {
             return ResponseEntity.status(401).body("토큰 검증 실패: " + e.getMessage());
         }
     }
+
+    @Operation(
+            summary = "통증 데이터 시각화 데이터 조회",
+            description = "{\n" +
+                    "  \"painByDate\": { \"2024-11-17\": 3, \"2024-11-16\": 2 },\n" +
+                    "  \"intensityDistribution\": { \"6\": 2, \"8\": 3 },\n" +
+                    "  \"painByLocation\": { \"어깨\": 3, \"허리\": 2 },\n" +
+                    "  \"averageIntensity\": 7.3\n" +
+                    "}"
+    )
+    @GetMapping("/visualization")
+    public ResponseEntity<?> getPainDataForVisualization(
+            @RequestHeader("Authorization") String token) {
+        try {
+            // 사용자 인증
+            String email = jwtUtil.extractEmail(token.replace("Bearer ", ""));
+            Long userId = userService.getUserIdByEmail(email);
+
+            // 통증 기록 조회
+            List<Pain> pains = painService.getPainsByUserId(userId);
+
+            // 시각화를 위한 데이터 생성
+            Map<String, Object> visualizationData = new HashMap<>();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            // 통증 발생 날짜별 데이터 (LocalDate -> String 변환)
+            Map<String, Long> painByDate = pains.stream()
+                    .collect(Collectors.groupingBy(
+                            pain -> pain.getPainDate().format(formatter), // LocalDate를 String으로 변환
+                            Collectors.counting()
+                    ));
+            visualizationData.put("painByDate", painByDate);
+
+            // 통증 강도 분포
+            Map<Integer, Long> intensityDistribution = pains.stream()
+                    .collect(Collectors.groupingBy(Pain::getIntensity, Collectors.counting()));
+            visualizationData.put("intensityDistribution", intensityDistribution);
+
+            // 통증 발생 부위별 데이터
+            Map<String, Long> painByLocation = pains.stream()
+                    .collect(Collectors.groupingBy(Pain::getLocation, Collectors.counting()));
+            visualizationData.put("painByLocation", painByLocation);
+
+            // 평균 통증 강도 계산
+            double averageIntensity = pains.stream()
+                    .mapToInt(Pain::getIntensity)
+                    .average()
+                    .orElse(0.0);
+            visualizationData.put("averageIntensity", averageIntensity);
+
+            // 반환
+            return ResponseEntity.ok(visualizationData);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("데이터 조회 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
 }
