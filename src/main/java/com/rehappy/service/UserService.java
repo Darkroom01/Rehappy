@@ -43,7 +43,7 @@ public class UserService {
         }
 
         // JWT 생성
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole(), user.getName());
     }
 
     // 이메일로 User ID 조회
