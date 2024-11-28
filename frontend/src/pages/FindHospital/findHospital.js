@@ -12,8 +12,10 @@ import { useEffect, useState } from "react";
 import CategorySelector from "./Components/categorySelector";
 import {getNearbyHospitals} from "./functions";
 import MapComponent from "./Components/map";
+import {useNavigate} from "react-router-dom";
 
 export default function FindHospital() {
+    const navigate = useNavigate();
     const apiKey = process.env.REACT_APP_GOOGLE_PLACES_API_KEY;
     const libraries = ['places'];
     const [hospitals, setHospitals] = useState([]);
@@ -70,7 +72,7 @@ export default function FindHospital() {
                 <PlacesContainer>
                     <PlacesWrapper>
                         <LogoWrapper>
-                            <Logo src='/images/logo.png' alt='리해피 로고' />
+                            <Logo onClick={() => (navigate('/'))} src='/images/logo.png' alt='리해피 로고' />
                         </LogoWrapper>
                         <SearchWrapper>
                             <SearchInput placeholder='검색어를 입력하세요.' />

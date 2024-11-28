@@ -34,6 +34,7 @@ export const LogoWrapper = styled.div`
 export const Logo = styled.img`
     width: 100%;
     height: 100%;
+    cursor: pointer;
 `
 export const SearchInput = styled.input`
     width: 280px;
