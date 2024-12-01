@@ -2,6 +2,9 @@ package com.rehappy.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.rehappy.model.Profile;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,7 +25,9 @@ public class User {
     @Column(nullable = false)
     private String role; // "USER" 또는 "DOCTOR"
 
-    // 의료진 전용 필드 (필요 시 사용)
     private String licenseNumber;
     private String hospitalName;
+
+    @OneToMany(mappedBy = "parentUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Profile> profiles = new ArrayList<>();
 }

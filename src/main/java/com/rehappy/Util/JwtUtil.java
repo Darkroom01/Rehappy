@@ -31,9 +31,6 @@ public class JwtUtil {
                 .compact();
     }
 
-
-
-
     // JWT에서 클레임 추출
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
