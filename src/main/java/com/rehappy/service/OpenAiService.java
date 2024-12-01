@@ -21,10 +21,16 @@ public class OpenAiService {
     private String apiKey; // OpenAI API Key
     private final String apiUrl = "https://api.openai.com/v1/chat/completions"; // 강제 URL 설정
 
-    public OpenAiService(WebClient.Builder webClientBuilder) {
-        logger.debug("OpenAI API URL: {}", apiUrl); // URL 확인 로그 추가
+    public OpenAiService(WebClient.Builder webClientBuilder, @Value("${openai.api.key}") String apiKey) {
+        if (apiKey == null || apiKey.isBlank()) {
+            System.err.println("API Key is null or not configured"); // 디버깅용 로그
+            throw new IllegalStateException("OpenAI API 키가 설정되지 않았습니다.");
+        }
+        System.out.println("API Key Loaded: " + apiKey); // 디버깅용 로그
+        apiKey = apiKey.trim();
+        System.out.println("API Key Loaded: " + apiKey); // 디버깅용 로그
         this.webClient = webClientBuilder
-                .baseUrl(apiUrl)
+                .baseUrl("https://api.openai.com/v1/chat/completions")
                 .defaultHeader("Authorization", "Bearer " + apiKey)
                 .defaultHeader("Content-Type", "application/json")
                 .build();

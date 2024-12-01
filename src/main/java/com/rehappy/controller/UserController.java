@@ -20,7 +20,8 @@ public class UserController {
     @Operation(
             summary = "회원가입",
             description = "일반 사용자 및 의료진 회원가입을 처리합니다. 'isDoctor' 플래그를 사용해 의료진 여부를 구분하며, 이메일, 비밀번호, 이름을 입력받습니다. " +
-                    "의료진일 경우 병원 이름과 면허 번호를 추가로 입력받을 수 있습니다. (현재는 사용하지 않음)"
+                    "의료진일 경우 병원 이름과 면허 번호를 추가로 입력받을 수 있습니다. (현재는 사용하지 않음). " +
+                    "회원가입 후 기본 프로필이 자동으로 생성됩니다."
     )
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
