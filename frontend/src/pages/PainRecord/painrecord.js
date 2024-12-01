@@ -27,7 +27,14 @@ export default function PainRecord() {
     const handleNextStep = () => setStep((prev) => prev + 1);
 
     const handleSubmit = (intensity) => {
-        alert(`통증 기록 완료! 선택된 양상: ${selectedPainTypes.join(", ")}, 강도: ${intensity}`);
+        // 선택된 부위, 양상, 강도를 알림으로 출력
+        alert(`
+        통증 기록
+        선택된 부위: ${selectedParts.join(", ")}
+        선택된 양상: ${selectedPainTypes.join(", ")}
+        강도: ${intensity}
+    `);
+
         // 초기화 또는 다음 단계로 이동
         setStep(1);
         setSelectedParts([]);
