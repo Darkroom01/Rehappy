@@ -6,6 +6,8 @@ import Login from '../src/pages/Login/login'
 import FindHospital from "./pages/FindHospital/findHospital";
 import Community from "./pages/Community/community";
 import Main from "./pages/Main/main";
+import New from "./pages/Community/new";
+import PostDetail from "./pages/Community/postDetail";
 
 function App() {
     return (
@@ -18,6 +20,8 @@ function App() {
                 <Route path="/findHospital" element={<FindHospital />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/test" element={<Test />} />
+                <Route path="/new" element={<New />} />
+                <Route path="/postDetail" element={<PostDetail />} />
             </Routes>
         </BrowserRouter>
     );

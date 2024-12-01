@@ -1,10 +1,5 @@
 import styled from "styled-components";
 
-export const ContentsWrapper = styled.div`
-    width: 1000px;
-    height: auto;
-    margin: 0 auto;
-`
 export const Category = styled.div`
     background-color: white;
     font-weight: bold;
@@ -37,9 +32,9 @@ export const Option = styled.a`
     font-weight: bold;
 `
 export const Content = styled.div`
-    width: calc(100% - 40px);
+    width: calc(100% - 60px);
     height: 80px;
-    padding: 0 20px;
+    padding: 0 30px;
     background-color: #D7E8FF;
     margin: 20px auto;
     border-radius: 20px;
@@ -47,4 +42,18 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+`
+export const NewButton = styled.div`
+    width: 100px;
+    height: 50px;
+    background-color: #110078;
+    border-radius: 2em;
+    cursor: pointer;
+    margin-top: auto;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
