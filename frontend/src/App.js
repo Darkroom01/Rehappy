@@ -8,6 +8,7 @@ import Community from "./pages/Community/community";
 import Main from "./pages/Main/main";
 import New from "./pages/Community/new";
 import PostDetail from "./pages/Community/postDetail";
+import PainRecord from "./pages/PainRecord/painrecord";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/test" element={<Test />} />
                 <Route path="/new" element={<New />} />
                 <Route path="/postDetail" element={<PostDetail />} />
+                <Route path="/painRecord" element={<PainRecord />} />
             </Routes>
         </BrowserRouter>
     );

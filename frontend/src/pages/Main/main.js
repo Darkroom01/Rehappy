@@ -19,7 +19,8 @@ import {
     HealthTips,
 } from "./style";
 import { getTodayTips } from "./healthTips";
-import { fetchWeather, fetchForecast } from "./weatherService"; // fetchForecast 추가
+import { fetchWeather, fetchForecast } from "./weatherService";
+import { useNavigate } from "react-router-dom";
 
 // 오늘의 Tip 선택 로직
 const todayTips = getTodayTips();
@@ -27,6 +28,11 @@ const todayTips = getTodayTips();
 export default function Main() {
     const [weatherData, setWeatherData] = useState(null);
     const [todayTemp, setTodayTemp] = useState({ maxTemp: null, minTemp: null });
+    const navigate = useNavigate();
+
+    const handleGoPainRecord = () => {
+        navigate('/painRecord');
+    };
 
     // 현재 날씨 정보 가져오기
     useEffect(() => {
@@ -68,7 +74,7 @@ export default function Main() {
                             <span>7일 전</span> 입니다.
                         </h2>
                     </LeftSection>
-                    <CenterSection>
+                    <CenterSection onClick={handleGoPainRecord}>
                         <button>통증 기록
                             <br /> 바로가기
                         </button>
