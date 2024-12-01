@@ -1,5 +1,3 @@
-// utils/healthTips.js
-
 // 통증 관리 관련 건강 Tip 목록
 export const healthTips = [
     "규칙적인 스트레칭과 운동은 근육을 풀어주고 긴장을 줄여주어 통증 완화에 도움을 줍니다. 특히 요통이나 목 통증에 효과적입니다.",

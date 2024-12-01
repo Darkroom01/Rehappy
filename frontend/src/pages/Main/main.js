@@ -1,5 +1,5 @@
 import { Reset } from "styled-reset";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TopBarComponent from "../../components/TopBarComponent"; // 상단바 컴포넌트
 import {
     Wrapper,
@@ -7,6 +7,8 @@ import {
     LeftSection,
     CenterSection,
     RightSection,
+    WeatherMain,
+    WeatherDetails,
     WeatherIcon,
     GraphTipContainer,
     GraphSection,
@@ -14,20 +16,45 @@ import {
     GraphLine,
     GraphPoint,
     TipSection,
+    HealthTips,
 } from "./style";
 import { getTodayTips } from "./healthTips";
-import Weather from "../../images/weatherIcons/weather_01.png";
+import { fetchWeather, fetchForecast } from "./weatherService"; // fetchForecast 추가
 
 // 오늘의 Tip 선택 로직
 const todayTips = getTodayTips();
 
 export default function Main() {
+    const [weatherData, setWeatherData] = useState(null);
+    const [todayTemp, setTodayTemp] = useState({ maxTemp: null, minTemp: null });
+
+    // 현재 날씨 정보 가져오기
+    useEffect(() => {
+        async function getWeather() {
+            const data = await fetchWeather("gyeongsan-si");
+            if (data) {
+                setWeatherData(data);
+            }
+        }
+        getWeather();
+    }, []);
+
+    // 오늘의 최고/최저 기온 가져오기
+    useEffect(() => {
+        async function getForecast() {
+            const data = await fetchForecast("gyeongsan-si");
+            if (data) {
+                setTodayTemp(data);
+            }
+        }
+        getForecast();
+    }, []);
+
     return (
         <>
             <Reset />
             {/* 상단바 */}
             <TopBarComponent />
-
             {/* 메인 페이지 내용 */}
             <Wrapper>
                 {/* 사용자 정보 및 날씨 정보 */}
@@ -36,24 +63,43 @@ export default function Main() {
                         <h2>
                             <span>김철수</span> 님의
                             <br />
-                            마지막 증상 기록은
+                            마지막 통증 기록은
                             <br />
                             <span>7일 전</span> 입니다.
                         </h2>
                     </LeftSection>
                     <CenterSection>
-                        <button>증상 기록
+                        <button>통증 기록
                             <br /> 바로가기
                         </button>
                     </CenterSection>
                     <RightSection>
-                        <WeatherIcon src={Weather} alt="날씨 아이콘" />
-                        <h2>17°C</h2>
-                        <p>일교차가 큽니다. 오늘 날씨에는 감기 조심하세요!</p>
-                        <p>습도: 65%</p>
-                        <p>바람: 남서풍 5m/s</p>
-                        <p>미세먼지: 보통</p>
+                        {weatherData ? (
+                            <>
+                                <WeatherMain>
+                                    <WeatherIcon
+                                        src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                                        alt="날씨 아이콘"
+                                    />
+                                    <h2>{weatherData.main.temp}°C</h2> {/* 현재 온도 */}
+                                </WeatherMain>
+                                <WeatherDetails>
+                                    <p>{todayTemp.maxTemp}° / {todayTemp.minTemp}°</p>
+                                    <p>
+                                        체감 {weatherData.main.feels_like}° / {weatherData.weather[0].description} /
+                                        습도 {weatherData.main.humidity}% / 풍속 {weatherData.wind.speed}m/s
+                                    </p>
+                                    <p>찬바람 부는 겨울이에요. 오늘 날씨에는 감기 조심하세요!</p>
+                                </WeatherDetails>
+                            </>
+                        ) : (
+                            <p>날씨 정보를 불러오는 중입니다...</p>
+                        )}
                     </RightSection>
+
+
+
+
                 </InfoContainer>
 
                 {/* 그래프와 팁 섹션 */}
@@ -72,12 +118,14 @@ export default function Main() {
                     </GraphSection>
 
                     <TipSection>
-                        <h3>오늘의 건강 Tip!</h3>
-                        <ul>
-                            {todayTips.map((tip, index) => (
-                                <li key={index}>{tip}</li>
-                            ))}
-                        </ul>
+                        <h3>오늘의 통증 관리 Tip!</h3>
+                        <HealthTips>
+                            <ul>
+                                {todayTips.map((tip, index) => (
+                                    <li key={index}>{tip}</li>
+                                ))}
+                            </ul>
+                        </HealthTips>
                     </TipSection>
                 </GraphTipContainer>
             </Wrapper>
