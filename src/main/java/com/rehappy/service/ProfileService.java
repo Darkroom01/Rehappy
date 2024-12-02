@@ -71,14 +71,15 @@ public class ProfileService {
         User parentUser = userRepository.findByEmail(parentEmail)
                 .orElseThrow(() -> new IllegalArgumentException("부모 사용자를 찾을 수 없습니다."));
 
-        if (parentUser.getProfiles().size() >= 4) {
-            throw new IllegalArgumentException("최대 4개의 프로필만 생성 가능합니다.");
+        if (parentUser.getProfiles().size() >= 5) {
+            throw new IllegalArgumentException("최대 5개의 프로필만 생성 가능합니다.");
         }
 
         // 새로운 사용자 생성
         User newUser = new User();
         newUser.setName(dto.getName());
         newUser.setEmail(dto.getEmail());
+        newUser.setProfilePictureType(dto.getProfilePictureType());
         newUser.setRole("PROFILE");
         newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
 
