@@ -80,7 +80,7 @@ public class PainController {
     }
 
     @Operation(
-            summary = "통증 데이터 시각화 데이터 조회",
+            summary = "통증 데이터 시각화 데이터 조회(일단 안쓰임)",
             description = "{\n" +
                     "  \"painByDate\": { \"2024-11-17\": 3, \"2024-11-16\": 2 },\n" +
                     "  \"intensityDistribution\": { \"6\": 2, \"8\": 3 },\n" +
@@ -130,6 +130,41 @@ public class PainController {
 
             // 반환
             return ResponseEntity.ok(visualizationData);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("데이터 조회 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    @Operation(
+            summary = "최근 통증 기록 조회",
+            description = "최근 통증 기록 5개의 날짜와 강도를 반환합니다."
+    )
+    @GetMapping("/recent")
+    public ResponseEntity<?> getRecentPainRecords(
+            @RequestHeader("Authorization") String token) {
+        try {
+            // 사용자 인증
+            String email = jwtUtil.extractEmail(token.replace("Bearer ", ""));
+            Long userId = userService.getUserIdByEmail(email);
+
+            // 통증 기록 조회
+            List<Pain> pains = painService.getPainsByUserId(userId);
+
+            // 통증 기록 정렬 (최근 날짜 기준) 후 상위 5개 선택
+            List<Map<String, Object>> recentPains = pains.stream()
+                    .sorted((p1, p2) -> p2.getPainDate().compareTo(p1.getPainDate())) // 날짜 내림차순
+                    .limit(5) // 상위 5개만 선택
+                    .map(pain -> {
+                        Map<String, Object> painMap = new HashMap<>();
+                        painMap.put("date", pain.getPainDate().toString()); // 날짜
+                        painMap.put("intensity", pain.getIntensity());      // 강도
+                        return painMap;
+                    })
+                    .collect(Collectors.toList());
+
+            // 반환
+            return ResponseEntity.ok(recentPains);
 
         } catch (Exception e) {
             return ResponseEntity.status(500).body("데이터 조회 중 오류가 발생했습니다: " + e.getMessage());
