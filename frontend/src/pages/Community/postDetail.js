@@ -13,31 +13,65 @@ import TopBarComponent from "../../components/TopBarComponent";
 import Cookies from "js-cookie";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 export default function PostDetail() {
-    const token = Cookies.get('jwt');
+    const { id } = useParams();
+
+    const token = Cookies.get('authToken');
+    const decodedToken = jwtDecode(token);
+
     const navigate = useNavigate();
     const [newCommentValue, setNewCommentValue] = useState(""); // 새 댓글 내용
     const [comments, setComments] = useState([]); // 댓글 데이터 저장
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [category, setCategory] = useState('');
+    const [author, setAuthor] = useState(''); // 작성자 번호
+    const [authorName, setAuthorName] = useState(''); // 작성자 이름
+
 
     // 게시물 수정 페이지로 이동
     const handleGoToEdit = () => {
-        navigate('/edit', {
-            state: { category: 'PAIN_TIPS', title: '제목이에용', content: '내용빡' }
+        navigate(`/edit/${id}`, {
+            state: { category: category, title: title, content: content }
         });
     };
 
     // 게시글 삭제
-    const handleDeletePost = () => {
-        alert('삭제하깅');
-        navigate('/community');
+    const handleDeletePost = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/api/posts/${id}`);
+            alert('게시물이 삭제되었습니다.');
+            navigate('/community');
+        } catch (error) {
+            console.error('Failed to delete post', error);
+        }
     }
 
     // 댓글 쓰기 핸들러
     const handleNewCommentInput = (e) => {
         setNewCommentValue(e.target.value);
     }
+
+    // 게시물 가져오기
+    useEffect(() => {
+        const fetchDetail = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/posts/${id}`);
+                console.log('디테일:',response.data);
+                setTitle(response.data.title);
+                setContent(response.data.content);
+                setCategory(response.data.category);
+                setAuthor(response.data.author);
+                setAuthorName(response.data.authorName);
+            } catch (error) {
+                console.error('Failed to fetch detail', error);
+            }
+        };
+        fetchDetail();
+    }, []);
 
     // 댓글 제출
     const handleSubmitNewComment = async () => {
@@ -78,7 +112,7 @@ export default function PostDetail() {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/comments/post/1');
+                const response = await axios.get(`http://localhost:8080/api/comments/post/${id}`);
                 setComments(response.data); // 댓글 데이터 저장
                 console.log('댓글:',response.data)
             } catch (error) {
@@ -100,19 +134,16 @@ export default function PostDetail() {
                     padding: '60px 70px 110px 70px',
                     boxShadow: '0 5px 10px rgba(0, 0, 0, 0.18)',
                 }}>
-                    <PostTitle>
-                        어쩌고 저쩌고 이 병원 완전 친절하고 좋았어요~~~~ 강추
-                    </PostTitle>
+                    <PostTitle>{title}</PostTitle>
                     <hr style={{border: '2px solid #FFAE00', margin: '20px 0 40px 0'}}/>
-                    <PostContent>
-                        그냥 어깨가 좀 아파서 평소 가던 병원 말고 집 앞에 새로 생긴 병원으로 가봤는데요~ 병원이 잘생겼고 의사쌤이 깔끔해서 좋았어요 ^^
-                        간호사 쌤들도 완전 친절했어요 ㅎㅎ 다들 아플때 한번 가 보세요 개강추!
-                    </PostContent>
+                    <PostContent>{content}</PostContent>
                 </ContentsWrapper>
-                <div style={{width: 'max-content', margin: '30px 0 0 auto'}}>
-                    <PostButton onClick={handleGoToEdit}>수정하기</PostButton>
-                    <PostButton onClick={handleDeletePost}>삭제하기</PostButton>
-                </div>
+                {`${decodedToken.id}` === `${author}` ? (
+                    <div style={{width: 'max-content', margin: '30px 0 0 auto'}}>
+                        <PostButton onClick={handleGoToEdit}>수정하기</PostButton>
+                        <PostButton onClick={handleDeletePost}>삭제하기</PostButton>
+                    </div>
+                ) : (<></>)}
                 <p style={{fontSize: '25px', fontWeight: 'bold'}}>댓글</p>
 
                 <Comments>

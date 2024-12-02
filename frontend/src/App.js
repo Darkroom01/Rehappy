@@ -24,9 +24,9 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/new" element={<New />} />
-                <Route path="/postDetail" element={<PostDetail />} />
+                <Route path="/postDetail/:id" element={<PostDetail />} />
                 <Route path="/painRecord" element={<PainRecord />} />
-                <Route path="/edit" element={<Edit />} />
+                <Route path="/edit/:id" element={<Edit />} />
                 <Route path="/painReport" element={<PainReport />} />
             </Routes>
         </BrowserRouter>

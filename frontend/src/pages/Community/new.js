@@ -4,9 +4,11 @@ import {Category, ContentsWrapper, NewContent, NewTitle, SubmitButton} from "./s
 import {useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function New() {
-    const token = Cookies.get('jwt');
+    const token = Cookies.get('authToken');
+    const navigate = useNavigate();
     const [titleValue, setTitleValue] = useState(""); // 제목 저장
     const [content, setContent] = useState(""); // 본문 내용 저장
     const [selectedCategory, setSelectedCategory] = useState(''); // 카테고리 영문 저장
@@ -52,17 +54,20 @@ export default function New() {
                 console.log(titleValue, content, selectedCategory)
 
                 try {
-                    await axios.post('http://localhost:8080/api/posts', null, {
-                        params: {
-                            title: titleValue,
-                            content: content,
-                            category: selectedCategory,
-                        },
+                    const response = await axios.post('http://localhost:8080/api/posts', {
+                        title: titleValue,
+                        content: content,
+                        category: selectedCategory,
+                    }, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
-                            'Accept': '*/*'
+                            'Accept': '*/*',
+                            'Content-Type': 'application/json'
                         }
                     });
+                    const roomId = response.data.id;
+                    navigate(`/postDetail/${roomId}`);
+
                 } catch (error) {
                     console.error('Failed to upload new post', error);
                     console.error('Error details:', error.response?.data);

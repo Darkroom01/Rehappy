@@ -9,7 +9,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 export default function Edit() {
 
 
-    const token = Cookies.get('jwt');
+    const token = Cookies.get('authToken');
     const location = useLocation();
     const { category, title, content } = location.state || {};
     const [titleValue, setTitleValue] = useState(title); // 제목 저장
