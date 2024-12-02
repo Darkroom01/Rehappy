@@ -63,7 +63,7 @@ public class ProfileService {
 
         // 필요한 데이터만 포함하는 DTO로 변환
         return profiles.stream()
-                .map(profile -> new ProfileDto(profile.getId(), profile.getName()))
+                .map(profile -> new ProfileDto(profile.getId(), profile.getName(), profile.getLinkedUser().getProfilePictureType()))
                 .collect(Collectors.toList());
     }
 

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-// 스타일 정의
 const Container = styled.div`
+    position: relative;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
 `;
 
 const Title = styled.h2`
@@ -45,14 +43,16 @@ const OtherInput = styled.input`
 `;
 
 const NextButton = styled.button`
-    margin-top: 20px;
+    position: absolute; 
+    bottom: 40px; 
+    right: 40px; 
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
     color: #fff;
     background-color: #110078;
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     cursor: pointer;
 
     &:hover {

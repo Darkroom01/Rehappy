@@ -104,3 +104,16 @@ export const Profilediv=styled.div`
     flex-direction: column;
     justify-content: center;
 `
+export const SaveProfileBtn=styled.button`
+    width: 150px;
+    height: 40px;
+    background-color: #110078;
+    color: white;
+    border-radius: 30px;
+
+    &:hover {
+        background-color: #D7E8FF;
+        color: black;
+        border: 2px solid #FFAE00;
+    }
+`

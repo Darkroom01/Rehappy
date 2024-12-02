@@ -1,28 +1,37 @@
 import { Reset } from "styled-reset";
 import {
-    Container,
-    Wrapper,
-    Input,
-    InputInformation,
-    InputName,
-    Inputs,
-    Logo,
-    Right,
-    LoginBtn,
-    Wrapper2,
-    Title, AddProfileBtn, ProfileName, Profilediv
+    Container, Wrapper, Input,
+    InputInformation, InputName, Inputs,
+    Logo, Right, LoginBtn, Wrapper2,
+    Title, AddProfileBtn, ProfileName, Profilediv, SaveProfileBtn
 } from "./style";
 import RehappyLogo from "../../images/리해피최종로고.png";
 import { useState } from "react";
 import { ProfileContainer, ProfileImg, ProfileWrapper } from "../SignUp/style";
+import {jwtDecode} from "jwt-decode";
 import Profile from "../../images/img.png";
 import axios from "axios";
-import Cookies from "js-cookie"; // 쿠키 관리를 위한 js-cookie 라이브러리
+import Cookies from "js-cookie";
+import Man from "../../images/man.png";
+import Woman from "../../images/woman.png";
+import GrandF from "../../images/grandfather.png";
+import GrandM from "../../images/granmother.png";
+
+const profileTypes = [
+    { type: 1, image: Profile },
+    { type: 2, image: Man },
+    { type: 3, image: Woman },
+    { type: 4, image: GrandF },
+    { type: 5, image: GrandM },
+];
 
 export default function Login() {
     const [isNext, setIsNext] = useState(false);
     const [userId, setUserId] = useState(""); // 아이디 입력 상태
     const [password, setPassword] = useState(""); // 비밀번호 입력 상태
+    const [selectedProfileType, setSelectedProfileType] = useState(null); // 선택된 프로필 타입
+    const [profileName, setProfileName] = useState(""); // 닉네임 입력 상태
+    const [isAddingProfile, setIsAddingProfile] = useState(false); // 프로필 추가 여부
 
     const handleNext = async () => {
         try {
@@ -52,7 +61,66 @@ export default function Login() {
             console.error("로그인 실패:", error.response?.data || error.message);
             alert(`로그인에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
         }
+    };
 
+    const handleAddProfile = () => {
+        setIsAddingProfile(true);
+    };
+
+    const handleProfileSelection = (profileType) => {
+        setSelectedProfileType(profileType);
+        console.log(profileType)
+    };
+
+    // 프로필 저장 후 API에 전송
+    const handleSaveProfile = async () => {
+        if (!selectedProfileType || !profileName) {
+            alert("프로필 타입과 닉네임을 입력해주세요.");
+            return;
+        }
+
+        const authToken = Cookies.get("authToken");
+        if (!authToken) {
+            alert("로그인 후 프로필을 추가해주세요.");
+            return;
+        }
+
+        // JWT 토큰에서 'name' 추출
+        let userName = '';
+        try {
+            const decodedToken = jwtDecode(authToken);  // 토큰 디코딩
+            userName = decodedToken.username;  // 'name'을 추출
+        } catch (error) {
+            console.error("토큰 디코딩 실패:", error);
+            alert("토큰 디코딩 실패. 다시 로그인해주세요.");
+            return;
+        }
+
+        // 서버로 POST 요청
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/profiles',
+                {
+                    profileName: profileName,
+                    name: userName,            // 토큰에서 가져온 name
+                    email: userId,             // 사용자 아이디 (이메일로 사용)
+                    password: password,        // 사용자 비밀번호
+                    profilePictureType: selectedProfileType, // 선택된 프로필 타입
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            console.log("프로필 저장 성공:", response.data);
+            alert("프로필이 저장되었습니다.");
+        } catch (error) {
+            console.error("프로필 저장 실패:", error.response?.data || error.message);
+            alert(`프로필 저장에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
+        }
     };
 
     return (
@@ -63,39 +131,39 @@ export default function Login() {
                     <>
                         <Wrapper2>
                             <Title>기록할 프로필을 선택해 주세요</Title>
-                            <ProfileContainer>
-                                <Profilediv>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Profile} />
-                                    </ProfileWrapper>
-                                    <ProfileName>김땡땡</ProfileName>
-                                </Profilediv>
-                                <Profilediv>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Profile} />
-                                    </ProfileWrapper>
-                                    <ProfileName>김땡땡</ProfileName>
-                                </Profilediv>
-                                <Profilediv>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Profile} />
-                                    </ProfileWrapper>
-                                    <ProfileName>김땡땡</ProfileName>
-                                </Profilediv>
-                                <Profilediv>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Profile} />
-                                    </ProfileWrapper>
-                                    <ProfileName>김땡땡</ProfileName>
-                                </Profilediv>
-                                <Profilediv>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Profile} />
-                                    </ProfileWrapper>
-                                    <ProfileName>김땡땡</ProfileName>
-                                </Profilediv>
-                            </ProfileContainer>
-                            <AddProfileBtn>프로필 추가하기</AddProfileBtn>
+                            {isAddingProfile ? (
+                                <div>
+                                    <Title>프로필 선택 후 닉네임을 입력하세요</Title>
+                                    <ProfileContainer>
+                                        {profileTypes.map((profile) => (
+                                            <ProfileWrapper key={profile.type} onClick={() => handleProfileSelection(profile.type)}>
+                                                <ProfileImg src={profile.image} />
+                                            </ProfileWrapper>
+                                        ))}
+                                    </ProfileContainer>
+                                    {selectedProfileType && (
+                                        <>
+                                            <InputName>닉네임</InputName>
+                                            <Input
+                                                value={profileName}
+                                                onChange={(e) => setProfileName(e.target.value)}
+                                                placeholder="닉네임을 입력하세요"
+                                            />
+                                            <SaveProfileBtn onClick={handleSaveProfile}>저장</SaveProfileBtn>
+                                        </>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
+                                    <Profilediv>
+                                        <ProfileWrapper>
+                                            <ProfileImg src={Profile} />
+                                        </ProfileWrapper>
+                                        <ProfileName>기본 프로필</ProfileName>
+                                    </Profilediv>
+                                    <AddProfileBtn onClick={handleAddProfile}>프로필 추가하기</AddProfileBtn>
+                                </>
+                            )}
                         </Wrapper2>
                     </>
                 ) : (
