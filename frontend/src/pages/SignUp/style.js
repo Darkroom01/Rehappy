@@ -64,3 +64,26 @@ export const SignupBtn=styled.button`
     margin-top: -20px;
     font-family: NanumGothic;
 `
+export const ProfileWrapper=styled.div`
+    width: 60px;
+    height: 60px;
+    padding: 30px;
+    background-color: #D7E8FF;
+    border-radius: 50%;
+    overflow: hidden; /* 이미지가 컨테이너를 넘어가지 않도록 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+export const ProfileImg = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+`;
+export const ProfileContainer=styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    align-items: center;
+    
+`
