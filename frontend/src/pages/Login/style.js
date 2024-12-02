@@ -64,3 +64,43 @@ export const LoginBtn=styled.button`
     font-family: NanumGothic;
     margin-top: 10px;
 `
+export const Wrapper2=styled.div`
+    width: 800px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 12px;
+    border: 3px solid #110078;
+    padding: 30px;
+`
+export const Title=styled.div`
+    width: 90%;
+    text-align: left;
+    font-size: 22px;
+    font-weight: bold;
+`
+export const AddProfileBtn=styled.button`
+    width: 150px;
+    height: 40px;
+    background-color: #110078;
+    color: white;
+    border-radius: 30px;
+
+    &:hover {
+        background-color: #D7E8FF;
+        color: black;
+        border: 2px solid #FFAE00;
+    }
+`
+export const ProfileName=styled.div`
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+`
+export const Profilediv=styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`

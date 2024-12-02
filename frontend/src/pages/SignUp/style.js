@@ -64,3 +64,46 @@ export const SignupBtn=styled.button`
     margin-top: -20px;
     font-family: NanumGothic;
 `
+export const ProfileWrapper=styled.div`
+    width: 60px;
+    height: 60px;
+    padding: 30px;
+    background-color: #D7E8FF;
+    border-radius: 50%;
+    overflow: hidden; /* 이미지가 컨테이너를 넘어가지 않도록 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+
+    &:hover {
+        background-color: #FFAE00; 
+    }
+`
+export const ProfileImg = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+`;
+export const ProfileContainer=styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    align-items: center;
+    height: 60%;
+    
+`
+export const Title=styled.div`
+    width: 90%;
+    text-align: left;
+    font-size: 22px;
+    margin-top: 70px;
+    font-weight: bold;
+`
+export const Wrapper2=styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`

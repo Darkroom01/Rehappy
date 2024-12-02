@@ -16,7 +16,7 @@ public class JwtUtil {
     private final long validityInMilliseconds = 3600000; // 1시간 (단위: 밀리초)
 
     // JWT 생성 (id 추가)
-    public String generateToken(Long userId, String email, String role, String username) {
+    public String generateToken(Long userId, String email, String role, String username, int profileType) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + validityInMilliseconds);
 
@@ -25,6 +25,7 @@ public class JwtUtil {
                 .claim("id", userId)
                 .claim("role", role)
                 .claim("username", username) // 이름 추가
+                .claim("profileType", profileType)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(secretKey)

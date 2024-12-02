@@ -26,9 +26,7 @@ public class OpenAiService {
             System.err.println("API Key is null or not configured"); // 디버깅용 로그
             throw new IllegalStateException("OpenAI API 키가 설정되지 않았습니다.");
         }
-        System.out.println("API Key Loaded: " + apiKey); // 디버깅용 로그
         apiKey = apiKey.trim();
-        System.out.println("API Key Loaded: " + apiKey); // 디버깅용 로그
         this.webClient = webClientBuilder
                 .baseUrl("https://api.openai.com/v1/chat/completions")
                 .defaultHeader("Authorization", "Bearer " + apiKey)

@@ -25,6 +25,9 @@ public class User {
     @Column(nullable = false)
     private String role; // "USER" 또는 "DOCTOR"
 
+    @Column(nullable = false)
+    private int profilePictureType = 1;
+
     private String licenseNumber;
     private String hospitalName;
 
