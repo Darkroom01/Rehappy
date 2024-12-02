@@ -1,6 +1,6 @@
 import { Reset } from "styled-reset";
 import React, { useState, useEffect } from "react";
-import TopBarComponent from "../../components/TopBarComponent"; // 상단바 컴포넌트
+import TopBarComponent from "../../components/TopBarComponent";
 import {
     Wrapper,
     InfoContainer,
@@ -22,17 +22,75 @@ import {
 import { getTodayTips } from "./healthTips";
 import { fetchWeather, fetchForecast } from "./weatherService";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
 
-// 오늘의 Tip 선택 로직
 const todayTips = getTodayTips();
 
 export default function Main() {
     const [weatherData, setWeatherData] = useState(null);
     const [todayTemp, setTodayTemp] = useState({ maxTemp: null, minTemp: null });
+    const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
+    const [lastPainDate, setLastPainDate] = useState(null); // 마지막 통증 기록 날짜 상태 추가
+    const [daysSinceLastPain, setDaysSinceLastPain] = useState(null); // 며칠 전인지 상태 추가
     const navigate = useNavigate();
+    const jwtToken = Cookies.get("authToken");
+
+    useEffect(() => {
+        if (jwtToken) {
+            try {
+                const decoded = jwtDecode(jwtToken); // JWT 디코딩
+                setUsername(decoded.username || "사용자"); // username 가져오기
+            } catch (error) {
+                console.error("JWT 디코딩 실패:", error);
+            }
+        }
+    }, [jwtToken]);
+
+    useEffect(() => {
+        async function fetchLastPainDate() {
+            try {
+                const response = await fetch("http://localhost:8080/api/pains", {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`, // JWT 토큰 포함
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        // 최신 날짜 찾기
+                        const latestRecord = data.reduce((latest, record) => {
+                            const recordDate = new Date(record.painDate);
+                            return recordDate > new Date(latest.painDate) ? record : latest;
+                        });
+
+                        const lastDate = new Date(latestRecord.painDate); // 최신 기록 날짜
+                        setLastPainDate(lastDate);
+
+                        const today = new Date();
+                        const differenceInTime = today - lastDate; // 밀리초 차이 계산
+                        const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24)); // 일 단위로 변환
+                        setDaysSinceLastPain(differenceInDays);
+                    } else {
+                        setLastPainDate(null);
+                        setDaysSinceLastPain(null);
+                    }
+                } else {
+                    console.error("통증 기록을 가져오는 데 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("통증 기록 가져오기 실패:", error);
+            }
+        }
+
+        if (jwtToken) {
+            fetchLastPainDate();
+        }
+    }, [jwtToken]);
 
     const handleGoPainRecord = () => {
-        navigate('/painRecord');
+        navigate("/painRecord");
     };
 
     // 현재 날씨 정보 가져오기
@@ -60,21 +118,25 @@ export default function Main() {
     return (
         <>
             <Reset />
-            {/* 상단바 */}
             <TopBarComponent />
-            {/* 메인 페이지 내용 */}
             <Wrapper>
-                {/* 사용자 정보 및 날씨 정보 */}
                 <InfoContainer>
                     <LeftSection>
                         <h2>
-                            <span>김철수</span> 님의
+                            <span>{username}</span> 님의
                             <br />
-                            마지막 통증 기록은
-                            <br />
-                            <span>7일 전</span> 입니다.
+                            {daysSinceLastPain !== null ? (
+                                <>
+                                    마지막 통증 기록은
+                                    <br />
+                                    <span>{`${daysSinceLastPain}일 전`}</span> 입니다.
+                                </>
+                            ) : (
+                                <>통증 기록이 없습니다.</>
+                            )}
                         </h2>
                     </LeftSection>
+
                     <CenterSection onClick={handleGoPainRecord}>
                         <Button>
                             통증 기록
@@ -86,7 +148,7 @@ export default function Main() {
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                             >
-                                <path d="M1 1L61 61L1 121"/>
+                                <path d="M1 1L61 61L1 121" />
                             </svg>
                         </Button>
                     </CenterSection>
@@ -98,7 +160,7 @@ export default function Main() {
                                         src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
                                         alt="날씨 아이콘"
                                     />
-                                    <h2>{weatherData.main.temp}°C</h2> {/* 현재 온도 */}
+                                    <h2>{weatherData.main.temp}°C</h2>
                                 </WeatherMain>
                                 <WeatherDetails>
                                     <p>{todayTemp.maxTemp}° / {todayTemp.minTemp}°</p>
@@ -113,10 +175,8 @@ export default function Main() {
                             <p>날씨 정보를 불러오는 중입니다...</p>
                         )}
                     </RightSection>
-
                 </InfoContainer>
 
-                {/* 그래프와 팁 섹션 */}
                 <GraphTipContainer>
                     <GraphSection>
                         <h3>통증 그래프</h3>
