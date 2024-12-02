@@ -41,7 +41,7 @@ export const LeftSection = styled.div`
         }
 
         span:last-of-type {
-            color: #ffcc00; 
+            color: #FFAE00; 
         }
     }
 `;
@@ -64,7 +64,7 @@ export const Button = styled.button`
     height: 100%;
     width: 100%;
     background: #ffcc66;
-    border: 3px solid #ffa500;
+    border: 3px solid #FFAE00;
     border-radius: 40px;
     font-size: calc(2.0vw + 15px);
     cursor: pointer;
@@ -93,7 +93,7 @@ export const RightSection = styled.div`
     flex: 1;
     height: 80%;
     background: #fff8e6;
-    border: 3px solid #ffa500;
+    border: 3px solid #FFAE00;
     border-radius: 40px;
     margin-right: 40px;
     display: flex;
@@ -153,6 +153,7 @@ export const GraphTipContainer = styled.div`
 export const GraphSection = styled.section`
     flex: 1.2;
     background: #e6f7ff;
+    border: 3px solid #110078;
     margin-left: 40px;
     margin-right: 20px;
     border-radius: 40px;
@@ -199,7 +200,7 @@ export const GraphPoint = styled.div`
 export const TipSection = styled.section`
     flex: 1;
     background: #fff;
-    border: 3px solid #00008b;
+    border: 3px solid #110078;
     margin-right: 40px;
     border-radius: 40px;
     align-items: flex-start; /* 왼쪽 정렬 */
@@ -211,7 +212,7 @@ export const TipSection = styled.section`
         margin-top: 45px; 
         margin-bottom: 30px;
         font-weight: bold;
-        color: #00008b;
+        color: #110078;
     }
 `;
 

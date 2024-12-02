@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
+    position: relative;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
 `;
 
 const DateWrapper = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `;
 
 const DateText = styled.h2`
@@ -46,7 +44,7 @@ const ChangeDateButton = styled.button`
 `;
 
 const DateInput = styled.input`
-    margin-left: 20px; /* 버튼 오른쪽 여백 */
+    margin-left: 20px; 
     padding: 0.5rem;
     font-size: 1.6rem;
     border-radius: 5px;
@@ -58,14 +56,20 @@ const InstructionText = styled.p`
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 20px;
+`;
+
+const InstructionText2 = styled.p`
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
     color: #555;
 `;
 
 const InputContainer = styled.div`
-    margin-bottom: 2rem;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
 `;
 
 const TimeSelect = styled.select`
@@ -78,7 +82,9 @@ const TimeSelect = styled.select`
 `;
 
 const NextButton = styled.button`
-    margin-top: 20px;
+    position: fixed; /* 화면의 고정된 위치에 배치 */
+    bottom: 20px; /* 화면 하단에서 20px 떨어진 위치 */
+    right: 20px; /* 화면 오른쪽에서 20px 떨어진 위치 */
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
@@ -87,6 +93,7 @@ const NextButton = styled.button`
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    z-index: 1000; /* 버튼이 다른 요소 위에 표시되도록 설정 */
 
     &:hover {
         background-color: #0d0059;
@@ -97,6 +104,13 @@ const NextButton = styled.button`
         cursor: not-allowed;
     }
 `;
+
+const SelectedPartsContainer = styled.div`
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: ${props => (props.isEmpty ? "#ff0000" : "#333")}; /* 선택된 부위가 없으면 빨간색 */
+`;
+
 
 export default function PainRecord1({ onNext, selectedParts }) {
     const days = ["일", "월", "화", "수", "목", "금", "토"];
@@ -152,8 +166,14 @@ export default function PainRecord1({ onNext, selectedParts }) {
                 </ChangeDateContainer>
             </DateWrapper>
             <InstructionText>통증 발생 부위 및 시간을 선택해 주세요.</InstructionText>
+            <InstructionText2>통증 발생 부위</InstructionText2>
+            <SelectedPartsContainer isEmpty={selectedParts.length === 0}>
+                {selectedParts.length === 0
+                    ? "통증 발생 부위를 선택하세요"
+                    : `선택한 부위: ${selectedParts.join(", ")}`}
+            </SelectedPartsContainer>
             <InputContainer>
-                <label htmlFor="pain-time">통증 발생 시간</label>
+                <label htmlFor="pain-time"><InstructionText2>통증 발생 시간</InstructionText2></label>
                 <div>
                     <TimeSelect
                         id="pain-period"
