@@ -26,8 +26,9 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
             @RequestBody @Parameter(description = "회원가입 요청 정보 (이메일, 비밀번호, 이름)") User user,
-            @RequestParam @Parameter(description = "의료진 여부 플래그") boolean isDoctor) {
-        User registeredUser = userService.registerUser(user, isDoctor);
+            @RequestParam @Parameter(description = "의료진 여부 플래그") boolean isDoctor,
+            @RequestParam @Parameter (description = "프로필 사진 타입") int profilePictureType) {
+        User registeredUser = userService.registerUser(user, isDoctor, profilePictureType);
         return ResponseEntity.ok(registeredUser);
     }
 
