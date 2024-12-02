@@ -103,6 +103,7 @@ export const Profilediv=styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 20px;
 `
 export const SaveProfileBtn=styled.button`
     width: 150px;

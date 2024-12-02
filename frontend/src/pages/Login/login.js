@@ -6,7 +6,7 @@ import {
     Title, AddProfileBtn, ProfileName, Profilediv, SaveProfileBtn
 } from "./style";
 import RehappyLogo from "../../images/리해피최종로고.png";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { ProfileContainer, ProfileImg, ProfileWrapper } from "../SignUp/style";
 import {jwtDecode} from "jwt-decode";
 import Profile from "../../images/img.png";
@@ -25,13 +25,22 @@ const profileTypes = [
     { type: 5, image: GrandM },
 ];
 
+const profileImages = {
+    1: Profile,
+    2: Man,
+    3: Woman,
+    4: GrandF,
+    5: GrandM,
+};
+
 export default function Login() {
     const [isNext, setIsNext] = useState(false);
-    const [userId, setUserId] = useState(""); // 아이디 입력 상태
-    const [password, setPassword] = useState(""); // 비밀번호 입력 상태
-    const [selectedProfileType, setSelectedProfileType] = useState(null); // 선택된 프로필 타입
-    const [profileName, setProfileName] = useState(""); // 닉네임 입력 상태
-    const [isAddingProfile, setIsAddingProfile] = useState(false); // 프로필 추가 여부
+    const [userId, setUserId] = useState("");
+    const [password, setPassword] = useState("");
+    const [profiles, setProfiles] = useState([]);
+    const [selectedProfileType, setSelectedProfileType] = useState(null);
+    const [profileName, setProfileName] = useState("");
+    const [isAddingProfile, setIsAddingProfile] = useState(false);
 
     const handleNext = async () => {
         try {
@@ -60,6 +69,23 @@ export default function Login() {
         } catch (error) {
             console.error("로그인 실패:", error.response?.data || error.message);
             alert(`로그인에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
+        }
+    };
+
+    const handleFetchProfiles = async () => {
+        const authToken = Cookies.get("authToken");
+        if (!authToken) return;
+
+        try {
+            const response = await axios.get('http://localhost:8080/api/profiles/parent/users', {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                },
+            });
+            setProfiles(response.data); // 프로필 데이터를 상태에 저장
+        } catch (error) {
+            console.error("프로필 가져오기 실패:", error.response?.data || error.message);
+            alert(`프로필 정보를 가져오는 데 실패했습니다.`);
         }
     };
 
@@ -103,7 +129,7 @@ export default function Login() {
                 {
                     profileName: profileName,
                     name: userName,            // 토큰에서 가져온 name
-                    email: userId,             // 사용자 아이디 (이메일로 사용)
+                    email: profileName,             // 사용자 아이디 (이메일로 사용)
                     password: password,        // 사용자 비밀번호
                     profilePictureType: selectedProfileType, // 선택된 프로필 타입
                 },
@@ -122,6 +148,13 @@ export default function Login() {
             alert(`프로필 저장에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
         }
     };
+
+    useEffect(() => {
+        if (isNext) {
+            handleFetchProfiles();
+        }
+    }, [isNext]);
+
 
     return (
         <>
@@ -155,12 +188,16 @@ export default function Login() {
                                 </div>
                             ) : (
                                 <>
-                                    <Profilediv>
-                                        <ProfileWrapper>
-                                            <ProfileImg src={Profile} />
-                                        </ProfileWrapper>
-                                        <ProfileName>기본 프로필</ProfileName>
-                                    </Profilediv>
+                                    <div style={{display:'flex', width:'auto', justifyContent:'space-around' }}>
+                                        {profiles.map((profile) => (
+                                            <Profilediv key={profile.id}>
+                                                <ProfileWrapper>
+                                                    <ProfileImg src={profileImages[profile.profilePictureType]} />
+                                                </ProfileWrapper>
+                                                <ProfileName>{profile.name}</ProfileName>
+                                            </Profilediv>
+                                        ))}
+                                    </div>
                                     <AddProfileBtn onClick={handleAddProfile}>프로필 추가하기</AddProfileBtn>
                                 </>
                             )}
