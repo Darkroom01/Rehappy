@@ -48,6 +48,12 @@ export default function Signup() {
         }
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
+    };
+
     return (
         <>
             <Reset />
@@ -56,19 +62,23 @@ export default function Signup() {
                             <InputInformation>
                                 <Inputs>
                                     <InputName>이름</InputName>
-                                    <Input value={name} onChange={(e) => setName(e.target.value)} />
+                                    <Input value={name} onChange={(e) => setName(e.target.value)}                                     onKeyPress={handleKeyPress}/>
                                 </Inputs>
                                 <Inputs>
                                     <InputName>아이디</InputName>
-                                    <Input value={username} onChange={(e) => setUsername(e.target.value)} />
+                                    <Input value={username} onChange={(e) => setUsername(e.target.value)}                                     onKeyPress={handleKeyPress}/>
                                 </Inputs>
                                 <Inputs>
                                     <InputName>비밀번호</InputName>
-                                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}                                     onKeyPress={handleKeyPress}/>
                                 </Inputs>
                                 <Inputs>
                                     <InputName>비밀번호 확인</InputName>
-                                    <Input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                                    <Input type="password"
+                                           value={confirmPassword}
+                                           onChange={(e) => setConfirmPassword(e.target.value)}
+                                           onKeyPress={handleKeyPress}
+                                    />
                                 </Inputs>
                             </InputInformation>
                             <Right>

@@ -140,6 +140,12 @@ export default function Login() {
         }
     }, [isNext]);
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleNext();
+        }
+    };
+
     return (
         <>
             <Reset />
@@ -208,6 +214,7 @@ export default function Login() {
                                 <Input
                                     value={userId}
                                     onChange={(e) => setUserId(e.target.value)}
+                                    onKeyPress={handleKeyPress}
                                 />
                             </Inputs>
                             <Inputs>
@@ -216,6 +223,7 @@ export default function Login() {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    onKeyPress={handleKeyPress}
                                 />
                             </Inputs>
                             <LoginBtn onClick={handleNext}>로그인</LoginBtn>
