@@ -26,10 +26,10 @@ public class UserService {
     }
 
     // 회원가입
-    public User registerUser(User user, boolean isDoctor, int profilePictureType) {
+    public User registerUser(User user, boolean isDoctor) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(isDoctor ? "DOCTOR" : "USER");
-        user.setProfilePictureType(profilePictureType);
+        user.setProfilePictureType(1);
         // 사용자 저장
         User savedUser = userRepository.save(user);
 
