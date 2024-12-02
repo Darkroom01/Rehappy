@@ -1,24 +1,25 @@
 import { Reset } from "styled-reset";
 import {
-    Wrapper,
-    Container,
-    InputInformation,
-    Input,
-    Inputs,
-    InputName,
-    Right,
-    Logo,
-    SignupBtn,
+    Wrapper, Container, InputInformation, Input,
+    Inputs, InputName, Right, Logo, SignupBtn,
     ProfileImg, ProfileWrapper, ProfileContainer, Title, Wrapper2
 } from './style';
 import RehappyLogo from '../../images/리해피최종로고.png';
 import { useState } from 'react';
-import axios from 'axios'; // Axios 추가
+import axios from 'axios';
 import Man from '../../images/man.png';
 import Woman from '../../images/woman.png';
 import GrandF from '../../images/grandfather.png';
 import GrandM from '../../images/granmother.png';
 import Profile from '../../images/img.png';
+
+const profileTypes = [
+    { type: 1, image: Profile },
+    { type: 2, image: Man },
+    { type: 3, image: Woman },
+    { type: 4, image: GrandF },
+    { type: 5, image: GrandM },
+];
 
 export default function Signup() {
     const [name, setName] = useState('');
@@ -26,9 +27,15 @@ export default function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isNext, setIsNext] = useState(false);
+    const [selectedProfileType, setSelectedProfileType] = useState(null);
 
     const handleNext = () => {
         setIsNext(true);
+    };
+
+    const handleProfileSelection = (profileType) => {
+        setSelectedProfileType(profileType);
+        console.log("선택된 프로필 타입:", profileType);
     };
 
     const handleSubmit = async () => {
@@ -43,6 +50,7 @@ export default function Signup() {
             formData.append("email", username); // 아이디 -> 이메일
             formData.append("password", password);
 
+
             // 쿼리 파라미터와 함께 POST 요청 전송
             const response = await axios.post('/api/users/register', formData, {
                 headers: {
@@ -50,6 +58,7 @@ export default function Signup() {
                 },
                 params: {
                     isDoctor: false,
+                    profilePictureType: selectedProfileType
                 },
             });
 
@@ -71,21 +80,11 @@ export default function Signup() {
                             <Wrapper2>
                                 <Title>기록할 프로필을 선택해 주세요</Title>
                                 <ProfileContainer>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Profile} />
-                                    </ProfileWrapper>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Man} />
-                                    </ProfileWrapper>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={Woman} />
-                                    </ProfileWrapper>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={GrandF} />
-                                    </ProfileWrapper>
-                                    <ProfileWrapper>
-                                        <ProfileImg src={GrandM} />
-                                    </ProfileWrapper>
+                                    {profileTypes.map((profile) => (
+                                        <ProfileWrapper key={profile.type} onClick={() => handleProfileSelection(profile.type)}>
+                                            <ProfileImg src={profile.image} />
+                                        </ProfileWrapper>
+                                    ))}
                                 </ProfileContainer>
                                 <SignupBtn onClick={handleSubmit}>완료</SignupBtn>
                             </Wrapper2>
