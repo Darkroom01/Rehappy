@@ -72,8 +72,14 @@ export const ProfileWrapper=styled.div`
     border-radius: 50%;
     overflow: hidden; /* 이미지가 컨테이너를 넘어가지 않도록 */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor:pointer;
+
+    &:hover {
+        background-color: #FFAE00; 
+    }
 `
 export const ProfileImg = styled.img`
     max-width: 100%;
@@ -85,5 +91,19 @@ export const ProfileContainer=styled.div`
     justify-content: space-evenly;
     width: 100%;
     align-items: center;
+    height: 60%;
     
+`
+export const Title=styled.div`
+    width: 90%;
+    text-align: left;
+    font-size: 22px;
+    margin-top: 70px;
+    font-weight: bold;
+`
+export const Wrapper2=styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
