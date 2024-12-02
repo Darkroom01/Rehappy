@@ -12,6 +12,27 @@ export default function BodySvg({ onPartClick, selected, style }) {
 
     const makeMouseLeaveHandler = () => () => setHoveredPart(null);
 
+    const partNamesInKorean = {
+        "head": "머리",
+        "neck": "목",
+        "left-hand": "왼쪽 손",
+        "left-wrist": "왼쪽 손목",
+        "left-elbow": "왼쪽 팔꿈치",
+        "left-shoulder": "왼쪽 어깨",
+        "left-thigh": "왼쪽 허벅지",
+        "left-knee": "왼쪽 무릎",
+        "left-ankle": "왼쪽 종아리/발목",
+        "left-foot": "왼쪽 발",
+        "right-hand": "오른쪽 손",
+        "right-wrist": "오른쪽 손목",
+        "right-elbow": "왼쪽 팔꿈치",
+        "right-shoulder": "오른쪽 어깨",
+        "right-thigh": "오른쪽 허벅지",
+        "right-knee": "오른쪽 무릎",
+        "right-ankle": "오른쪽 종아리/발목",
+        "right-foot": "오른쪽 발",
+    };
+
     return (
         <div style={{position: 'relative'}}>
             <svg viewBox="0 0 283.746 529.262" style={style}>
@@ -642,12 +663,13 @@ export default function BodySvg({ onPartClick, selected, style }) {
                 </g>
             </svg>
             {/* 툴팁 */}
+
             {hoveredPart && (
                 <div
                     style={{
                         position: "absolute",
-                        top: tooltipPosition.y + 10, // 마우스 아래로 10px 떨어짐
-                        left: tooltipPosition.x + 10, // 마우스 오른쪽으로 10px 떨어짐
+                        top: tooltipPosition.y- 200,
+                        left: tooltipPosition.x -180,
                         backgroundColor: "rgba(0, 0, 0, 0.7)",
                         color: "#fff",
                         padding: "5px 10px",
@@ -656,7 +678,7 @@ export default function BodySvg({ onPartClick, selected, style }) {
                         pointerEvents: "none", // 툴팁이 클릭 이벤트를 차단하지 않도록
                     }}
                 >
-                    {hoveredPart} {/* 이거 한국어로 수정 */}
+                    {partNamesInKorean[hoveredPart] || hoveredPart}
                 </div>
             )}
         </div>

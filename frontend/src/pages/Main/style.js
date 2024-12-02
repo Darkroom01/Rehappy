@@ -51,27 +51,42 @@ export const CenterSection = styled.div`
     flex: 0.5;
     height: 80%;
     display: flex;
-    margin-right: 20px; 
+    margin-right: 20px;
     align-items: center;
     justify-content: center;
+`;
 
-    button {
-        height: 100%;
-        width: 100%;
-        background: #ffcc66;
-        border: 3px solid #ffa500;
-        border-radius: 40px;
-        font-size: calc(2.0vw + 8px);
-        cursor: pointer;
-        font-weight: bold;
-        color: #fff;
-        outline: none;
+export const Button = styled.button`
+    display: flex;
+    flex-direction: row; /* 텍스트와 SVG를 수평 정렬 */
+    align-items: center; /* 텍스트와 SVG를 수직 가운데 정렬 */
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: #ffcc66;
+    border: 3px solid #ffa500;
+    border-radius: 40px;
+    font-size: calc(2.0vw + 15px);
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    outline: none;
+    text-align: center;
 
-        &:hover {
-            background: #ffa500;
-        }
+    &:hover {
+        background: #ffa500;
+    }
+
+    svg {
+        margin-left: 40px; /* 텍스트와 SVG 사이 여백 */
+        stroke: #fff; /* SVG 선 색상 변경 */
+        stroke-width: 8;
+        fill: none; /* SVG 채우기 색상 없음 */
+        width: 40px; 
+        height: 80px; 
     }
 `;
+
 
 // 오른쪽 섹션
 export const RightSection = styled.div`

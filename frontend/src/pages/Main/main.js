@@ -6,6 +6,7 @@ import {
     InfoContainer,
     LeftSection,
     CenterSection,
+    Button,
     RightSection,
     WeatherMain,
     WeatherDetails,
@@ -75,9 +76,19 @@ export default function Main() {
                         </h2>
                     </LeftSection>
                     <CenterSection onClick={handleGoPainRecord}>
-                        <button>통증 기록
+                        <Button>
+                            통증 기록
                             <br /> 바로가기
-                        </button>
+                            <svg
+                                width="63"
+                                height="122"
+                                viewBox="0 0 63 122"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M1 1L61 61L1 121"/>
+                            </svg>
+                        </Button>
                     </CenterSection>
                     <RightSection>
                         {weatherData ? (
@@ -102,9 +113,6 @@ export default function Main() {
                             <p>날씨 정보를 불러오는 중입니다...</p>
                         )}
                     </RightSection>
-
-
-
 
                 </InfoContainer>
 
