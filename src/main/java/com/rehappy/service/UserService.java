@@ -26,9 +26,10 @@ public class UserService {
     }
 
     // 회원가입
-    public User registerUser(User user, boolean isDoctor) {
+    public User registerUser(User user, boolean isDoctor, int profilePictureType) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(isDoctor ? "DOCTOR" : "USER");
+        user.setProfilePictureType(profilePictureType);
         // 사용자 저장
         User savedUser = userRepository.save(user);
 
@@ -53,7 +54,7 @@ public class UserService {
         }
 
         // JWT 생성
-        return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole(), user.getName());
+        return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole(), user.getName(), user.getProfilePictureType());
     }
 
     // 이메일로 User ID 조회

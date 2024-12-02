@@ -103,6 +103,6 @@ public class ProfileService {
         }
 
         // 새로운 토큰 생성
-        return jwtUtil.generateToken(linkedUser.getId(), linkedUser.getEmail(), "ROLE_USER", linkedUser.getName());
+        return jwtUtil.generateToken(linkedUser.getId(), linkedUser.getEmail(), "ROLE_USER", linkedUser.getName(), linkedUser.getProfilePictureType());
     }
 }
