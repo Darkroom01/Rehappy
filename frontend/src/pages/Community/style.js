@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ContentsWrapper = styled.div`
     width: 1000px;
     height: auto;
-    margin: 0 auto;
+    margin: 50px auto;
 `
 export const SearchWrapper = styled.div`
     width: 600px;
@@ -84,12 +84,63 @@ export const SubmitButton = styled.div`
     float: right;
 `
 export const PostTitle = styled.div`
-    width: 100%;
-    height: 100px;
-    background-color: #61dafb;
+    font-size: 30px;
+    font-weight: bold;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.5;
 `
 export const PostContent = styled.div`
     width: 100%;
-    height: 1000px;
-    background-color: #5c6365;
+    height: auto;
+    font-size: 20px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.5;
+`
+export const PostButton = styled.div`
+    background-color: #110078;
+    border-radius: 2em;
+    color: white;
+    display: inline-block;
+    padding: 15px 25px;
+    margin-left: 20px;
+    cursor: pointer;
+    user-select: none;
+    &:hover{
+        background-color: #FFAE00;
+        color: black;
+    }
+`
+export const Comments = styled.div`
+    width: calc(100% - 60px);
+    height: auto;
+    background-color: #D7E8FF;
+    border-radius: 2em;
+    margin-top: 20px;
+    padding: 30px;
+`
+export const NewComment = styled.div`
+    width: calc(100% - 30px);
+    height: 50px;
+    background-color: white;
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 20px;
+    margin-bottom: 15px;
+`
+export const NewCommentInput = styled.input`
+    height: 100%;
+    width: calc(100% - 120px);
+    padding: 0 10px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+`
+export const Comment1 = styled.div`
+    padding: 10px 0;
+    font-size: 17px;
 `
