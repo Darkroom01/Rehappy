@@ -2,7 +2,7 @@ import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import React, { useEffect, useState } from "react";
-import { Container, Wrapper } from "./style";
+import {Contain, Container, Location, Wrapper} from "./style";
 import Cookies from "js-cookie"; // 쿠키 관리 라이브러리
 import {jwtDecode} from "jwt-decode"; // JWT 디코더
 
@@ -25,7 +25,7 @@ export default function PainList() {
         return null;
     };
 
-    // API 데이터 fetch
+
     useEffect(() => {
         const token = getTokenFromCookies();
         if (!token) {
@@ -43,42 +43,63 @@ export default function PainList() {
             .then((response) => response.json())
             .then((data) => {
                 setPainData(data);
-                // 데이터를 location 기준으로 그룹화
+                // 데이터를 location 기준으로 그룹화하고 날짜순으로 정렬
                 const grouped = data.reduce((acc, curr) => {
                     if (!acc[curr.location]) {
                         acc[curr.location] = [];
                     }
                     acc[curr.location].push({
-                        name: `${curr.painDate} ${curr.painTime}`,
+                        name: `${curr.painDate}`,
                         value: curr.intensity,
+                        dateTime: new Date(`${curr.painDate}T${curr.painTime}`), // 날짜 객체 추가
                     });
                     return acc;
                 }, {});
+
+                // 각 location의 데이터를 날짜순으로 정렬
+                for (const location in grouped) {
+                    grouped[location].sort((a, b) => a.dateTime - b.dateTime);
+                }
+
                 setGroupedData(grouped);
             })
             .catch((error) => console.error("Error fetching pain data:", error));
     }, []);
+
 
     return (
         <>
             <Reset />
             <Wrapper>
                 <TopBarComponent />
-                {Object.entries(groupedData).map(([location, data]) => (
-                    <Container key={location}>
-                        <h3>{location}</h3>
-                        <ResponsiveContainer width="80%" height={300} style={{ border: "2px solid black" }}>
-                            <LineChart data={data}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </Container>
-                ))}
+                <Contain>
+                    {Object.entries(groupedData).map(([location, data]) => (
+                        <>
+                            <Container key={location}>
+                                <Location>{location}</Location>
+                                <ResponsiveContainer width="80%" height={250}>
+                                    <LineChart data={data}
+                                               margin={{
+                                                   top: 10,
+                                                   right: 30,
+                                                   left: 0,
+                                                   bottom: 0,
+                                               }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </Container>
+                        </>
+                    ))}
+                </Contain>
+
+
             </Wrapper>
         </>
     );
