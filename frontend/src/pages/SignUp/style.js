@@ -63,6 +63,13 @@ export const SignupBtn=styled.button`
     color: white;
     margin-top: -20px;
     font-family: NanumGothic;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: #0a0045;
+        transform: scale(1.1);
+    }
+
 `
 export const ProfileWrapper = styled.div`
     width: 60px;
