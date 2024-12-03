@@ -17,7 +17,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (필요에 따라 설정)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").authenticated() // 인증 필요한 엔드포인트
+                        .requestMatchers("/api/**").permitAll() // 인증 필요한 엔드포인트
                         .anyRequest().permitAll() // 나머지 요청 허용
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())); // 새로운 DSL 사용
