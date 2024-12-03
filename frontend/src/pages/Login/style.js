@@ -102,7 +102,9 @@ export const ProfileName=styled.div`
 export const Profilediv=styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
+    margin: 20px;
 `
 export const SaveProfileBtn=styled.button`
     width: 150px;
@@ -116,4 +118,11 @@ export const SaveProfileBtn=styled.button`
         color: black;
         border: 2px solid #FFAE00;
     }
+`
+
+export const Input2=styled.input`
+    width: 60%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
 `

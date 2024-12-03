@@ -1,11 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { jsPDF } from "jspdf";
-import Cookies from "js-cookie"; // js-cookie 라이브러리 사용
+import Cookies from "js-cookie";
+import {Container, PDFDownload, ReportContent} from "./style";
+import {Reset} from "styled-reset";
+import TopBarComponent from "../../components/TopBarComponent"; // js-cookie 라이브러리 사용
 
 const PainReport = () => {
     const [reportContent, setReportContent] = useState(""); // 보고서 내용 저장
     const [loading, setLoading] = useState(false); // 로딩 상태
+
+
+    const formatContent = (content) => {
+        const formattedContent = content
+            .replace(
+                /\*\*(.*?)\*\*/g, // **으로 감싸진 텍스트를 bold와 font-size 스타일 적용
+                "<span style='font-weight: bold; font-size: 20px;'>$1</span>"
+            )
+            .replace(
+                /^- /gm, // -로 시작하는 문장의 앞에 공백 추가
+                "    - "
+            );
+        return formattedContent;
+    };
+
 
     // 통증 보고서 생성 요청
     const generateReport = async () => {
@@ -18,7 +36,7 @@ const PainReport = () => {
         }
         try {
             const response = await axios.post(
-                "http://localhost:8080/api/reports", // Spring Boot API 엔드포인트
+                "http://localhost:8080/api/reports/어깨", // Spring Boot API 엔드포인트
                 {},
                 {
                     headers: {
@@ -28,7 +46,7 @@ const PainReport = () => {
             );
 
             // 보고서 내용 저장
-            setReportContent(response.data);
+            setReportContent(formatContent(response.data)); // 포맷팅된 내용을 저장
             console.log("보고서 내용:", response.data);
 
         } catch (error) {
@@ -47,7 +65,8 @@ const PainReport = () => {
         const pageHeight = doc.internal.pageSize.height;
 
         // PDF에 텍스트 추가 (줄바꿈 처리)
-        const lines = doc.splitTextToSize(reportContent, 180); // 한 줄에 180px 너비로 텍스트 나누기
+        const plainTextContent = reportContent.replace(/<\/?[^>]+(>|$)/g, ""); // HTML 태그 제거
+        const lines = doc.splitTextToSize(plainTextContent, 180); // 한 줄에 180px 너비로 텍스트 나누기
         let cursorY = margin;
 
         lines.forEach((line) => {
@@ -63,30 +82,25 @@ const PainReport = () => {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h2>통증 보고서 생성</h2>
-            <button onClick={generateReport} disabled={loading} style={{ marginBottom: "20px" }}>
-                {loading ? "생성 중..." : "보고서 생성"}
-            </button>
+        <>
+            <Reset />
+            <TopBarComponent />
+            <Container>
+                {/*<h2>통증 기록 보고서</h2>*/}
+                <button onClick={generateReport} disabled={loading} style={{ marginBottom: '20px' }}>
+                    {loading ? "생성 중..." : "보고서 생성"}
+                </button>
 
-            {reportContent && (
-                <>
-                    <div
-                        style={{
-                            whiteSpace: "pre-wrap",
-                            border: "1px solid #ccc",
-                            padding: "10px",
-                            margin: "20px 0",
-                            maxHeight: "400px",
-                            overflowY: "auto",
-                        }}
-                    >
-                        {reportContent}
-                    </div>
-                    <button onClick={downloadPdf}>PDF 다운로드</button>
-                </>
-            )}
-        </div>
+                {reportContent && (
+                    <>
+                        <ReportContent dangerouslySetInnerHTML={{ __html: reportContent }} // HTML을 렌더링
+                        ></ReportContent>
+                        <PDFDownload onClick={downloadPdf}>PDF 다운로드</PDFDownload>
+                    </>
+                )}
+            </Container>
+        </>
+
     );
 };
 

@@ -64,23 +64,24 @@ export const SignupBtn=styled.button`
     margin-top: -20px;
     font-family: NanumGothic;
 `
-export const ProfileWrapper=styled.div`
+export const ProfileWrapper = styled.div`
     width: 60px;
     height: 60px;
     padding: 30px;
-    background-color: #D7E8FF;
+    background-color: ${({ isSelected }) => (isSelected ? "#FFAE00" : "#D7E8FF")}; /* 선택 여부에 따라 색상 변경 */
     border-radius: 50%;
-    overflow: hidden; /* 이미지가 컨테이너를 넘어가지 않도록 */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    cursor:pointer;
+    cursor: pointer;
 
     &:hover {
-        background-color: #FFAE00; 
+        background-color: ${({ isSelected }) => (isSelected ? "#FFAE00" : "#B0D4FF")}; /* 선택된 경우 hover 색상 유지 */
     }
-`
+`;
+
 export const ProfileImg = styled.img`
     max-width: 100%;
     max-height: 100%;
@@ -92,7 +93,6 @@ export const ProfileContainer=styled.div`
     width: 100%;
     align-items: center;
     height: 60%;
-    
 `
 export const Title=styled.div`
     width: 90%;
