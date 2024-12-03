@@ -11,6 +11,7 @@ import PostDetail from "./pages/Community/postDetail";
 import PainRecord from "./pages/PainRecord/painrecord";
 import Edit from "./pages/Community/edit";
 import PainReport from "./pages/PainReport/PainReport";
+import PrivacyAgreement from "./pages/SignUp/privacyAgreement";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/" element={<Main />} />
                 <Route path="/chanho" element={<Chanho />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/privacyAgreement" element={<PrivacyAgreement />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/findHospital" element={<FindHospital />} />
                 <Route path="/community" element={<Community />} />

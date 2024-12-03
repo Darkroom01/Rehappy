@@ -40,8 +40,7 @@ export default function Signup() {
             });
 
             console.log("회원가입 성공:", response.data);
-            alert("회원가입이 완료되었습니다.");
-            navigate('/login')
+            navigate('/privacyAgreement')
         } catch (error) {
             console.error("회원가입 오류:", error.response?.data || error.message);
             alert(`회원가입에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
@@ -59,32 +58,32 @@ export default function Signup() {
             <Reset />
             <Wrapper>
                 <Container>
-                            <InputInformation>
-                                <Inputs>
-                                    <InputName>이름</InputName>
-                                    <Input value={name} onChange={(e) => setName(e.target.value)}                                     onKeyPress={handleKeyPress}/>
-                                </Inputs>
-                                <Inputs>
-                                    <InputName>아이디</InputName>
-                                    <Input value={username} onChange={(e) => setUsername(e.target.value)}                                     onKeyPress={handleKeyPress}/>
-                                </Inputs>
-                                <Inputs>
-                                    <InputName>비밀번호</InputName>
-                                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}                                     onKeyPress={handleKeyPress}/>
-                                </Inputs>
-                                <Inputs>
-                                    <InputName>비밀번호 확인</InputName>
-                                    <Input type="password"
-                                           value={confirmPassword}
-                                           onChange={(e) => setConfirmPassword(e.target.value)}
-                                           onKeyPress={handleKeyPress}
-                                    />
-                                </Inputs>
-                            </InputInformation>
-                            <Right>
-                                <Logo src={RehappyLogo} />
-                                <SignupBtn onClick={handleSubmit}>완료</SignupBtn>
-                            </Right>
+                    <InputInformation>
+                        <Inputs>
+                            <InputName>이름</InputName>
+                            <Input value={name} onChange={(e) => setName(e.target.value)}                                     onKeyPress={handleKeyPress}/>
+                        </Inputs>
+                        <Inputs>
+                            <InputName>아이디</InputName>
+                            <Input value={username} onChange={(e) => setUsername(e.target.value)}                                     onKeyPress={handleKeyPress}/>
+                        </Inputs>
+                        <Inputs>
+                            <InputName>비밀번호</InputName>
+                            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}                                     onKeyPress={handleKeyPress}/>
+                        </Inputs>
+                        <Inputs>
+                            <InputName>비밀번호 확인</InputName>
+                            <Input type="password"
+                                   value={confirmPassword}
+                                   onChange={(e) => setConfirmPassword(e.target.value)}
+                                   onKeyPress={handleKeyPress}
+                            />
+                        </Inputs>
+                    </InputInformation>
+                    <Right>
+                        <Logo src={RehappyLogo} />
+                        <SignupBtn onClick={handleSubmit}>완료</SignupBtn>
+                    </Right>
                 </Container>
             </Wrapper>
         </>
