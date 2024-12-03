@@ -58,8 +58,15 @@ export default function FindHospital() {
                         component.types.includes("administrative_area_level_1")
                     )?.long_name;
 
+                    const stage2 = addressComponents.find((component) =>
+                            component.types.includes("locality")
+                        )?.long_name;
+
                     console.log(`STAGE1 (시도): ${stage1}`);
-                    setMapCenterCountry(stage1);
+                    console.log(`STAGE1 (시군구): ${stage2}`);
+
+                    const result = stage1.endsWith("도") ? stage2 : stage1;
+                    setMapCenterCountry(result);
                 } else {
                     console.error("Geocoding API 요청 실패:", data.status);
                 }
@@ -101,10 +108,8 @@ export default function FindHospital() {
                 setLoading(false);
             }
         };
+        fetchData();
 
-        if (isEmergency) {
-            fetchData();
-        }
     }, [mapCenter]);
 
     // 검색어(keyword)에 따라 데이터 가져오기
