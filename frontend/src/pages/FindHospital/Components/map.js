@@ -2,7 +2,6 @@ import React from "react";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 
 const MapComponent = ({
-                          apiKey,
                           libraries,
                           mapCenter,
                           setMapInstance,
@@ -10,7 +9,10 @@ const MapComponent = ({
                           hospitals,
                           selectedHospital,
                           setSelectedHospital,
+                          isEmergency, hospitalData
                       }) => {
+    const apiKey = process.env.REACT_APP_GOOGLE_PLACES_API_KEY;
+
     return (
         <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
             <GoogleMap
@@ -26,17 +28,36 @@ const MapComponent = ({
                 onDragEnd={handleDragEnd} // 지도 드래그 이벤트
                 onError={(e) => console.error("Error loading map", e)}
             >
-                {hospitals.map((hospital, index) => (
-                    <Marker
-                        key={index}
-                        position={{
-                            lat: hospital.geometry.location.lat,
-                            lng: hospital.geometry.location.lng,
-                        }}
-                        title={hospital.name}
-                        onClick={() => setSelectedHospital(hospital)} // 마커 클릭 이벤트
-                    />
-                ))}
+                {isEmergency ? (
+                    <>
+                        {/*{hospitalData.map((hospital, index) => (*/}
+                        {/*    <Marker*/}
+                        {/*        key={index}*/}
+                        {/*        position={{*/}
+                        {/*            lat: hospital.lat,*/}
+                        {/*            lng: hospital.lng,*/}
+                        {/*        }}*/}
+                        {/*        title={hospital.name}*/}
+                        {/*        onClick={() => setSelectedHospital(hospital)} // 마커 클릭 이벤트*/}
+                        {/*    />*/}
+                        {/*))}*/}
+                    </>
+                ) : (
+                    <>
+                        {hospitals.map((hospital, index) => (
+                            <Marker
+                                key={index}
+                                position={{
+                                    lat: hospital.geometry.location.lat,
+                                    lng: hospital.geometry.location.lng,
+                                }}
+                                title={hospital.name}
+                                onClick={() => setSelectedHospital(hospital)} // 마커 클릭 이벤트
+                            />
+                        ))}
+                    </>
+                )}
+
 
                 {/* InfoWindow */}
                 {selectedHospital && (

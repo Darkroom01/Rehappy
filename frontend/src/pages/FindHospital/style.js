@@ -22,7 +22,6 @@ export const PlacesWrapper = styled.div`
     height: 100%;
     padding: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 `
@@ -67,14 +66,14 @@ export const HospitalInfo = styled.div`
     height: auto;
     padding: 25px 20px;
     cursor: pointer;
-    
+    line-height: 1.5;
     &:hover {
         background-color: rgba(0, 0, 0, 0.11);
     }
 `
 export const Hospitals = styled.div`
     width: 100%;
-    margin: 50px 0;
+    margin: 10px 0 50px 0;
     height: calc(100% - 200px);
     overflow-y: auto;
 `
