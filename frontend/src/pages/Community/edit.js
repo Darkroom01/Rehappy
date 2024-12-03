@@ -1,18 +1,35 @@
 import {Reset} from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import {Category, ContentsWrapper, NewContent, NewTitle, SubmitButton} from "./style";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
-export default function New() {
+export default function Edit() {
+
+
     const token = Cookies.get('authToken');
-    const navigate = useNavigate();
-    const [titleValue, setTitleValue] = useState(""); // 제목 저장
-    const [content, setContent] = useState(""); // 본문 내용 저장
-    const [selectedCategory, setSelectedCategory] = useState(''); // 카테고리 영문 저장
+    const location = useLocation();
+    const { category, title, content } = location.state || {};
+    const [titleValue, setTitleValue] = useState(title); // 제목 저장
+    const [contentValue, setContentValue] = useState(content); // 본문 내용 저장
+    const [selectedCategory, setSelectedCategory] = useState(category); // 카테고리 영문 저장
     const [selectedCategoryNum, setSelectedCategoryNum] = useState(null) // 카테고리 숫자 저장. 데이터 처리용
+
+    // 카테고리 번호 초기화
+    useEffect(() => {
+        const categoryNumMap = {
+            'PAIN_TIPS': 1,            // 통증 관리 팁
+            'DISEASE_INFO': 2,         // 질병 및 통증 정보
+            'TREATMENT_EXPERIENCE': 3, // 치료 및 재활 경험
+            'HOSPITAL_REVIEW': 4,      // 병원 리뷰
+            'HEALTH_CONSULTING': 5     // 건강 상담
+        };
+        if (categoryNumMap[category]) {
+            setSelectedCategoryNum(categoryNumMap[category]);
+        }
+    }, []);
 
     // Category 클릭 핸들러
     const handleCategoryClick = (index) => {
@@ -37,7 +54,7 @@ export default function New() {
     // 본문 내용 핸들러
     const handleContentInput = (e) => {
         const element = e.target;
-        setContent(element.textContent);
+        setContentValue(element.textContent);
 
         // Placeholder 처리
         element.setAttribute('data-placeholder', element.textContent ? '' : '내용을 입력해주세요.');
@@ -47,27 +64,24 @@ export default function New() {
         element.style.height = `${element.scrollHeight}px`;
     }
 
-    // 글 작성 완료 핸들러
+    // 글 수정 완료 핸들러
     const handleSubmit = async() => {
         if (token) {
-            if (titleValue && content && selectedCategory) {
-                console.log(titleValue, content, selectedCategory)
+            if (titleValue && contentValue && selectedCategory) {
+                console.log(titleValue, contentValue, selectedCategory)
 
                 try {
-                    const response = await axios.post('http://localhost:8080/api/posts', {
-                        title: titleValue,
-                        content: content,
-                        category: selectedCategory,
-                    }, {
+                    await axios.put('http://localhost:8080/api/posts/1', null, {
+                        params: {
+                            title: titleValue,
+                            content: contentValue,
+                            category: selectedCategory,
+                        },
                         headers: {
                             'Authorization': `Bearer ${token}`,
-                            'Accept': '*/*',
-                            'Content-Type': 'application/json'
+                            'Accept': '*/*'
                         }
                     });
-                    const roomId = response.data.id;
-                    navigate(`/postDetail/${roomId}`);
-
                 } catch (error) {
                     console.error('Failed to upload new post', error);
                     console.error('Error details:', error.response?.data);
@@ -116,8 +130,9 @@ export default function New() {
                     contentEditable="true"
                     data-placeholder="내용을 입력해주세요."
                     onInput={handleContentInput}
+                    dangerouslySetInnerHTML={{ __html: contentValue }}
                 ></NewContent>
-                <SubmitButton onClick={handleSubmit}>글쓰기</SubmitButton>
+                <SubmitButton onClick={handleSubmit}>수정하기</SubmitButton>
             </ContentsWrapper>
 
         </>
