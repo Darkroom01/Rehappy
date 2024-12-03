@@ -16,6 +16,7 @@ import Man from "../../images/man.png";
 import Woman from "../../images/woman.png";
 import GrandF from "../../images/grandfather.png";
 import GrandM from "../../images/granmother.png";
+import {jwtDecode} from "jwt-decode";
 
 const profileTypes = [
     { type: 1, image: Profile },
@@ -68,6 +69,59 @@ export default function Login() {
         } catch (error) {
             console.error("로그인 실패:", error.response?.data || error.message);
             alert(`로그인에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
+        }
+    };
+
+    const handleSaveProfile = async () => {
+        if (!selectedProfileType || !profileName) {
+            alert("프로필 타입과 닉네임을 입력해주세요.");
+            return;
+        }
+
+        const authToken = Cookies.get("authToken");
+        if (!authToken) {
+            alert("로그인 후 프로필을 추가해주세요.");
+            return;
+        }
+
+        // JWT 토큰에서 'name' 추출
+        let userName = '';
+        try {
+            const decodedToken = jwtDecode(authToken);  // 토큰 디코딩
+            userName = decodedToken.username;  // 'name'을 추출
+        } catch (error) {
+            console.error("토큰 디코딩 실패:", error);
+            alert("토큰 디코딩 실패. 다시 로그인해주세요.");
+            return;
+        }
+
+        // 서버로 POST 요청
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/profiles',
+                {
+                    profileName: profileName,
+                    name: userName,            // 토큰에서 가져온 name
+                    email: profileName,             // 사용자 아이디 (이메일로 사용)
+                    password: password,        // 사용자 비밀번호
+                    profilePictureType: selectedProfileType, // 선택된 프로필 타입
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            console.log("프로필 저장 성공:", response.data);
+            alert("프로필이 저장되었습니다.");
+
+            await handleFetchProfiles(); // 최신 프로필 목록 가져오기
+            setIsAddingProfile(false); // 프로필 추가 모드 종료
+        } catch (error) {
+            console.error("프로필 저장 실패:", error.response?.data || error.message);
+            alert(`프로필 저장에 실패했습니다: ${error.response?.data?.message || "알 수 없는 오류"}`);
         }
     };
 
@@ -175,7 +229,7 @@ export default function Login() {
                                                 onChange={(e) => setProfileName(e.target.value)}
                                                 placeholder="닉네임을 입력하세요"
                                             />
-                                            <SaveProfileBtn onClick={() => alert("프로필 추가 로직 구현!")}>저장</SaveProfileBtn>
+                                            <SaveProfileBtn onClick={handleSaveProfile}>저장</SaveProfileBtn>
                                         </div>
                                     </div>
                                 )}
