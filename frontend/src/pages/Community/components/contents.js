@@ -48,8 +48,8 @@ export default function Contents() {
     }
 
     // 게시물 상세페이지로 이동
-    const handleGoPost = () => {
-        navigate('/postDetail');
+    const handleGoPost = (id) => {
+        navigate(`/postDetail/${id}`);
     }
 
     // 게시물 가져오기
@@ -123,7 +123,7 @@ export default function Contents() {
             {posts
                 .filter(post => selectedOption === "전체" || post.category === selectedOption)
                 .map((post, index) => (
-                    <Content onClick={handleGoPost} key={index}>
+                    <Content onClick={() => handleGoPost(post.id)} key={index}>
                         <p>{post.title}</p>
                         <p style={{color:'rgb(0, 0, 0, 0.6)'}}>{post.authorName}</p>
                     </Content>

@@ -10,7 +10,6 @@ import New from "./pages/Community/new";
 import PostDetail from "./pages/Community/postDetail";
 import PainRecord from "./pages/PainRecord/painrecord";
 import PainReport from "./pages/PainReport/PainReport";
-import PainList from "./pages/PainList/painlist";
 
 function App() {
     return (
@@ -27,7 +26,6 @@ function App() {
                 <Route path="/postDetail" element={<PostDetail />} />
                 <Route path="/painRecord" element={<PainRecord />} />
                 <Route path="/painReport" element={<PainReport />} />
-                <Route path="/list" element={<PainList />} />
             </Routes>
         </BrowserRouter>
     );

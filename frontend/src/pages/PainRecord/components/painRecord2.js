@@ -8,15 +8,29 @@ const Container = styled.div`
     flex-direction: column;
 `;
 
+const DateWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+`;
+
+const DateText = styled.h2`
+    font-size: 60px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+`;
+
 const Title = styled.h2`
     font-size: 50px;
     font-weight: bold;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 `;
 
 const Grid = styled.div`
     display: grid;
+    margin-left: 20px;
     grid-template-columns: repeat(2, 1fr); /* 두 열로 구성 */
     gap: 20px; /* 항목 간 간격 */
     max-width: 1500px;
@@ -29,7 +43,7 @@ const Option = styled.div`
 `;
 
 const Checkbox = styled.input`
-    margin-right: 20px;
+    margin-right: 30px;
     transform: scale(3); /* 체크박스 크기 조정 */
 `;
 
@@ -43,20 +57,22 @@ const OtherInput = styled.input`
 `;
 
 const NextButton = styled.button`
-    position: absolute; 
-    bottom: 40px; 
-    right: 40px; 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    color: #fff;
-    background-color: #110078;
-    border: none;
+    color: #110078;
+    background-color: #D7E8FF;
+    border: 3px solid #110078;
     border-radius: 20px;
     cursor: pointer;
+    z-index: 1000;
 
     &:hover {
-        background-color: #0d0059;
+        color: white;
+        background-color: #110078;
     }
 
     &:disabled {
@@ -65,7 +81,7 @@ const NextButton = styled.button`
     }
 `;
 
-export default function PainRecord2({ onNext, selectedPainTypes, setSelectedPainTypes }) {
+export default function PainRecord2({ onNext, selectedPainTypes, setSelectedPainTypes, selectedDate }) {
     const painOptions = [
         "욱신거리는",
         "콕콕 쑤시는",
@@ -82,6 +98,18 @@ export default function PainRecord2({ onNext, selectedPainTypes, setSelectedPain
     ];
 
     const [otherPain, setOtherPain] = useState("");
+
+    // 날짜를 yyyy/mm/dd(요일) 형식으로 변환하는 함수
+    const formatSelectedDate = (date) => {
+        if (!date) return "날짜가 선택되지 않았습니다.";
+        const days = ["일", "월", "화", "수", "목", "금", "토"];
+        const d = new Date(date);
+        return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(
+            d.getDate()
+        ).padStart(2, "0")} (${days[d.getDay()]})`;
+    };
+
+    const formattedDate = formatSelectedDate(selectedDate);
 
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
@@ -109,6 +137,9 @@ export default function PainRecord2({ onNext, selectedPainTypes, setSelectedPain
 
     return (
         <Container>
+            <DateWrapper>
+                <DateText>{formattedDate}</DateText>
+            </DateWrapper>
             <Title>다음 중 해당되는 통증 양상을 선택해 주세요.</Title>
             <Grid>
                 {painOptions.map((option, index) => (

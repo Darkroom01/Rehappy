@@ -108,40 +108,17 @@ export const WeatherMain = styled.div`
     flex-direction: column; /* 아이콘과 온도를 수직 정렬 */
     align-items: center; /* 가운데 정렬 */
     justify-content: center;
-    margin-left: 40px;
+    margin-left: 20px;
     margin-right: 20px; /* 오른쪽 텍스트와 간격 추가 */
 
     h2 {
         font-size: 40px; /* 현재 온도 크기 */
         color: #ff6f00;
         margin-top: 5px;
+        margin-bottom: 25px;
     }
 `;
 
-export const WeatherDetails = styled.div`
-    display: flex;
-    flex: 2;
-    flex-direction: column; /* 텍스트 수직 정렬 */
-    align-items: flex-start; /* 왼쪽 정렬 */
-    justify-content: space-around;
-    margin-right: 40px; 
-
-    p {
-        font-size: 18px;
-        color: #555;
-        margin: 4px 0;
-    }
-`;
-
-export const WeatherIcon = styled.img`
-    width: 100px; /* 아이콘 크기 */
-    height: 100px;
-    margin-bottom: 10px; /* 현재 온도와 간격 */
-`;
-
-
-
-// 그래프와 팁 섹션 컨테이너 (2분할)
 export const GraphTipContainer = styled.div`
     height: calc(100% - 40% - 90px);
     display: flex;
@@ -157,46 +134,23 @@ export const GraphSection = styled.section`
     margin-left: 40px;
     margin-right: 20px;
     border-radius: 40px;
-    text-align: center;
-    height: 100%; 
+    height: 100%;
 
     h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
+        font-size: 30px;
+        margin-left: 40px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #110078;
+    }
+
+    &:hover {
+        background: #110078;
     }
 `;
 
-export const GraphContainer = styled.div`
-    position: relative;
-    width: 90%;
-    height: 200px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 40px;
-`;
-
-export const GraphLine = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-`;
-
-export const GraphPoint = styled.div`
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #0066cc;
-    border-radius: 50%;
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    line-height: 10px;
-    transform: translate(-50%, -50%);
-    left: ${(props) => props.left};
-    top: ${(props) => props.top};
-`;
-
-// 팁 섹션
+// 건강 팁 섹션
 export const TipSection = styled.section`
     flex: 1;
     background: #fff;
@@ -207,9 +161,9 @@ export const TipSection = styled.section`
     height: 100%;
 
     h3 {
-        font-size: 2vw;
+        font-size: 40px;
         margin-left: 40px;
-        margin-top: 45px; 
+        margin-top: 40px; 
         margin-bottom: 30px;
         font-weight: bold;
         color: #110078;
@@ -218,10 +172,11 @@ export const TipSection = styled.section`
 
 export const HealthTips = styled.section`
     flex: 1;
-    margin-left: 40px;
-    margin-right: 40px;
+    font-size: 20px;
     border-radius: 40px;
     align-items: flex-start; /* 왼쪽 정렬 */
+    margin-left: 40px;
+    margin-right: 40px;
     height: 100%;
 `;
 

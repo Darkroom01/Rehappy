@@ -38,13 +38,13 @@ const ChangeDateButton = styled.button`
     cursor: pointer;
 
     &:hover {
-        color: #110078;
-        background-color: #ffc73b;
+        color: white;
+        background-color: #110078;
     }
 `;
 
 const DateInput = styled.input`
-    margin-left: 20px; 
+    margin-left: 20px;
     padding: 0.5rem;
     font-size: 1.6rem;
     border-radius: 5px;
@@ -55,7 +55,7 @@ const InstructionText = styled.p`
     font-size: 50px;
     font-weight: bold;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 `;
 
 const InstructionText2 = styled.p`
@@ -66,6 +66,36 @@ const InstructionText2 = styled.p`
     color: #555;
 `;
 
+const TimeWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+`;
+
+const PeriodButton = styled.button`
+    font-size: 25px;
+    padding: 10px 20px;
+    margin-right: 20px;
+    border-radius: 20px;
+    border: none;
+    background-color: ${(props) => (props.isAm ? "#FFAE00" : "#110078")};
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+        background-color: ${(props) => (props.isAm ? "#110078" : "#FFAE00")};
+    }
+`;
+
+const InstructionText3 = styled.p`
+    font-size: 30px;
+    font-weight: bold;
+    margin-right: 15px;
+    color: #555;
+`;
+
 const InputContainer = styled.div`
     margin-bottom: 20px;
     display: flex;
@@ -73,30 +103,31 @@ const InputContainer = styled.div`
 `;
 
 const TimeSelect = styled.select`
-    font-size: 1.6rem;
-    padding: 0.5rem;
-    margin: 0.5rem;
+    font-size: 25px;
+    padding: 15px;
+    margin-right: 15px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     text-align: center;
 `;
 
 const NextButton = styled.button`
-    position: fixed; /* 화면의 고정된 위치에 배치 */
-    bottom: 20px; /* 화면 하단에서 20px 떨어진 위치 */
-    right: 20px; /* 화면 오른쪽에서 20px 떨어진 위치 */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    color: #fff;
-    background-color: #110078;
-    border: none;
+    color: #110078;
+    background-color: #D7E8FF;
+    border: 3px solid #110078;
     border-radius: 20px;
     cursor: pointer;
-    z-index: 1000; /* 버튼이 다른 요소 위에 표시되도록 설정 */
+    z-index: 1000;
 
     &:hover {
-        background-color: #0d0059;
+        color: white;
+        background-color: #110078;
     }
 
     &:disabled {
@@ -105,16 +136,29 @@ const NextButton = styled.button`
     }
 `;
 
+const SelectedButton = styled.button`
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: ${(props) => (props.selected ? "#110078" : "#D7E8FF")};
+    color: ${(props) => (props.selected ? "white" : "#110078")};
+    border: 2px solid #110078;
+    font-size: 16px;
+
+    &:hover {
+        background-color: ${(props) => (props.selected ? "#110078" : "#A0CFFF")};
+    }
+`;
+
 const SelectedPartsContainer = styled.div`
     margin-bottom: 20px;
     font-size: 30px;
-    color: ${props => (props.isEmpty ? "#ff0000" : "#333")}; /* 선택된 부위가 없으면 빨간색 */
+    color: ${(props) => (props.isEmpty ? "#ff0000" : "#333")};
 `;
 
-
-export default function PainRecord1({ onNext, selectedParts }) {
+export default function PainRecord1({ onNext, selectedParts, subPartOptions, onSubPartSelect }) {
     const days = ["일", "월", "화", "수", "목", "금", "토"];
-
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -134,18 +178,21 @@ export default function PainRecord1({ onNext, selectedParts }) {
         setSelectedDate(new Date(event.target.value));
     };
 
+    const handlePeriodToggle = () => {
+        setPeriod((prev) => (prev === "AM" ? "PM" : "AM"));
+    };
+
     const handleNextClick = () => {
         if (selectedParts.length === 0) {
             alert("통증 발생 부위를 선택해 주세요.");
         } else if (hour === "" || minute === "") {
             alert("통증 발생 시간을 모두 선택해 주세요.");
         } else {
-            const formattedDate = selectedDate.toISOString().split("T")[0]; // yyyy-mm-dd 형식
-            const formattedTime = `${hour}:${minute}`; // HH:mm 형식
-            onNext(formattedDate, formattedTime); // 날짜와 시간 전달
+            const formattedDate = selectedDate.toISOString().split("T")[0];
+            const formattedTime = `${hour}:${minute}`;
+            onNext(formattedDate, formattedTime);
         }
     };
-
 
     return (
         <Container>
@@ -160,7 +207,7 @@ export default function PainRecord1({ onNext, selectedParts }) {
                             type="date"
                             value={selectedDate.toISOString().split("T")[0]}
                             onChange={handleDateChange}
-                            max={today} // 오늘 날짜까지 선택 가능
+                            max={today}
                         />
                     )}
                 </ChangeDateContainer>
@@ -170,44 +217,61 @@ export default function PainRecord1({ onNext, selectedParts }) {
             <SelectedPartsContainer isEmpty={selectedParts.length === 0}>
                 {selectedParts.length === 0
                     ? "통증 발생 부위를 선택하세요"
-                    : `선택한 부위: ${selectedParts.join(", ")}`}
+                    : `${selectedParts.join(", ")}`}
+                {subPartOptions && (
+                    <div>
+                        {subPartOptions && (
+                            <div>
+                                <h3>세부 부위를 선택하세요:</h3>
+                                {subPartOptions.map((option) => (
+                                    <SelectedButton
+                                        key={option}
+                                        onClick={() => onSubPartSelect(option)}
+                                        selected={selectedParts.includes(option)} // 선택 여부에 따라 색상 변경
+                                    >
+                                        {option}
+                                    </SelectedButton>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
             </SelectedPartsContainer>
             <InputContainer>
-                <label htmlFor="pain-time"><InstructionText2>통증 발생 시간</InstructionText2></label>
+                <label htmlFor="pain-time">
+                    <InstructionText2>통증 발생 시간</InstructionText2>
+                </label>
                 <div>
-                    <TimeSelect
-                        id="pain-period"
-                        value={period}
-                        onChange={(e) => setPeriod(e.target.value)}
-                    >
-                        <option value="AM">오전</option>
-                        <option value="PM">오후</option>
-                    </TimeSelect>
-                    <TimeSelect
-                        id="pain-hour"
-                        value={hour}
-                        onChange={(e) => setHour(e.target.value)}
-                    >
-                        <option value="">시간</option>
-                        {Array.from({ length: 12 }, (_, i) => (
-                            <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
-                                {String(i + 1).padStart(2, "0")}
-                            </option>
-                        ))}
-                    </TimeSelect>
-                    :
-                    <TimeSelect
-                        id="pain-minute"
-                        value={minute}
-                        onChange={(e) => setMinute(e.target.value)}
-                    >
-                        <option value="">분</option>
-                        {Array.from({ length: 6 }, (_, i) => (
-                            <option key={i} value={String(i * 10).padStart(2, "0")}>
-                                {String(i * 10).padStart(2, "0")}
-                            </option>
-                        ))}
-                    </TimeSelect>
+                    <TimeWrapper>
+                        <PeriodButton isAm={period === "AM"} onClick={handlePeriodToggle}>
+                            {period === "AM" ? "오전" : "오후"}
+                        </PeriodButton>
+                        <TimeSelect
+                            id="pain-hour"
+                            value={hour}
+                            onChange={(e) => setHour(e.target.value)}
+                        >
+                            <option value="">시</option>
+                            {Array.from({ length: 12 }, (_, i) => (
+                                <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                                    {String(i + 1).padStart(2, "0")}
+                                </option>
+                            ))}
+                        </TimeSelect>
+                        <InstructionText3>:</InstructionText3>
+                        <TimeSelect
+                            id="pain-minute"
+                            value={minute}
+                            onChange={(e) => setMinute(e.target.value)}
+                        >
+                            <option value="">분</option>
+                            {Array.from({ length: 6 }, (_, i) => (
+                                <option key={i} value={String(i * 10).padStart(2, "0")}>
+                                    {String(i * 10).padStart(2, "0")}
+                                </option>
+                            ))}
+                        </TimeSelect>
+                    </TimeWrapper>
                 </div>
             </InputContainer>
             <NextButton onClick={handleNextClick}>다음</NextButton>
