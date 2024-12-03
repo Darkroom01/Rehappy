@@ -21,6 +21,7 @@ export default function PostDetail() {
 
     const token = Cookies.get('authToken');
     const decodedToken = jwtDecode(token);
+    console.log('decodedToken:',decodedToken);
 
     const navigate = useNavigate();
     const [newCommentValue, setNewCommentValue] = useState(""); // 새 댓글 내용
@@ -41,18 +42,57 @@ export default function PostDetail() {
 
     // 게시글 삭제
     const handleDeletePost = async () => {
-        try {
-            await axios.delete(`http://localhost:8080/api/posts/${id}`);
-            alert('게시물이 삭제되었습니다.');
-            navigate('/community');
-        } catch (error) {
-            console.error('Failed to delete post', error);
+        if (token) {
+            try {
+                await axios.delete(`http://localhost:8080/api/posts/${id}`, null, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                alert('게시물이 삭제되었습니다.');
+                navigate('/community');
+            } catch (error) {
+                console.error('Failed to delete post', error);
+            }
+        }
+        else {
+            alert('로그아웃 상태입니다.');
         }
     }
 
     // 댓글 쓰기 핸들러
     const handleNewCommentInput = (e) => {
         setNewCommentValue(e.target.value);
+    }
+
+    // 댓글 제출
+    const handleSubmitNewComment = async () => {
+        if (token) {
+            if (newCommentValue) {
+                console.log('newCommentValue:',newCommentValue)
+
+                try {
+                    await axios.post('http://localhost:8080/api/comments', {
+                        postId: id,
+                        content: newCommentValue,
+                        authorName: '우더니',
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': '*/*'
+                        }
+                    });
+                    window.location.reload(); // 새로고침
+                } catch (error) {
+                    console.error('Failed to upload new comment', error);
+                    console.error('Error details:', error.response?.data);
+                }
+            } else {
+                alert("댓글 내용을 작성해 주세요.");
+            }
+        } else {
+            alert("로그아웃 상태입니다.");
+        }
     }
 
     // 게시물 가져오기
@@ -73,41 +113,6 @@ export default function PostDetail() {
         fetchDetail();
     }, []);
 
-    // 댓글 제출
-    const handleSubmitNewComment = async () => {
-        if (token) {
-            if (newCommentValue) {
-                console.log('newCommentValue:',newCommentValue)
-
-                try {
-                    await axios.post('http://localhost:8080/api/comments', null, {
-                        params: {
-                            // private Long id;
-                            // private String content;
-                            // private String author;
-                            // private String authorName; // 작성자 이름
-                            // private Long postId; // 댓글이 속한 게시글 ID
-                            // private LocalDateTime createdAt;
-                            content: newCommentValue,
-                            authorName: '우더니',
-                        },
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Accept': '*/*'
-                        }
-                    });
-                } catch (error) {
-                    console.error('Failed to upload new comment', error);
-                    console.error('Error details:', error.response?.data);
-                }
-            } else {
-                alert("댓글 내용을 작성해 주세요.");
-            }
-        } else {
-            alert("로그아웃 상태입니다.");
-        }
-    }
-
     // 댓글 가져오기
     useEffect(() => {
         const fetchComments = async () => {
@@ -127,12 +132,21 @@ export default function PostDetail() {
             <Reset/>
             <TopBarComponent/>
             <ContentsWrapper style={{width: '940px'}}>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <div style={{width: '40px', height: 'auto', margin: '0 15px', backgroundColor: '#D7E8FF', padding: '10px', borderRadius: '100%'}}>
+                        <img src='/images/man.png' alt='작성자 프로필 사진'
+                             style={{width: '100%', height: '100%'}}
+                        />
+                    </div>
+                    <div style={{fontSize: '17px', fontWeight: 'bold'}}>{authorName}</div>
+                </div>
                 <ContentsWrapper style={{
                     width: '800px',
                     border: '2px solid #D7E8FF',
                     borderRadius:'2em',
                     padding: '60px 70px 110px 70px',
                     boxShadow: '0 5px 10px rgba(0, 0, 0, 0.18)',
+                    margin: '10px auto 50px auto'
                 }}>
                     <PostTitle>{title}</PostTitle>
                     <hr style={{border: '2px solid #FFAE00', margin: '20px 0 40px 0'}}/>
@@ -148,12 +162,18 @@ export default function PostDetail() {
 
                 <Comments>
                     <NewComment>
-                        <div style={{width: 'fit-content', fontSize: '17px', marginBottom: '1px'}}>우더니 :</div>
+                        <div style={{width: 'fit-content', fontSize: '17px', marginBottom: '1px'}}>{decodedToken.username} :</div>
                         <NewCommentInput
                             type="text"
                             value={newCommentValue}
                             onChange={handleNewCommentInput}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSubmitNewComment();
+                                }
+                            }}
                             placeholder='댓글을 작성해주세요.' />
+                        {/* 댓글 제출 버튼 */}
                         <div onClick={handleSubmitNewComment} style={{marginLeft: 'auto', cursor: 'pointer'}}>
                             <svg width="30" height="30" viewBox="0 0 48 48" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
