@@ -4,7 +4,9 @@ export default function BodySvg({ onPartClick, selected, style }) {
     const [hoveredPart, setHoveredPart] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
-    const makeClickHandler = (name) => () => onPartClick(name);
+    const makeClickHandler = (name) => () => {
+        onPartClick(name);
+    };
     const makeMouseEnterHandler = (name) => (event) => {
         setHoveredPart(name);
         setTooltipPosition({ x: event.clientX, y: event.clientY });
@@ -15,22 +17,26 @@ export default function BodySvg({ onPartClick, selected, style }) {
     const partNamesInKorean = {
         "head": "머리",
         "neck": "목",
-        "left-hand": "왼쪽 손",
-        "left-wrist": "왼쪽 손목",
-        "left-elbow": "왼쪽 팔꿈치",
+        "upper-abdomen": "윗배/등허리",
+        "torso": "아랫배/골반",
+        "left-hand": "왼손",
+        "left-wrist": "왼쪽 손목/전완(팔뚝)",
+        "left-elbow": "왼쪽 팔꿈치/상완",
         "left-shoulder": "왼쪽 어깨",
+        "left-chest": "왼쪽 가슴/등",
         "left-thigh": "왼쪽 허벅지",
         "left-knee": "왼쪽 무릎",
         "left-ankle": "왼쪽 종아리/발목",
-        "left-foot": "왼쪽 발",
-        "right-hand": "오른쪽 손",
-        "right-wrist": "오른쪽 손목",
-        "right-elbow": "왼쪽 팔꿈치",
+        "left-foot": "왼발",
+        "right-hand": "오른손",
+        "right-wrist": "오른쪽 손목/전완(팔뚝)",
+        "right-elbow": "오른쪽 팔꿈치/상완",
         "right-shoulder": "오른쪽 어깨",
+        "right-chest": "오른쪽 가슴/등",
         "right-thigh": "오른쪽 허벅지",
         "right-knee": "오른쪽 무릎",
         "right-ankle": "오른쪽 종아리/발목",
-        "right-foot": "오른쪽 발",
+        "right-foot": "오른발",
     };
 
     return (

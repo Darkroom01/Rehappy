@@ -8,19 +8,15 @@ import {
     CenterSection,
     Button,
     RightSection,
-    WeatherMain,
-    WeatherDetails,
-    WeatherIcon,
     GraphTipContainer,
     GraphSection,
-    GraphContainer,
-    GraphLine,
-    GraphPoint,
     TipSection,
     HealthTips,
 } from "./style";
-import { getTodayTips } from "./healthTips";
-import { fetchWeather, fetchForecast } from "./weatherService";
+import PainChart from "./components/painChart";
+import WeatherView from "./components/weatherView";
+import { getTodayTips } from "./components/healthTips";
+import { fetchWeather, fetchForecast } from "./components/weatherService";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import {jwtDecode} from "jwt-decode";
@@ -89,10 +85,6 @@ export default function Main() {
         }
     }, [jwtToken]);
 
-    const handleGoPainRecord = () => {
-        navigate("/painRecord");
-    };
-
     // 현재 날씨 정보 가져오기
     useEffect(() => {
         async function getWeather() {
@@ -132,12 +124,12 @@ export default function Main() {
                                     <span>{`${daysSinceLastPain}일 전`}</span> 입니다.
                                 </>
                             ) : (
-                                <>통증 기록이 없습니다.</>
+                                <>기록된 통증 정보가 <br /> <span>없습니다.</span></>
                             )}
                         </h2>
                     </LeftSection>
 
-                    <CenterSection onClick={handleGoPainRecord}>
+                    <CenterSection onClick={() => navigate("/painRecord")}>
                         <Button>
                             통증 기록
                             <br /> 바로가기
@@ -152,45 +144,17 @@ export default function Main() {
                             </svg>
                         </Button>
                     </CenterSection>
+
                     <RightSection>
-                        {weatherData ? (
-                            <>
-                                <WeatherMain>
-                                    <WeatherIcon
-                                        src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                                        alt="날씨 아이콘"
-                                    />
-                                    <h2>{weatherData.main.temp}°C</h2>
-                                </WeatherMain>
-                                <WeatherDetails>
-                                    <p>{todayTemp.maxTemp}° / {todayTemp.minTemp}°</p>
-                                    <p>
-                                        체감 {weatherData.main.feels_like}° / {weatherData.weather[0].description} /
-                                        습도 {weatherData.main.humidity}% / 풍속 {weatherData.wind.speed}m/s
-                                    </p>
-                                    <p>찬바람 부는 겨울이에요. 오늘 날씨에는 감기 조심하세요!</p>
-                                </WeatherDetails>
-                            </>
-                        ) : (
-                            <p>날씨 정보를 불러오는 중입니다...</p>
-                        )}
+                        <WeatherView weatherData={weatherData} todayTemp={todayTemp} />
                     </RightSection>
                 </InfoContainer>
 
                 <GraphTipContainer>
                     <GraphSection>
-                        <h3>통증 그래프</h3>
-                        <GraphContainer>
-                            <GraphLine>
-                                <GraphPoint left="10%" top="70%">4</GraphPoint>
-                                <GraphPoint left="30%" top="50%">5</GraphPoint>
-                                <GraphPoint left="50%" top="40%">6</GraphPoint>
-                                <GraphPoint left="70%" top="50%">5</GraphPoint>
-                                <GraphPoint left="90%" top="70%">5</GraphPoint>
-                            </GraphLine>
-                        </GraphContainer>
+                        <h3>내 통증 그래프</h3>
+                        <PainChart/>
                     </GraphSection>
-
                     <TipSection>
                         <h3>오늘의 통증 관리 Tip!</h3>
                         <HealthTips>

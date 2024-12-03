@@ -3,7 +3,7 @@ import {
     Container, Wrapper, Input,
     InputInformation, InputName, Inputs,
     Logo, Right, LoginBtn, Wrapper2,
-    Title, AddProfileBtn, ProfileName, Profilediv, SaveProfileBtn, Input2
+    Title, AddProfileBtn, ProfileName, Profilediv, SaveProfileBtn, Input2, GoSign
 } from "./style";
 import RehappyLogo from "../../images/리해피최종로고.png";
 import { useEffect, useState } from "react";
@@ -281,6 +281,8 @@ export default function Login() {
                                 />
                             </Inputs>
                             <LoginBtn onClick={handleNext}>로그인</LoginBtn>
+                            <GoSign>회원이 아니세요?
+                                <a onClick={() =>navigate('/signup')}>회원가입하러가기</a></GoSign>
                         </InputInformation>
                     </Container>
                 )}

@@ -62,7 +62,14 @@ export const LoginBtn=styled.button`
     cursor: pointer;
     color: white;
     font-family: NanumGothic;
+    transition: all 0.2s ease-in-out;
     margin-top: 10px;
+
+    &:hover {
+        background-color: #0a0045;
+        transform: scale(1.05);
+    }
+
 `
 export const Wrapper2=styled.div`
     width: 800px;
@@ -125,4 +132,17 @@ export const Input2=styled.input`
     height: 30px;
     border-radius: 5px;
     border: 1px solid #d9d9d9;
+`
+export const GoSign=styled.div`
+    font-size: 12px;
+    color: gray;
+    margin-top: 5px;
+    cursor:pointer;
+    a{
+        &:hover {
+            color: #FFAE00;
+        }
+        margin-left: 5px;
+    }
+    
 `

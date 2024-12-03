@@ -12,21 +12,60 @@ import {
 } from "./style";
 import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
-import Cookies  from "js-cookie";
+import Cookies from "js-cookie";
 
 export default function PainRecord() {
     const [step, setStep] = useState(1);
-    const [selectedDate, setSelectedDate] = useState(""); // 선택된 날짜
-    const [selectedTime, setSelectedTime] = useState(""); // 선택된 시간
-    const [selectedParts, setSelectedParts] = useState([]); // 통증 위치
-    const [selectedPainTypes, setSelectedPainTypes] = useState([]); // 통증 양상
-    const [intensity, setIntensity] = useState(0); // 통증 강도
-    const jwtToken = Cookies.get('authToken');
+    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedTime, setSelectedTime] = useState("");
+    const [selectedParts, setSelectedParts] = useState([]);
+    const [selectedPainTypes, setSelectedPainTypes] = useState([]);
+    const [intensity, setIntensity] = useState(0);
+    const [subPartOptions, setSubPartOptions] = useState(null); // 추가 선택 부위 옵션
+    const jwtToken = Cookies.get("authToken");
+
+    const bodyPartMapping = {
+        "head": "머리",
+        "neck": "목",
+        "upper-abdomen": "윗배/등허리",
+        "torso": "아랫배/골반",
+        "left-hand": "왼손",
+        "left-wrist": "왼쪽 손목/왼쪽 전완(팔뚝)",
+        "left-elbow": "왼쪽 팔꿈치/왼쪽 상완",
+        "left-shoulder": "왼쪽 어깨",
+        "left-chest": "왼쪽 가슴/왼쪽 등",
+        "left-thigh": "왼쪽 허벅지",
+        "left-knee": "왼쪽 무릎",
+        "left-ankle": "왼쪽 종아리/왼발목",
+        "left-foot": "왼발",
+        "right-hand": "오른손",
+        "right-wrist": "오른쪽 손목/오른쪽 전완(팔뚝)",
+        "right-elbow": "오른쪽 팔꿈치/오른쪽 상완",
+        "right-shoulder": "오른쪽 어깨",
+        "right-chest": "오른쪽 가슴/오른쪽 등",
+        "right-thigh": "오른쪽 허벅지",
+        "right-knee": "오른쪽 무릎",
+        "right-ankle": "오른쪽 종아리/오른발목",
+        "right-foot": "오른발",
+    };
 
     const handleBodyPartSelection = (parts) => {
         if (step === 1) {
-            setSelectedParts(parts);
+            const translatedParts = parts.map((part) => bodyPartMapping[part] || part);
+
+            const hasMultipleOptions = translatedParts.find((part) => part.includes("/"));
+            if (hasMultipleOptions) {
+                const options = hasMultipleOptions.split("/");
+                setSubPartOptions(options);
+            } else {
+                setSelectedParts(translatedParts);
+            }
         }
+    };
+
+    const handleSubPartSelection = (option) => {
+        setSelectedParts((prev) => [...prev, option]);
+        setSubPartOptions(null);
     };
 
     const handleDateTimeSelection = (date, time) => {
@@ -40,13 +79,13 @@ export default function PainRecord() {
 
     const handleNextStep = () => setStep((prev) => prev + 1);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (updatedIntensity) => {
         const payload = {
             painDate: selectedDate,
             painTime: selectedTime,
-            intensity: intensity,
-            location: selectedParts.join(", "), // 부위 콤마로 구분
-            pattern: selectedPainTypes.join(", "), // 양상 콤마로 구분
+            intensity: updatedIntensity, // updatedIntensity로 설정
+            location: selectedParts.join(", "),
+            pattern: selectedPainTypes.join(", "),
         };
 
         console.log("전송할 데이터:", payload);
@@ -56,7 +95,7 @@ export default function PainRecord() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwtToken}`, // JWT 토큰 포함
+                    Authorization: `Bearer ${jwtToken}`,
                 },
                 body: JSON.stringify(payload),
             });
@@ -73,7 +112,6 @@ export default function PainRecord() {
             alert("통증 기록 저장 중 문제가 발생했습니다.");
         }
 
-        // 상태 초기화
         setStep(1);
         setSelectedDate("");
         setSelectedTime("");
@@ -93,6 +131,7 @@ export default function PainRecord() {
                             <BodyDiagram
                                 value={selectedParts}
                                 onChange={handleBodyPartSelection}
+                                selectedParts={selectedParts}
                                 disabled={step > 1}
                             />
                         </BodyDiagramContainer>
@@ -105,6 +144,8 @@ export default function PainRecord() {
                                     handleNextStep();
                                 }}
                                 selectedParts={selectedParts}
+                                subPartOptions={subPartOptions}
+                                onSubPartSelect={handleSubPartSelection}
                             />
                         )}
                         {step === 2 && (
@@ -112,12 +153,14 @@ export default function PainRecord() {
                                 onNext={handleNextStep}
                                 selectedPainTypes={selectedPainTypes}
                                 setSelectedPainTypes={setSelectedPainTypes}
+                                selectedDate={selectedDate}
                             />
                         )}
                         {step === 3 && (
                             <PainRecord3
-                                onSubmit={handleSubmit}
+                                onSubmit={(updatedIntensity) => handleSubmit(updatedIntensity)} // sliderValue 전달
                                 painIntensity={intensity}
+                                selectedDate={selectedDate}
                                 onChangeIntensity={handleIntensityChange}
                             />
                         )}

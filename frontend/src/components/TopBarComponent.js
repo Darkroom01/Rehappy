@@ -158,9 +158,7 @@ export default function TopBarComponent({ fontColor }) {
     const handleGoHome = () => navigate('/');
     const handleGoCommunity = () => navigate('/community');
     const handleGoFindHospital = () => navigate('/findHospital');
-    const handleGoManagement = () => {
-        alert('만든 페이지 주소 연결해야됨\ncomponents/TopBarComponent.js 파일의 handleGoManagement 함수');
-    };
+    const handleGoManagement = () => navigate('/list');
 
     return (
         <Container>
@@ -179,9 +177,8 @@ export default function TopBarComponent({ fontColor }) {
                         내 통증 관리
                     </Community>
                     {isLoggedIn ? (
-                        <ProfileWrapper>
+                        <ProfileWrapper onClick={handleLogout}>
                             <ImgWrapper
-                                onClick={handleLogout}
                                 onMouseEnter={() => setIsHover(true)}
                                 onMouseLeave={() => setIsHover(false)}
                             >
@@ -190,7 +187,7 @@ export default function TopBarComponent({ fontColor }) {
                                     alt="My Profile"
                                 />
                             </ImgWrapper>
-                            <LogoutText isHover={isHover}>로그아웃</LogoutText>
+                            <LogoutText isHover={isHover} onClick={handleLogout}>로그아웃</LogoutText>
                         </ProfileWrapper>
                     ) : (
                         <LoginButton onClick={() => navigate('/login')}>로그인</LoginButton>

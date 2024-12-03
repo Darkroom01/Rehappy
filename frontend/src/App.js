@@ -9,9 +9,10 @@ import Main from "./pages/Main/main";
 import New from "./pages/Community/new";
 import PostDetail from "./pages/Community/postDetail";
 import PainRecord from "./pages/PainRecord/painrecord";
-import Edit from "./pages/Community/edit";
 import PainReport from "./pages/PainReport/PainReport";
+import PainList from "./pages/PainList/painlist";
 import PrivacyAgreement from "./pages/SignUp/privacyAgreement";
+
 
 function App() {
     return (
@@ -26,10 +27,10 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/new" element={<New />} />
-                <Route path="/postDetail/:id" element={<PostDetail />} />
+                <Route path="/postDetail" element={<PostDetail />} />
                 <Route path="/painRecord" element={<PainRecord />} />
-                <Route path="/edit/:id" element={<Edit />} />
                 <Route path="/painReport" element={<PainReport />} />
+                <Route path="/list" element={<PainList />} />
             </Routes>
         </BrowserRouter>
     );
