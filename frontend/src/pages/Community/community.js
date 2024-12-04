@@ -2,15 +2,21 @@ import {Reset} from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import {ContentsWrapper, SearchButton, SearchInput, SearchWrapper} from "./style";
 import Contents from "./components/contents";
+import {useState} from "react";
 
 export default function Community() {
+    const [searchValue, setSearchValue] = useState('');
+
+    const handleSearchInput = (e) => {
+        setSearchValue(e.target.value);
+    }
     return (
         <>
             <Reset/>
             <TopBarComponent/>
             <ContentsWrapper>
                 <SearchWrapper>
-                    <SearchInput placeholder='검색 내용'/>
+                    <SearchInput onChange={handleSearchInput} type='text' value={searchValue} placeholder='검색 내용'/>
                     <SearchButton>
                         <svg width="20" height="20" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -19,7 +25,7 @@ export default function Community() {
                         </svg>
                     </SearchButton>
                 </SearchWrapper>
-                <Contents />
+                <Contents searchValue={searchValue} />
             </ContentsWrapper>
 
         </>

@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {ContentsWrapper} from "../style";
 import axios from "axios";
 
-export default function Contents() {
+export default function Contents({searchValue}) {
     const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("전체");     // 카테고리 옵션 영어
@@ -121,13 +121,18 @@ export default function Contents() {
 
             {/* 선택된 카테고리에 따라 게시글 필터링 */}
             {posts
-                .filter(post => selectedOption === "전체" || post.category === selectedOption)
+                .filter(
+                    post =>
+                        (selectedOption === "전체" || post.category === selectedOption) &&
+                        (searchValue === "" || post.title.includes(searchValue))
+                )
                 .map((post, index) => (
                     <Content onClick={() => handleGoPost(post.id)} key={index}>
                         <p>{post.title}</p>
-                        <p style={{color:'rgb(0, 0, 0, 0.6)'}}>{post.authorName}</p>
+                        <p style={{ color: 'rgb(0, 0, 0, 0.6)' }}>{post.authorName}</p>
                     </Content>
                 ))}
+
         </ContentsWrapper>
 
     );
