@@ -26,6 +26,7 @@ export default function PainChart() {
                     setData(formattedData);
                 } else {
                     console.error("Failed to fetch pain data");
+
                 }
             } catch (error) {
                 console.error("Error fetching pain data: ", error);
