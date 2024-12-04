@@ -68,6 +68,6 @@ public class ProfileController {
             @Parameter(description = "선택할 프로필의 ID.")
             @RequestParam Long profileId) {
         String token = profileService.loginWithProfile(profileId);
-        return ResponseEntity.ok(Map.of("token", token));
+        return ResponseEntity.ok(token);
     }
 }
