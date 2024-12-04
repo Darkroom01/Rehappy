@@ -22,7 +22,6 @@ export const PlacesWrapper = styled.div`
     height: 100%;
     padding: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 `
@@ -49,6 +48,7 @@ export const SearchWrapper = styled.div`
     width: auto;
     height: auto;
     position: relative;
+    margin-top: 10px;
 `
 export const SearchButton = styled.div`
     position: absolute;
@@ -67,14 +67,30 @@ export const HospitalInfo = styled.div`
     height: auto;
     padding: 25px 20px;
     cursor: pointer;
-    
+    line-height: 1.5;
     &:hover {
         background-color: rgba(0, 0, 0, 0.11);
     }
 `
 export const Hospitals = styled.div`
     width: 100%;
-    margin: 50px 0;
+    margin: 10px 0 50px 0;
     height: calc(100% - 200px);
     overflow-y: auto;
+`
+export const EmergencyButton = styled.div`
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px dashed red;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.31);
+    user-select: none;
+    cursor: pointer;
 `

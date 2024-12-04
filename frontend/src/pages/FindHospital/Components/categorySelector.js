@@ -4,8 +4,8 @@ import { FaInfoCircle } from "react-icons/fa";
 const CategorySelector = ({ keyword, setKeyword, infoTexts }) => {
     return (
         <div>
-            <h3>검색 카테고리</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{fontSize: '13px', color: 'gray', margin: '30px 0 10px 0'}}>카테고리</div>
+            <div style={{ display: "flex", gap: "10px" }}>
                 {["의원", "병원", "종합병원"].map((type) => (
                     <label
                         key={type}

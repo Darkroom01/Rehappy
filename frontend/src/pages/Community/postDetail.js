@@ -1,5 +1,5 @@
 import {
-    Comment1,
+    Comment1, CommentDelete,
     Comments,
     ContentsWrapper,
     NewComment,
@@ -34,7 +34,7 @@ export default function PostDetail() {
 
 
     // 게시물 수정 페이지로 이동
-    const handleGoToEdit = () => {
+    const handleGoToEdit = (id) => {
         navigate(`/edit/${id}`, {
             state: { category: category, title: title, content: content }
         });
@@ -44,9 +44,11 @@ export default function PostDetail() {
     const handleDeletePost = async () => {
         if (token) {
             try {
-                await axios.delete(`http://localhost:8080/api/posts/${id}`, null, {
+                await axios.delete(`http://localhost:8080/api/posts/${id}`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json'
                     }
                 });
                 alert('게시물이 삭제되었습니다.');
@@ -92,6 +94,28 @@ export default function PostDetail() {
             }
         } else {
             alert("로그아웃 상태입니다.");
+        }
+    }
+
+    // 댓글 삭제
+    const handleDeleteComment = async (commentId) => {
+        if (token) {
+            try {
+                await axios.delete(`http://localhost:8080/api/comments/${commentId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                alert('댓글이 삭제되었습니다.');
+                window.location.reload(); // 새로고침
+            } catch (error) {
+                console.error('Failed to delete post', error);
+            }
+        }
+        else {
+            alert('로그아웃 상태입니다.');
         }
     }
 
@@ -154,7 +178,7 @@ export default function PostDetail() {
                 </ContentsWrapper>
                 {`${decodedToken.id}` === `${author}` ? (
                     <div style={{width: 'max-content', margin: '30px 0 0 auto'}}>
-                        <PostButton onClick={handleGoToEdit}>수정하기</PostButton>
+                        <PostButton onClick={() => handleGoToEdit(id)}>수정하기</PostButton>
                         <PostButton onClick={handleDeletePost}>삭제하기</PostButton>
                     </div>
                 ) : (<></>)}
@@ -188,7 +212,10 @@ export default function PostDetail() {
                     {comments ? (<>
                         {comments.map((comment, index) => (
                             <Comment1 key={index}>
-                                <span style={{color: '#616161'}}>{comment.authorName} : </span>{comment.content}
+                                <span style={{color: '#616161'}}>{comment.authorName} :&nbsp;</span>{comment.content}
+                                {comment.authorName === decodedToken.username ? (
+                                    <CommentDelete onClick={() => (handleDeleteComment(comment.id))}>삭제</CommentDelete>
+                                ) : (<></>) }
                             </Comment1>
                         ))}
                     </>) : (<></>)}

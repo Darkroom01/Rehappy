@@ -143,4 +143,37 @@ export const NewCommentInput = styled.input`
 export const Comment1 = styled.div`
     padding: 10px 0;
     font-size: 17px;
+    display: flex;
+`
+export const CommentDelete = styled.div`
+    user-select: none;
+    cursor: pointer;
+    color: gray;
+    font-size: 13px;
+    border-bottom: 1px solid gray;
+    margin: 2px 0 0 10px;
+`
+export const EditContent = styled.textarea`
+    display: inline-block;
+    padding: 13px;
+    border: 2px solid #FFAE00;
+    border-radius: 2em;
+    width: calc(100% - 30px);
+    overflow: hidden;
+    word-wrap: break-word;
+    min-height: 100px;
+    outline: none;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 20px 0;
+    resize: none;
+    font-family: sans-serif;
+    
+    /* Placeholder 스타일 */
+    &:empty::before {
+        content: attr(data-placeholder);
+        color: #ccc;
+        pointer-events: none; /* 클릭 시 placeholder는 무시됨 */
+        position: absolute;
+    }
 `
