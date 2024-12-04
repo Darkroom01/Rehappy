@@ -11,6 +11,7 @@ import PostDetail from "./pages/Community/postDetail";
 import PainRecord from "./pages/PainRecord/painrecord";
 import PainReport from "./pages/PainReport/PainReport";
 import PainList from "./pages/PainList/painlist";
+import Edit from "./pages/Community/edit";
 import PrivacyAgreement from "./pages/SignUp/privacyAgreement";
 
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/test" element={<Test />} />
                 <Route path="/new" element={<New />} />
                 <Route path="/postDetail/:id" element={<PostDetail />} />
+                <Route path="/edit/:id" element={<Edit />} />
                 <Route path="/painRecord" element={<PainRecord />} />
                 <Route path="/painReport" element={<PainReport />} />
                 <Route path="/list" element={<PainList />} />
