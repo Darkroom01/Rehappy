@@ -25,10 +25,23 @@ export const Container=styled.div`
     justify-content: center;
     border-radius: 12px;
 `
+export const TopContainer=styled.div`
+    display: flex;
+    width: 500px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+`
 export const Location=styled.div`
     font-size: 20px;
-    width: 500px;
-    margin-bottom: 10px;
+    width: 200px;
     text-align: left;
-    
+`
+export const ReportBtn=styled.button`
+    background-color: #FFAE00;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    font-size: 13px;
+    padding: 5px;
 `

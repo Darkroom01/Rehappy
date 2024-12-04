@@ -151,7 +151,6 @@ export default function TopBarComponent({ fontColor }) {
         Cookies.remove('authToken');
         setIsLoggedIn(false); // 상태 업데이트
         alert('로그아웃 되었습니다.');
-        navigate('/'); // 홈으로 이동
     };
 
 
@@ -187,7 +186,7 @@ export default function TopBarComponent({ fontColor }) {
                                     alt="My Profile"
                                 />
                             </ImgWrapper>
-                            <LogoutText isHover={isHover} onClick={handleLogout}>로그아웃</LogoutText>
+                            <LogoutText isHover={isHover}>로그아웃</LogoutText>
                         </ProfileWrapper>
                     ) : (
                         <LoginButton onClick={() => navigate('/login')}>로그인</LoginButton>
