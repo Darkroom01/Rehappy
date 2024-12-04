@@ -189,11 +189,11 @@ export default function FindHospital() {
                         <LogoWrapper>
                             <Logo onClick={() => navigate('/')} src='/images/logo.png' alt='리해피 로고' />
                         </LogoWrapper>
-                        <EmergencyButton onClick={() => {
+                        <EmergencyButton isEmergency={isEmergency} onClick={() => {
                             setIsEmergency(!isEmergency);
                             fetchEmergencyInfo();
                         }}>
-                            <img style={{height: 'calc(100% - 50px)', width: 'calc(100% - 50px)'}} src='/images/emergencyIcon.png' alt='응급실 찾기 버튼'/>
+                            <img style={{height: 'calc(100% - 40px)', width: 'calc(100% - 40px)'}} src='/images/emergencyIcon.png' alt='응급실 찾기 버튼'/>
                             <p style={{marginTop: '5px', fontSize: '15px', fontWeight: 'bold'}}>응급실 현황</p>
                         </EmergencyButton>
                         {isEmergency ? (

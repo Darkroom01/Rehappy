@@ -90,7 +90,8 @@ export const EmergencyButton = styled.div`
     flex-direction: column;
     border: 2px dashed red;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.31);
     user-select: none;
     cursor: pointer;
+    background-color: ${({isEmergency})=>(isEmergency? 'rgba(255, 0, 0, 0.5)' : ('white'))};
+    box-shadow: ${({isEmergency})=>(isEmergency? '0 0 10px rgba(255, 0, 0, 0.8)' : ('0 0 10px rgba(255, 0, 0, 0.31)'))};
 `
