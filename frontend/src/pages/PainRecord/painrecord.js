@@ -14,6 +14,7 @@ import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import PainRecord4 from "./components/painRecord4";
 
 export default function PainRecord() {
     const [step, setStep] = useState(1);
@@ -23,6 +24,12 @@ export default function PainRecord() {
     const [selectedPainTypes, setSelectedPainTypes] = useState([]);
     const [intensity, setIntensity] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [additionalInfo, setAdditionalInfo] = useState({
+        aggravatingFactors: "",
+        relievingFactors: "",
+        treatmentResponse: "",
+        notes: "",
+    });
     const [subPartOptions, setSubPartOptions] = useState(null); // 추가 선택 부위 옵션
     const jwtToken = Cookies.get("authToken");
 
@@ -76,15 +83,20 @@ export default function PainRecord() {
         setDuration(parseInt(duration, 10)); // duration을 정수로 변환하여 저장
     };
 
-    const handleIntensityChange = (value) => {
-        setIntensity(value);
-    };
-
     const handleNextStep = () => setStep((prev) => prev + 1);
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (updatedIntensity) => {
+    const handleIntensitySelection = (intensity) => {
+        setIntensity(intensity);
+        handleNextStep();
+    };
+
+    const handleAdditionalInfoSubmit = (info) => {
+        handleSubmit(intensity, info); // 최종 제출
+    }
+
+    const handleSubmit = async (updatedIntensity, info) => {
         const payload = {
             painDate: selectedDate,
             painTime: selectedTime,
@@ -92,6 +104,10 @@ export default function PainRecord() {
             duration: duration,
             location: selectedParts.join(", "),
             pattern: selectedPainTypes.join(", "),
+            aggravatingFactors: info.aggravatingFactors,
+            relievingFactors: info.relievingFactors,
+            treatmentResponse: info.treatmentResponse,
+            notes: info.notes,
         };
 
         console.log("전송할 데이터:", payload);
@@ -119,6 +135,7 @@ export default function PainRecord() {
             alert("통증 기록 저장 중 문제가 발생했습니다.");
         }
 
+        // 초기화
         setStep(1);
         setSelectedDate("");
         setSelectedTime("");
@@ -126,6 +143,12 @@ export default function PainRecord() {
         setSelectedPainTypes([]);
         setIntensity(0);
         setDuration("");
+        setAdditionalInfo({
+            aggravatingFactors: "",
+            relievingFactors: "",
+            treatmentResponse: "",
+            notes: "",
+        });
     };
 
     return (
@@ -166,10 +189,15 @@ export default function PainRecord() {
                         )}
                         {step === 3 && (
                             <PainRecord3
-                                onSubmit={(updatedIntensity) => handleSubmit(updatedIntensity)} // sliderValue 전달
+                                onSubmit={handleIntensitySelection} // 통증 강도 선택 후 다음 단계로 이동
                                 painIntensity={intensity}
                                 selectedDate={selectedDate}
-                                onChangeIntensity={handleIntensityChange}
+                            />
+                        )}
+                        {step === 4 && (
+                            <PainRecord4
+                                selectedDate={selectedDate}
+                                onSubmit={handleAdditionalInfoSubmit} // 최종 데이터 제출
                             />
                         )}
                     </RightSection>

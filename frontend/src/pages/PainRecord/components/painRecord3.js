@@ -145,11 +145,10 @@ export default function PainRecord3({ onSubmit, painIntensity, selectedDate }) {
         setSliderValue(e.target.value);
     };
 
-    const handleSubmit = () => {
-        onSubmit(sliderValue); // 슬라이더 값을 부모로 전달
+    const handleNext = () => {
+        onSubmit(sliderValue); // 부모로 전달 후 다음 단계로 이동
     };
 
-    // 날짜 형식 변환 함수
     const formatSelectedDate = (date) => {
         if (!date) return "날짜가 선택되지 않았습니다.";
         const days = ["일", "월", "화", "수", "목", "금", "토"];
@@ -188,7 +187,8 @@ export default function PainRecord3({ onSubmit, painIntensity, selectedDate }) {
                 </SliderLabelContainer>
                 <CurrentValue>현재 통증 강도: {sliderValue}</CurrentValue>
             </SliderContainer>
-            <SubmitButton onClick={handleSubmit}>제출</SubmitButton>
+            <SubmitButton onClick={handleNext}>다음</SubmitButton>
         </Container>
     );
 }
+
