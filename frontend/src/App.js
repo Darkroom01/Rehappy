@@ -27,7 +27,7 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/new" element={<New />} />
-                <Route path="/postDetail" element={<PostDetail />} />
+                <Route path="/postDetail/:id" element={<PostDetail />} />
                 <Route path="/painRecord" element={<PainRecord />} />
                 <Route path="/painReport" element={<PainReport />} />
                 <Route path="/list" element={<PainList />} />
