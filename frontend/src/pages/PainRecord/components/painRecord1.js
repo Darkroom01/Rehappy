@@ -55,13 +55,13 @@ const InstructionText = styled.p`
     font-size: 50px;
     font-weight: bold;
     margin-top: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 5px;
 `;
 
 const InstructionText2 = styled.p`
     font-size: 30px;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 20px;
     color: #555;
 `;
@@ -69,7 +69,7 @@ const InstructionText2 = styled.p`
 const TimeWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 `;
 
 const PeriodButton = styled.button`
@@ -96,8 +96,8 @@ const InstructionText3 = styled.p`
     color: #555;
 `;
 
-const InputContainer = styled.div`
-    margin-bottom: 20px;
+const TimeInputContainer = styled.div`
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
 `;
@@ -109,6 +109,23 @@ const TimeSelect = styled.select`
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
+`;
+
+const DurationInput = styled.input`
+    font-size: 25px;
+    padding: 10px;
+    margin-left: 2px;
+    width: 100%;
+    max-width: 150px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+`;
+
+const ErrorText = styled.p`
+    font-size: 20px;
+    color: red;
+    margin-top: 5px;
 `;
 
 const NextButton = styled.button`
@@ -152,9 +169,9 @@ const SelectedButton = styled.button`
 `;
 
 const SelectedPartsContainer = styled.div`
-    margin-bottom: 20px;
+    margin-left: 1px;
     font-size: 30px;
-    color: ${(props) => (props.isEmpty ? "#ff0000" : "#333")};
+    color: ${(props) => (props.isEmpty ? "#FFAE00" : "#110078")};
 `;
 
 export default function PainRecord1({ onNext, selectedParts, subPartOptions, onSubPartSelect }) {
@@ -173,6 +190,8 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
     const [minute, setMinute] = useState(
         String(Math.floor(selectedDate.getMinutes() / 10) * 10).padStart(2, "0")
     );
+    const [duration, setDuration] = useState(""); // 통증 지속 시간
+    const [error, setError] = useState(""); // 에러 메시지 상태
 
     const handleDateChange = (event) => {
         setSelectedDate(new Date(event.target.value));
@@ -185,13 +204,16 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
     const handleNextClick = () => {
         if (selectedParts.length === 0) {
             alert("통증 발생 부위를 선택해 주세요.");
-        } else if (hour === "" || minute === "") {
-            alert("통증 발생 시간을 모두 선택해 주세요.");
-        } else {
-            const formattedDate = selectedDate.toISOString().split("T")[0];
-            const formattedTime = `${hour}:${minute}`;
-            onNext(formattedDate, formattedTime);
+            return;
         }
+        if (hour === "" || minute === "") {
+            alert("통증 발생 시간을 모두 선택해 주세요.");
+            return;
+        }
+
+        const formattedDate = selectedDate.toISOString().split("T")[0];
+        const formattedTime = `${hour}:${minute}`;
+        onNext(formattedDate, formattedTime, parseInt(duration, 10)); // 정수로 변환 후 전달
     };
 
     return (
@@ -212,11 +234,11 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
                     )}
                 </ChangeDateContainer>
             </DateWrapper>
-            <InstructionText>통증 발생 부위 및 시간을 선택해 주세요.</InstructionText>
-            <InstructionText2>통증 발생 부위</InstructionText2>
+            <InstructionText>통증 부위 및 시간을 선택해 주세요.</InstructionText>
+            <InstructionText2>통증 부위</InstructionText2>
             <SelectedPartsContainer isEmpty={selectedParts.length === 0}>
                 {selectedParts.length === 0
-                    ? "통증 발생 부위를 선택하세요"
+                    ? "통증 부위를 선택하세요"
                     : `${selectedParts.join(", ")}`}
                 {subPartOptions && (
                     <div>
@@ -237,7 +259,7 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
                     </div>
                 )}
             </SelectedPartsContainer>
-            <InputContainer>
+            <TimeInputContainer>
                 <label htmlFor="pain-time">
                     <InstructionText2>통증 발생 시간</InstructionText2>
                 </label>
@@ -252,7 +274,7 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
                             onChange={(e) => setHour(e.target.value)}
                         >
                             <option value="">시</option>
-                            {Array.from({ length: 12 }, (_, i) => (
+                            {Array.from({length: 12}, (_, i) => (
                                 <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
                                     {String(i + 1).padStart(2, "0")}
                                 </option>
@@ -265,15 +287,26 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
                             onChange={(e) => setMinute(e.target.value)}
                         >
                             <option value="">분</option>
-                            {Array.from({ length: 6 }, (_, i) => (
+                            {Array.from({length: 6}, (_, i) => (
                                 <option key={i} value={String(i * 10).padStart(2, "0")}>
                                     {String(i * 10).padStart(2, "0")}
                                 </option>
                             ))}
                         </TimeSelect>
                     </TimeWrapper>
+                    <label htmlFor="pain-duration">
+                        <InstructionText2>통증 지속 시간 (단위: 분)</InstructionText2>
+                    </label>
+                    <DurationInput
+                        type="number"
+                        min="1"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                        placeholder="예: 30"
+                    />
+                    {error && <ErrorText>{error}</ErrorText>}
                 </div>
-            </InputContainer>
+            </TimeInputContainer>
             <NextButton onClick={handleNextClick}>다음</NextButton>
         </Container>
     );

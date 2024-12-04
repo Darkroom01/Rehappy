@@ -1,19 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-
-const sampleData = [
-    { name: "Day 1", value: 10 },
-    { name: "Day 2", value: 20 },
-    { name: "Day 3", value: 15 },
-    { name: "Day 4", value: 25 },
-    { name: "Day 5", value: 18 },
-];
+import Cookies from "js-cookie";
 
 export default function PainChart() {
+    const [data, setData] = useState([]);
+    const jwtToken = Cookies.get("authToken");
+
+    useEffect(() => {
+        async function fetchPainData() {
+            try {
+                const response = await fetch("http://localhost:8080/api/pains/recent", {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`, // JWT 토큰 포함
+                    },
+                });
+                if (response.ok) {
+                    const painData = await response.json();
+                    // API 데이터를 그래프 형식에 맞게 변환
+                    const sortedData = painData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    const formattedData = sortedData.map((item, index) => ({
+                        name: `Day ${index + 1}`,
+                        value: item.intensity,
+                        date: item.date, // 날짜 추가 (툴팁 등에서 사용할 수 있음)
+                    }));
+                    setData(formattedData);
+                } else {
+                    console.error("Failed to fetch pain data");
+                }
+            } catch (error) {
+                console.error("Error fetching pain data: ", error);
+            }
+        }
+
+        fetchPainData();
+    }, []);
+
     return (
         <ResponsiveContainer width="100%" height={300}>
             <LineChart
-                data={sampleData}
+                data={data}
                 margin={{
                     top: 10,
                     right: 30,
@@ -22,7 +47,7 @@ export default function PainChart() {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
                 <Legend />

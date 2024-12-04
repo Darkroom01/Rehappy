@@ -28,21 +28,22 @@ const Title = styled.h2`
     margin-bottom: 40px;
 `;
 
-// 스타일링은 기존과 동일
 const SliderContainer = styled.div`
     display: flex;
     align-items: center;
     margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
 `;
 
 const SliderWrapper = styled.div`
     position: relative;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     height: 40px;
 `;
 
@@ -59,7 +60,7 @@ const Slider = styled.input`
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 10px;
+    height: 15px;
     background: #e6f0ff;
     border-radius: 5px;
     outline: none;
@@ -99,14 +100,18 @@ const Scale = styled.div`
     font-weight: bold;
     color: #110078;
     margin-top: 5px;
+    margin-bottom: 10px;
 `;
 
 const CurrentValue = styled.div`
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
     color: #555;
-    margin-top: 20px;
 `;
+
 
 const SubmitButton = styled.button`
     position: fixed;
@@ -174,16 +179,15 @@ export default function PainRecord3({ onSubmit, painIntensity, selectedDate }) {
                     />
                 </SliderWrapper>
                 <Scale>
-                    <span>0</span>
-                    <span>5</span>
-                    <span>10</span>
+                    <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                    <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
                 </Scale>
                 <SliderLabelContainer>
                     <span>통증이 없음</span>
                     <span>상상할 수 없을 정도의 심한 통증</span>
                 </SliderLabelContainer>
+                <CurrentValue>현재 통증 강도: {sliderValue}</CurrentValue>
             </SliderContainer>
-            <CurrentValue>현재 통증 강도: {sliderValue}</CurrentValue>
             <SubmitButton onClick={handleSubmit}>제출</SubmitButton>
         </Container>
     );

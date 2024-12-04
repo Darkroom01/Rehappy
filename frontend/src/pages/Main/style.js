@@ -146,7 +146,7 @@ export const GraphSection = styled.section`
     }
 
     &:hover {
-        background: #110078;
+        //background: #110078;
     }
 `;
 

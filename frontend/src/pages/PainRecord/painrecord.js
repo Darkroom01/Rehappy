@@ -13,6 +13,7 @@ import {
 import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function PainRecord() {
     const [step, setStep] = useState(1);
@@ -21,6 +22,7 @@ export default function PainRecord() {
     const [selectedParts, setSelectedParts] = useState([]);
     const [selectedPainTypes, setSelectedPainTypes] = useState([]);
     const [intensity, setIntensity] = useState(0);
+    const [duration, setDuration] = useState(0);
     const [subPartOptions, setSubPartOptions] = useState(null); // 추가 선택 부위 옵션
     const jwtToken = Cookies.get("authToken");
 
@@ -68,9 +70,10 @@ export default function PainRecord() {
         setSubPartOptions(null);
     };
 
-    const handleDateTimeSelection = (date, time) => {
+    const handleDateTimeSelection = (date, time, duration) => {
         setSelectedDate(date);
         setSelectedTime(time);
+        setDuration(parseInt(duration, 10)); // duration을 정수로 변환하여 저장
     };
 
     const handleIntensityChange = (value) => {
@@ -79,11 +82,14 @@ export default function PainRecord() {
 
     const handleNextStep = () => setStep((prev) => prev + 1);
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (updatedIntensity) => {
         const payload = {
             painDate: selectedDate,
             painTime: selectedTime,
-            intensity: updatedIntensity, // updatedIntensity로 설정
+            intensity: updatedIntensity,
+            duration: duration,
             location: selectedParts.join(", "),
             pattern: selectedPainTypes.join(", "),
         };
@@ -102,6 +108,7 @@ export default function PainRecord() {
 
             if (response.ok) {
                 alert("통증 기록이 성공적으로 저장되었습니다.");
+                navigate("/list"); // 데이터 저장 후 페이지 이동
             } else {
                 const errorData = await response.json();
                 console.error("응답 에러:", errorData);
@@ -118,6 +125,7 @@ export default function PainRecord() {
         setSelectedParts([]);
         setSelectedPainTypes([]);
         setIntensity(0);
+        setDuration("");
     };
 
     return (
@@ -139,8 +147,8 @@ export default function PainRecord() {
                     <RightSection>
                         {step === 1 && (
                             <PainRecord1
-                                onNext={(date, time) => {
-                                    handleDateTimeSelection(date, time);
+                                onNext={(date, time, duration) => {
+                                    handleDateTimeSelection(date, time, duration);
                                     handleNextStep();
                                 }}
                                 selectedParts={selectedParts}
