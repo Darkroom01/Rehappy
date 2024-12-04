@@ -20,8 +20,7 @@ export default function PostDetail() {
     const { id } = useParams();
 
     const token = Cookies.get('authToken');
-    const decodedToken = jwtDecode(token);
-    console.log('decodedToken:',decodedToken);
+    const [decodedToken, setDecodedToken] = useState('');
 
     const navigate = useNavigate();
     const [newCommentValue, setNewCommentValue] = useState(""); // 새 댓글 내용
@@ -150,6 +149,11 @@ export default function PostDetail() {
         };
         fetchComments();
     }, []);
+
+    // token decode
+    useEffect(() => {
+        if (token) setDecodedToken(jwtDecode(token));
+    }, [token]);
 
     return (
         <>

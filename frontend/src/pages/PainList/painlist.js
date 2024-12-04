@@ -2,11 +2,13 @@ import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import React, { useEffect, useState } from "react";
-import {Contain, Container, Location, Wrapper} from "./style";
+import {Contain, Container, Location, ReportBtn, TopContainer, Wrapper} from "./style";
 import Cookies from "js-cookie"; // 쿠키 관리 라이브러리
-import {jwtDecode} from "jwt-decode"; // JWT 디코더
+import {jwtDecode} from "jwt-decode";
+import {useNavigate} from "react-router-dom"; // JWT 디코더
 
 export default function PainList() {
+    const navigate = useNavigate();
     const [painData, setPainData] = useState([]);
     const [groupedData, setGroupedData] = useState({});
 
@@ -76,7 +78,10 @@ export default function PainList() {
                     {Object.entries(groupedData).map(([location, data]) => (
                         <>
                             <Container key={location}>
-                                <Location>{location}</Location>
+                                <TopContainer>
+                                    <Location>{location}</Location>
+                                    <ReportBtn onClick={() => navigate('/painreport')}>보고서 생성</ReportBtn>
+                                </TopContainer>
                                 <ResponsiveContainer width="80%" height={250}>
                                     <LineChart data={data}
                                                margin={{

@@ -114,20 +114,30 @@ export default function Main() {
             <Wrapper>
                 <InfoContainer>
                     <LeftSection>
-                        <h2>
-                            <span>{username}</span> 님의
-                            <br />
-                            {daysSinceLastPain !== null ? (
-                                <>
-                                    마지막 통증 기록은
-                                    <br />
-                                    <span>{`${daysSinceLastPain}일 전`}</span> 입니다.
-                                </>
-                            ) : (
-                                <>기록된 통증 정보가 <br /> <span>없습니다.</span></>
-                            )}
-                        </h2>
+                        {jwtToken ? (
+                            <h2>
+                                <span>{username}</span> 님의
+                                <br />
+                                {daysSinceLastPain !== null ? (
+                                    <>
+                                        마지막 통증 기록은
+                                        <br />
+                                        <span>{`${daysSinceLastPain}일 전`}</span> 입니다.
+                                    </>
+                                ) : (
+                                    <>
+                                        기록된 통증 정보가 <br /> <span>없습니다.</span>
+                                    </>
+                                )}
+                            </h2>
+                        ) : (
+                            <h2>
+                                서비스를 이용하려면, <br/>
+                                <span>로그인</span>해주세요
+                            </h2>
+                        )}
                     </LeftSection>
+
 
                     <CenterSection onClick={() => navigate("/painRecord")}>
                         <Button>
