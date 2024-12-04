@@ -150,7 +150,6 @@ export default function TopBarComponent({ fontColor }) {
         Cookies.remove('authToken');
         setIsLoggedIn(false); // 상태 업데이트
         alert('로그아웃 되었습니다.');
-        navigate('/');
     };
 
 
