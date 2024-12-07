@@ -134,7 +134,7 @@ export default function PostDetail() {
             }
         };
         fetchDetail();
-    }, []);
+    }, [id]);
 
     // 댓글 가져오기
     useEffect(() => {
@@ -148,7 +148,7 @@ export default function PostDetail() {
             }
         };
         fetchComments();
-    }, []);
+    }, [id]);
 
     // token decode
     useEffect(() => {
