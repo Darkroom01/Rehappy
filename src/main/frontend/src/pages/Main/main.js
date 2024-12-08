@@ -135,7 +135,7 @@ export default function Main() {
                             </h2>
                         ) : (
                             <h2>
-                                서비스를 이용하려면, <br/>
+                                서비스를 이용하려면 <br/>
                                 <span>로그인</span>해주세요
                             </h2>
                         )}
