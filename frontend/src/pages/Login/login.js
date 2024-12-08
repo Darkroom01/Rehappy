@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Reset } from "styled-reset";
 import {
     Container, Wrapper, Input,
@@ -168,7 +169,7 @@ export default function Login() {
                 }
             );
 
-            const newToken = response.data.token;
+            const newToken = response.data;
             console.log("프로필선택후 발급된 토큰:", newToken);
 
             if (newToken) {

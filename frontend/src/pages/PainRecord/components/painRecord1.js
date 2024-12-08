@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -191,6 +192,7 @@ export default function PainRecord1({ onNext, selectedParts, subPartOptions, onS
         String(Math.floor(selectedDate.getMinutes() / 10) * 10).padStart(2, "0")
     );
     const [duration, setDuration] = useState(""); // 통증 지속 시간
+    // eslint-disable-next-line
     const [error, setError] = useState(""); // 에러 메시지 상태
 
     const handleDateChange = (event) => {

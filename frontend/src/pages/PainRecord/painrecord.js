@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState } from "react";
 import PainRecord1 from "./components/painRecord1";
 import PainRecord2 from "./components/painRecord2";

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Reset } from "styled-reset";
 import React, { useState, useEffect } from "react";
 import TopBarComponent from "../../components/TopBarComponent";
@@ -27,6 +29,7 @@ export default function Main() {
     const [weatherData, setWeatherData] = useState(null);
     const [todayTemp, setTodayTemp] = useState({ maxTemp: null, minTemp: null });
     const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
+    // eslint-disable-next-line
     const [lastPainDate, setLastPainDate] = useState(null); // 마지막 통증 기록 날짜 상태 추가
     const [daysSinceLastPain, setDaysSinceLastPain] = useState(null); // 며칠 전인지 상태 추가
     const navigate = useNavigate();

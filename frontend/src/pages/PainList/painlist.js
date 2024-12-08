@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";

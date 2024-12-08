@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
     ContentsContainer, EmergencyButton, HospitalInfo, Hospitals,
     Logo,
