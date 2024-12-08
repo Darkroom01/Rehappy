@@ -83,14 +83,15 @@ export const EmergencyButton = styled.div`
     height: 90px;
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: -110px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     border: 2px dashed red;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.31);
+    border-radius: 20px;
     user-select: none;
     cursor: pointer;
+    background-color: ${({isEmergency}) => (isEmergency ? 'rgba(255, 0, 0, 0.5)' : ('rgba(255,255,255,0.78)'))};
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
 `

@@ -36,7 +36,8 @@ const PainReport = () => {
         }
         try {
             const response = await axios.post(
-                "http://localhost:8080/api/reports/왼손", // Spring Boot API 엔드포인트
+                "http://localhost:8080/api/reports/왼쪽 어깨", // Spring Boot API 엔드포인트
+
                 {},
                 {
                     headers: {

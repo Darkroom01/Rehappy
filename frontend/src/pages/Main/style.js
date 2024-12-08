@@ -25,12 +25,12 @@ export const LeftSection = styled.div`
     flex: 0.7;
     display: flex;
     margin-left: 40px;
-    align-items: center; // 수직 정렬 가운데
+    align-items: center;
 
     h2 {
-        font-size: calc(2.4vw + 14px); // 동적으로 조절
+        font-size: calc(2.4vw + 10px); // 동적으로 조절
         line-height: 1.4;
-        text-align: left; // 텍스트 자체는 왼쪽 정렬
+        text-align: left; 
 
         span {
             font-weight: bold;

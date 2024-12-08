@@ -13,7 +13,6 @@ import CategorySelector from "./Components/categorySelector";
 import {getNearbyHospitals} from "./functions";
 import MapComponent from "./Components/map";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 
 export default function FindHospital() {
     const navigate = useNavigate();
@@ -28,13 +27,13 @@ export default function FindHospital() {
     const [isEmergency, setIsEmergency] = useState(false); // 응급실 현황 검색: true, 일반 병원 검색: false
 
     const [hospitalData, setHospitalData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+
+    const [searchValue, setSearchValue] = useState(''); // 병원 검색어
 
 
     // 응급실
     const EMERGENCY_API_URL = "http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire";
-    const EMERGENCY_API_KEY = "4ksvvmcCPLiK2hbORQmPiA%2FlZRqRpX9uz8WIw9lqRuhSv8eQIJiaRrme5ZD1mJ%2Ft0226Hp6tBfYVWRycck6Big%3D%3D";
+    const EMERGENCY_API_KEY = process.env.REACT_APP_GOOGLE_PLACES_API_KEY;
 
     const infoTexts = {
         의원: "의원은 기본적인 진료 및 간단한 처치를 제공하는 곳입니다.",
@@ -134,14 +133,9 @@ export default function FindHospital() {
                     })
                 );
                 setHospitalData(updatedData);
-            } else {
-                setError(`HTTP 에러: ${response.status}`);
             }
         } catch (err) {
-            setError("데이터를 가져오는 중 오류 발생");
             console.error(err);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -189,11 +183,11 @@ export default function FindHospital() {
                         <LogoWrapper>
                             <Logo onClick={() => navigate('/')} src='/images/logo.png' alt='리해피 로고' />
                         </LogoWrapper>
-                        <EmergencyButton onClick={() => {
+                        <EmergencyButton isEmergency={isEmergency} onClick={() => {
                             setIsEmergency(!isEmergency);
                             fetchEmergencyInfo();
                         }}>
-                            <img style={{height: 'calc(100% - 50px)', width: 'calc(100% - 50px)'}} src='/images/emergencyIcon.png' alt='응급실 찾기 버튼'/>
+                            <img style={{height: 'calc(100% - 40px)', width: 'calc(100% - 40px)'}} src='/images/emergencyIcon.png' alt='응급실 찾기 버튼'/>
                             <p style={{marginTop: '5px', fontSize: '15px', fontWeight: 'bold'}}>응급실 현황</p>
                         </EmergencyButton>
                         {isEmergency ? (
@@ -217,7 +211,7 @@ export default function FindHospital() {
                             // 일반 병원 검색 모드
                             <>
                                 <SearchWrapper>
-                                    <SearchInput placeholder='검색어를 입력하세요.'/>
+                                    <SearchInput onChange={searchValue} placeholder='검색어를 입력하세요.'/>
                                     <SearchButton/>
                                 </SearchWrapper>
                                 {/* 라디오 버튼 */}

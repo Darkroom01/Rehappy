@@ -147,7 +147,6 @@ export default function TopBarComponent({ fontColor }) {
     }, []);
 
     const handleLogout = () => {
-        // 쿠키 삭제
         Cookies.remove('authToken');
         setIsLoggedIn(false); // 상태 업데이트
         alert('로그아웃 되었습니다.');
