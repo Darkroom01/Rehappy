@@ -44,4 +44,9 @@ export const ReportBtn=styled.button`
     border-radius: 15px;
     font-size: 13px;
     padding: 5px;
+
+    &:hover {
+        background-color: #110078;
+        color: white;
+    }
 `
