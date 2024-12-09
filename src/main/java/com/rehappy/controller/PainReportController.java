@@ -83,7 +83,10 @@ public class PainReportController {
         prompt.append("     완화 요인: [완화 요인]\n");
         prompt.append("     치료 반응: [치료 반응]\n");
         prompt.append("\n");
-        prompt.append("**4. 통증 관리 팁 및 치료 방향성:**\n");
+        prompt.append("**4.통증에 대한 추이.**\n");
+        prompt.append("통증에 대한 추이 설명\n");
+        prompt.append("\n");
+        prompt.append("**5. 통증 관리 팁 및 치료 방향성:**\n");
         prompt.append("   - 해당 부위에 적합한 스트레칭 및 운동 방법.\n");
         prompt.append("   - 악화 요인을 줄이고 예방할 방법.\n");
         prompt.append("\n");
