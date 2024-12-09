@@ -4,12 +4,15 @@ import { jsPDF } from "jspdf";
 import Cookies from "js-cookie";
 import {Container, PDFDownload, ReportContent} from "./style";
 import {Reset} from "styled-reset";
-import TopBarComponent from "../../components/TopBarComponent"; // js-cookie 라이브러리 사용
+import TopBarComponent from "../../components/TopBarComponent";
+import {useLocation} from "react-router-dom"; // js-cookie 라이브러리 사용
 
 const PainReport = () => {
     const [reportContent, setReportContent] = useState(""); // 보고서 내용 저장
     const [loading, setLoading] = useState(false); // 로딩 상태
 
+    const location = useLocation();
+    const {region} = location.state || {};
 
     const formatContent = (content) => {
         const formattedContent = content
@@ -36,7 +39,7 @@ const PainReport = () => {
         }
         try {
             const response = await axios.post(
-                "http://localhost:8080/api/reports/왼쪽 어깨", // Spring Boot API 엔드포인트
+                `http://localhost:8080/api/reports/${region}`, // Spring Boot API 엔드포인트
 
                 {},
                 {

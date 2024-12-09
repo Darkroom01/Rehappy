@@ -28,6 +28,13 @@ export default function PainList() {
         return null;
     };
 
+    // 보고서 생성 페이지 이동
+    const handleGenerateReport = (value) => {
+        navigate('/painreport', {
+            state: { region: value }
+        });
+    }
+
 
     useEffect(() => {
         const token = getTokenFromCookies();
@@ -81,7 +88,7 @@ export default function PainList() {
                             <Container key={location}>
                                 <TopContainer>
                                     <Location>{location}</Location>
-                                    <ReportBtn onClick={() => navigate('/painreport')}>보고서 생성</ReportBtn>
+                                    <ReportBtn onClick={() => handleGenerateReport(location)}>보고서 생성</ReportBtn>
                                 </TopContainer>
                                 <ResponsiveContainer width="80%" height={250}>
                                     <LineChart data={data}
