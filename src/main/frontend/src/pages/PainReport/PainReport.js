@@ -1,18 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import { jsPDF } from "jspdf";
 import Cookies from "js-cookie";
-import {Container, PDFDownload, ReportContent} from "./style";
-import {Reset} from "styled-reset";
+import html2pdf from "html2pdf.js";
+import {BodyWrapper, Container, PDFDownload, ReportContent} from "./style";
+import { Reset } from "styled-reset";
 import TopBarComponent from "../../components/TopBarComponent";
-import {useLocation} from "react-router-dom"; // js-cookie 라이브러리 사용
+import { useLocation } from "react-router-dom";
+import BodySvg from "../Test/BodySvg"; // BodySvg 임포트
 
 const PainReport = () => {
     const [reportContent, setReportContent] = useState(""); // 보고서 내용 저장
     const [loading, setLoading] = useState(false); // 로딩 상태
-
+    const [selectedParts, setSelectedParts] = useState([]); // 선택된 부위 상태 추가
     const location = useLocation();
-    const {region} = location.state || {};
+    const reportRef = useRef(null); // PDF로 변환할 HTML 요소 참조
+    const { region } = location.state || {};
+
+
+
+    const partNamesInEng = {
+        "머리": "head",
+        "목": "neck",
+        "윗배/등허리": "upper-abdomen",
+        "아랫배/골반": "torso",
+        "왼손": "left-hand",
+        "왼쪽 손목/전완(팔뚝)": "left-wrist",
+        "왼쪽 팔꿈치/상완": "left-elbow",
+        "왼쪽 어깨": "left-shoulder",
+        "왼쪽 가슴/등": "left-chest",
+        "왼쪽 허벅지": "left-thigh",
+        "왼쪽 무릎": "left-knee",
+        "왼쪽 종아리/발목": "left-ankle",
+        "왼발": "left-foot",
+        "오른손": "right-hand",
+        "오른쪽 손목/전완(팔뚝)": "right-wrist",
+        "오른쪽 팔꿈치/상완": "right-elbow",
+        "오른쪽 어깨": "right-shoulder",
+        "오른쪽 가슴/등": "right-chest",
+        "오른쪽 허벅지": "right-thigh",
+        "오른쪽 무릎": "right-knee",
+        "오른쪽 종아리/발목": "right-ankle",
+        "오른발": "right-foot",
+    };
+
+    console.log('partNamesInEng[region]:',partNamesInEng[region]);
+
 
     const formatContent = (content) => {
         const formattedContent = content
@@ -27,20 +59,19 @@ const PainReport = () => {
         return formattedContent;
     };
 
-
     // 통증 보고서 생성 요청
     const generateReport = async () => {
         setLoading(true);
-        // 쿠키에서 JWT 토큰 가져오기
-        const token = Cookies.get("authToken"); // 'token'은 쿠키에 저장된 키
+        const token = Cookies.get("authToken"); // JWT 토큰 가져오기
 
         if (!token) {
-            throw new Error("토큰이 없습니다. 로그인 후 다시 시도해주세요.");
+            alert("토큰이 없습니다. 로그인 후 다시 시도해주세요.");
+            return;
         }
+
         try {
             const response = await axios.post(
                 `http://localhost:8080/api/reports/${region}`, // Spring Boot API 엔드포인트
-
                 {},
                 {
                     headers: {
@@ -52,7 +83,6 @@ const PainReport = () => {
             // 보고서 내용 저장
             setReportContent(formatContent(response.data)); // 포맷팅된 내용을 저장
             console.log("보고서 내용:", response.data);
-
         } catch (error) {
             console.error("보고서 생성 중 오류 발생:", error);
             alert("보고서를 생성하는 중 오류가 발생했습니다.");
@@ -63,26 +93,22 @@ const PainReport = () => {
 
     // PDF 다운로드
     const downloadPdf = () => {
-        const doc = new jsPDF();
-
-        const margin = 10;
-        const pageHeight = doc.internal.pageSize.height;
-
-        // PDF에 텍스트 추가 (줄바꿈 처리)
-        const plainTextContent = reportContent.replace(/<\/?[^>]+(>|$)/g, ""); // HTML 태그 제거
-        const lines = doc.splitTextToSize(plainTextContent, 180); // 한 줄에 180px 너비로 텍스트 나누기
-        let cursorY = margin;
-
-        lines.forEach((line) => {
-            if (cursorY + 10 > pageHeight - margin) {
-                doc.addPage(); // 페이지 추가
-                cursorY = margin;
-            }
-            doc.text(line, margin, cursorY);
-            cursorY += 10;
-        });
-
-        doc.save("pain_report.pdf"); // 파일 다운로드
+        const element = reportRef.current; // PDF로 변환할 HTML 요소
+        const options = {
+            margin: [10, 10, 10, 10], // PDF 여백 제거
+            filename: "pain_report.pdf",
+            image: { type: "jpeg", quality: 1 }, // 이미지 품질 최대화
+            html2canvas: {
+                scale: 2, // HTML 캔버스 스케일을 높여 고해상도로 렌더링
+                useCORS: true, // CORS 이미지 지원
+            },
+            jsPDF: {
+                unit: "mm",
+                format: "a4", // A4 크기로 설정
+                orientation: "portrait", // 세로 방향
+            },
+        };
+        html2pdf().set(options).from(reportRef.current).save();
     };
 
     return (
@@ -90,21 +116,28 @@ const PainReport = () => {
             <Reset />
             <TopBarComponent />
             <Container>
-                {/*<h2>통증 기록 보고서</h2>*/}
-                <button onClick={generateReport} disabled={loading} style={{ marginBottom: '20px' }}>
+                <button onClick={generateReport} disabled={loading} style={{ marginBottom: "20px" }}>
                     {loading ? "생성 중..." : "보고서 생성"}
                 </button>
 
                 {reportContent && (
                     <>
-                        <ReportContent dangerouslySetInnerHTML={{ __html: reportContent }} // HTML을 렌더링
-                        ></ReportContent>
+                        <ReportContent ref={reportRef}>
+                            {/* BodySvg 추가 */}
+                            <BodyWrapper>
+                                <BodySvg
+                                    selected={partNamesInEng[region]}
+                                    style={{ width: "200px", height: "400px" }}
+                                />
+                            </BodyWrapper>
+                            {/* 보고서 내용 */}
+                            <div dangerouslySetInnerHTML={{ __html: reportContent }} />
+                        </ReportContent>
                         <PDFDownload onClick={downloadPdf}>PDF 다운로드</PDFDownload>
                     </>
                 )}
             </Container>
         </>
-
     );
 };
 

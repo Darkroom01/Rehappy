@@ -66,15 +66,16 @@ public class PainReportController {
 
         // 보고서 양식 지정
         prompt.append("다음은 특정 부위의 통증 관리 보고서를 작성하는 데 사용할 양식입니다. 반드시 이 양식을 준수하여 작성하세요:\n");
-        prompt.append("1. 사용자 정보:\n");
+        prompt.append("**제목: [입력된 통증 부위] 보고서**");
+        prompt.append("**1. 사용자 정보:**\n");
         prompt.append("   - 사용자 이메일: [사용자 이메일]\n");
         prompt.append("\n");
-        prompt.append("2. 통증 기록 요약:\n");
+        prompt.append("**2. 통증 기록 요약:\n**");
         prompt.append("   - 부위: [부위]\n");
         prompt.append("   - 총 통증 기록 수: [총 개수]건\n");
         prompt.append("   - 평균 통증 강도: [평균 강도] (10점 만점)\n");
         prompt.append("\n");
-        prompt.append("3. 상세 통증 기록:\n");
+        prompt.append("**3. 상세 통증 기록:**\n");
         prompt.append("   - 날짜: [날짜], 시간: [시간]\n");
         prompt.append("     강도: [강도], 양상: [양상]\n");
         prompt.append("     지속 시간: [지속 시간]\n");
@@ -82,7 +83,7 @@ public class PainReportController {
         prompt.append("     완화 요인: [완화 요인]\n");
         prompt.append("     치료 반응: [치료 반응]\n");
         prompt.append("\n");
-        prompt.append("4. 통증 관리 팁 및 치료 방향성:\n");
+        prompt.append("**4. 통증 관리 팁 및 치료 방향성:**\n");
         prompt.append("   - 해당 부위에 적합한 스트레칭 및 운동 방법.\n");
         prompt.append("   - 악화 요인을 줄이고 예방할 방법.\n");
         prompt.append("\n");
