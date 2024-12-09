@@ -1,9 +1,10 @@
 import { Reset } from "styled-reset";
 import {
     Wrapper, Container, InputInformation, Input,
-    Inputs, InputName, Right, Logo, SignupBtn,
+    Inputs, InputName, Right, Logo, SignupBtn, Logo2,
 } from './style';
 import RehappyLogo from '../../images/리해피최종로고.png';
+import ThinRehappyLogo from '../../images/리해피로고얇은버전.png';
 import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
@@ -58,6 +59,7 @@ export default function Signup() {
             <Reset />
             <Wrapper>
                 <Container>
+                    <Logo2 src={ThinRehappyLogo} />
                     <InputInformation>
                         <Inputs>
                             <InputName>이름</InputName>

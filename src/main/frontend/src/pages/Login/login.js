@@ -4,7 +4,7 @@ import {
     Container, Wrapper, Input,
     InputInformation, InputName, Inputs,
     Logo, Right, LoginBtn, Wrapper2,
-    Title, AddProfileBtn, ProfileName, Profilediv, SaveProfileBtn, Input2, GoSign
+    Title, AddProfileBtn, ProfileName, Profilediv, SaveProfileBtn, Input2, GoSign, Logo2
 } from "./style";
 import RehappyLogo from "../../images/리해피최종로고.png";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ import Woman from "../../images/woman.png";
 import GrandF from "../../images/grandfather.png";
 import GrandM from "../../images/granmother.png";
 import {jwtDecode} from "jwt-decode";
+import ThinRehappyLogo from "../../images/리해피로고얇은버전.png";
 
 const profileTypes = [
     { type: 1, image: Profile },
@@ -262,6 +263,7 @@ export default function Login() {
                     <Container>
                         <Right>
                             <Logo src={RehappyLogo} />
+                            <Logo2 src={ThinRehappyLogo} />
                         </Right>
                         <InputInformation>
                             <Inputs>
