@@ -19,6 +19,10 @@ const DateText = styled.h2`
     font-weight: bold;
     color: #333;
     margin-right: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 45px;
+    }
 `;
 
 const Title = styled.h2`
@@ -26,6 +30,10 @@ const Title = styled.h2`
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+        font-size: 40px;
+    }
 `;
 
 const Grid = styled.div`
@@ -34,17 +42,30 @@ const Grid = styled.div`
     grid-template-columns: repeat(2, 1fr); /* 두 열로 구성 */
     gap: 20px; /* 항목 간 간격 */
     max-width: 1500px;
+
+    @media (max-width: 768px) {
+        margin-bottom: 100px;
+    }
 `;
 
 const Option = styled.div`
     display: flex;
     align-items: center;
     font-size: 40px;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
 `;
 
 const Checkbox = styled.input`
     margin-right: 30px;
     transform: scale(3); /* 체크박스 크기 조정 */
+
+    @media (max-width: 768px) {
+        margin-right: 20px;
+        transform: scale(2);
+    }
 `;
 
 const OtherInput = styled.input`
@@ -78,6 +99,10 @@ const NextButton = styled.button`
     &:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        position: absolute;
     }
 `;
 

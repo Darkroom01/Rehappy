@@ -13,6 +13,10 @@ const DateWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 const DateText = styled.h2`
@@ -20,6 +24,11 @@ const DateText = styled.h2`
     font-weight: bold;
     color: #333;
     margin-right: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 45px;
+        margin-bottom: 20px;
+    }
 `;
 
 const ChangeDateContainer = styled.div`
@@ -46,8 +55,8 @@ const ChangeDateButton = styled.button`
 
 const DateInput = styled.input`
     margin-left: 20px;
-    padding: 0.5rem;
-    font-size: 1.6rem;
+    padding: 10px;
+    font-size: 20px;
     border-radius: 5px;
     border: 1px solid #ccc;
 `;
@@ -151,6 +160,10 @@ const NextButton = styled.button`
     &:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        position: absolute;
     }
 `;
 

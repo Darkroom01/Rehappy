@@ -20,6 +20,10 @@ const DateText = styled.h2`
     font-weight: bold;
     color: #333;
     margin-right: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 45px;
+    }
 `;
 
 const Title = styled.h2`

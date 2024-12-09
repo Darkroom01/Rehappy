@@ -14,6 +14,12 @@ export const Container = styled.div`
     width: 90%;
     margin-top: 40px;
     border-radius: 8px;
+
+    @media (max-width: 768px) {
+        flex-direction: column; 
+        width: 100%;
+        margin-top: 20px; 
+    }
 `;
 
 export const LeftSection = styled.div`
@@ -24,6 +30,12 @@ export const LeftSection = styled.div`
     justify-content: flex-start;
     margin-left: 100px;
     padding: 2px;
+
+    @media (max-width: 768px) {
+        margin-left: 0; 
+        margin-bottom: 20px;
+        width: 100%; 
+    }
 `;
 
 export const RightSection = styled.div`
@@ -33,6 +45,11 @@ export const RightSection = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     padding: 2px;
+
+    @media (max-width: 768px) {
+        margin-left: 0; 
+        width: 100%; 
+    }
 `;
 
 export const BodyDiagramContainer = styled.div`
@@ -41,4 +58,8 @@ export const BodyDiagramContainer = styled.div`
     border-radius: 8px;
     background-color: #fff;
     padding: 1px;
+
+    @media (max-width: 768px) {
+        width: 70%;
+    }
 `;

@@ -19,6 +19,10 @@ const DateText = styled.h2`
     font-weight: bold;
     color: #333;
     margin-right: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 45px;
+    }
 `;
 
 const Title = styled.h2`
@@ -45,6 +49,10 @@ const SliderWrapper = styled.div`
     width: 100%;
     max-width: 800px;
     height: 40px;
+    
+    @media (max-width: 768px) {
+        width: 70%;
+    }
 `;
 
 const SliderLabelContainer = styled.div`
@@ -54,10 +62,15 @@ const SliderLabelContainer = styled.div`
     font-size: 14px;
     margin-top: 10px;
     color: #333;
+
+    @media (max-width: 768px) {
+        width: 70%;
+    }
 `;
 
 const Slider = styled.input`
     -webkit-appearance: none;
+    justify-content: center;
     appearance: none;
     width: 100%;
     height: 15px;
@@ -101,6 +114,10 @@ const Scale = styled.div`
     color: #110078;
     margin-top: 5px;
     margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+        width: 70%;
+    }
 `;
 
 const CurrentValue = styled.div`
@@ -110,6 +127,10 @@ const CurrentValue = styled.div`
     margin-top: 40px;
     margin-bottom: 20px;
     color: #555;
+
+    @media (max-width: 768px) {
+        margin-bottom: 100px;
+    }
 `;
 
 
@@ -135,6 +156,10 @@ const SubmitButton = styled.button`
     &:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        position: absolute;
     }
 `;
 

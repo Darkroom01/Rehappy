@@ -18,6 +18,13 @@ export const InfoContainer = styled.div`
     align-items: center;
     margin-top: 50px;
     margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column; /* 모바일에서 세로 정렬 */
+        height: auto; /* 높이를 자동 조정 */
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
 `;
 
 // 왼쪽 섹션
@@ -30,7 +37,7 @@ export const LeftSection = styled.div`
     h2 {
         font-size: calc(2.4vw + 10px); // 동적으로 조절
         line-height: 1.4;
-        text-align: left; 
+        text-align: left;
 
         span {
             font-weight: bold;
@@ -41,8 +48,12 @@ export const LeftSection = styled.div`
         }
 
         span:last-of-type {
-            color: #FFAE00; 
+            color: #FFAE00;
         }
+    }
+
+    @media (max-width: 768px) {
+        margin-left: 0;
     }
 `;
 
@@ -54,6 +65,11 @@ export const CenterSection = styled.div`
     margin-right: 20px;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 768px) {
+        margin-right: 0;
+        justify-content: flex-end; /* 모바일에서 오른쪽 정렬 */
+    }
 `;
 
 export const Button = styled.button`
@@ -82,11 +98,10 @@ export const Button = styled.button`
         stroke: #fff; /* SVG 선 색상 변경 */
         stroke-width: 8;
         fill: none; /* SVG 채우기 색상 없음 */
-        width: 40px; 
-        height: 80px; 
+        width: 40px;
+        height: 80px;
     }
 `;
-
 
 // 오른쪽 섹션
 export const RightSection = styled.div`
@@ -100,22 +115,16 @@ export const RightSection = styled.div`
     flex-direction: row; /* 수평 정렬 */
     align-items: center; /* 세로 가운데 정렬 */
     justify-content: space-between; /* 내부 요소 간격 */
-`;
+    overflow-y: auto;
 
-export const WeatherMain = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column; /* 아이콘과 온도를 수직 정렬 */
-    align-items: center; /* 가운데 정렬 */
-    justify-content: center;
-    margin-left: 20px;
-    margin-right: 20px; /* 오른쪽 텍스트와 간격 추가 */
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
 
-    h2 {
-        font-size: 40px; /* 현재 온도 크기 */
-        color: #ff6f00;
-        margin-top: 5px;
-        margin-bottom: 25px;
+    @media (max-width: 768px) {
+        margin-right: 0;
+        margin-top: 20px; /* 모바일에서 위 간격 추가 */
+        width: 100%;
     }
 `;
 
@@ -124,6 +133,12 @@ export const GraphTipContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 768px) {
+        flex-direction: column; /* 모바일에서 세로 정렬 */
+        height: auto; /* 높이를 자동 조정 */
+        margin-top: 20px;
+    }
 `;
 
 // 그래프 섹션
@@ -135,6 +150,7 @@ export const GraphSection = styled.section`
     margin-right: 20px;
     border-radius: 40px;
     height: 100%;
+    overflow-y: auto;
 
     h3 {
         font-size: 30px;
@@ -145,8 +161,13 @@ export const GraphSection = styled.section`
         color: #110078;
     }
 
-    &:hover {
-        //background: #110078;
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    @media (max-width: 768px) {
+        margin: 10px 0;
+        width: 100%;
     }
 `;
 
@@ -158,25 +179,51 @@ export const TipSection = styled.section`
     margin-right: 40px;
     border-radius: 40px;
     align-items: flex-start; /* 왼쪽 정렬 */
+    overflow-y: auto;
     height: 100%;
 
     h3 {
         font-size: 40px;
         margin-left: 40px;
-        margin-top: 40px; 
+        margin-top: 40px;
         margin-bottom: 30px;
         font-weight: bold;
         color: #110078;
+    }
+
+    &::-webkit-scrollbar {
+        width: 10px; 
+    }
+
+    @media (max-width: 768px) {
+        margin: 10px 0;
+        width: 100%;
     }
 `;
 
 export const HealthTips = styled.section`
     flex: 1;
-    font-size: 20px;
-    border-radius: 40px;
-    align-items: flex-start; /* 왼쪽 정렬 */
-    margin-left: 40px;
-    margin-right: 40px;
-    height: 100%;
-`;
+    font-size: 18px; 
+    margin: 0 20px; 
+    padding: 0 10px; 
+    line-height: 1.8; 
+    color: #555; 
+    border-radius: 10px;
 
+    ul {
+        list-style-type: disc; /* 기본 리스트 스타일 */
+        margin-left: 20px; /* 리스트 왼쪽 여백 */
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px; /* 리스트 항목 간 간격 */
+        padding: 5px 0; /* 항목 상하 패딩 */
+        border-bottom: 1px solid #eee; /* 리스트 항목 구분선 */
+        color: #333; /* 리스트 텍스트 색상 */
+    }
+
+    li:last-child {
+        border-bottom: none; /* 마지막 항목은 구분선 제거 */
+    }
+`;
