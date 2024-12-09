@@ -47,7 +47,7 @@ export const RightSection = styled.div`
     padding: 2px;
 
     @media (max-width: 768px) {
-        margin-left: 0; 
+        margin-left: 10px; 
         width: 100%; 
     }
 `;

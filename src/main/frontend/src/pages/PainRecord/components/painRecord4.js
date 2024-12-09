@@ -16,13 +16,14 @@ const DateWrapper = styled.div`
 `;
 
 const DateText = styled.h2`
-    font-size: 60px;
+    font-size: 40px;
     font-weight: bold;
     color: #333;
     margin-right: 20px;
 
     @media (max-width: 768px) {
-        font-size: 45px;
+        font-size: 30px;
+        margin-bottom: 20px;
     }
 `;
 
@@ -33,6 +34,10 @@ const Title = styled.h2`
     margin-top: 20px;
     margin-bottom: 40px;
     color: #555;
+
+    @media (max-width: 768px) {
+        font-size: 25px;
+    }
 `;
 
 

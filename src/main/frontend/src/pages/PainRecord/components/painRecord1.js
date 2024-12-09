@@ -20,13 +20,13 @@ const DateWrapper = styled.div`
 `;
 
 const DateText = styled.h2`
-    font-size: 60px;
+    font-size: 40px;
     font-weight: bold;
     color: #333;
     margin-right: 20px;
 
     @media (max-width: 768px) {
-        font-size: 45px;
+        font-size: 30px;
         margin-bottom: 20px;
     }
 `;
@@ -38,8 +38,8 @@ const ChangeDateContainer = styled.div`
 `;
 
 const ChangeDateButton = styled.button`
-    font-size: 20px;
-    padding: 10px 20px;
+    font-size: 15px;
+    padding: 10px 10px;
     color: #110078;
     background-color: #D7E8FF;
     border: 3px solid #110078;
@@ -62,14 +62,14 @@ const DateInput = styled.input`
 `;
 
 const InstructionText = styled.p`
-    font-size: 50px;
+    font-size: 30px;
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 5px;
 `;
 
 const InstructionText2 = styled.p`
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -100,7 +100,7 @@ const PeriodButton = styled.button`
 `;
 
 const InstructionText3 = styled.p`
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     margin-right: 15px;
     color: #555;
@@ -133,7 +133,7 @@ const DurationInput = styled.input`
 `;
 
 const ErrorText = styled.p`
-    font-size: 20px;
+    font-size: 25px;
     color: red;
     margin-top: 5px;
 `;
@@ -184,7 +184,7 @@ const SelectedButton = styled.button`
 
 const SelectedPartsContainer = styled.div`
     margin-left: 1px;
-    font-size: 30px;
+    font-size: 25px;
     color: ${(props) => (props.isEmpty ? "#FFAE00" : "#110078")};
 `;
 

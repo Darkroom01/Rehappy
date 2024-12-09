@@ -15,30 +15,31 @@ const DateWrapper = styled.div`
 `;
 
 const DateText = styled.h2`
-    font-size: 60px;
+    font-size: 40px;
     font-weight: bold;
     color: #333;
     margin-right: 20px;
 
     @media (max-width: 768px) {
-        font-size: 45px;
+        font-size: 30px;
+        margin-bottom: 20px;
     }
 `;
 
 const Title = styled.h2`
-    font-size: 50px;
+    font-size: 30px;
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 40px;
 
     @media (max-width: 768px) {
-        font-size: 40px;
+        font-size: 25px;
     }
 `;
 
 const Grid = styled.div`
     display: grid;
-    margin-left: 20px;
+    margin-left: 10px;
     grid-template-columns: repeat(2, 1fr); /* 두 열로 구성 */
     gap: 20px; /* 항목 간 간격 */
     max-width: 1500px;
@@ -51,7 +52,7 @@ const Grid = styled.div`
 const Option = styled.div`
     display: flex;
     align-items: center;
-    font-size: 40px;
+    font-size: 30px;
 
     @media (max-width: 768px) {
         font-size: 20px;
@@ -60,7 +61,7 @@ const Option = styled.div`
 
 const Checkbox = styled.input`
     margin-right: 30px;
-    transform: scale(3); /* 체크박스 크기 조정 */
+    transform: scale(2); /* 체크박스 크기 조정 */
 
     @media (max-width: 768px) {
         margin-right: 20px;
