@@ -49,7 +49,7 @@ export default function Login() {
 
     const handleNext = async () => {
         try {
-            const response = await axios.post(`/api/users/login`, null, {
+            const response = await axios.post(`http://localhost:8080/api/users/login`, null, {
                 params: {
                     email: userId,
                     password: password,

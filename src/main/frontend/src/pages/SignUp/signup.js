@@ -31,7 +31,7 @@ export default function Signup() {
 
 
             // 쿼리 파라미터와 함께 POST 요청 전송
-            const response = await axios.post('/api/users/register', formData, {
+            const response = await axios.post('http://localhost:8080/api/users/register', formData, {
                 headers: {
                     'Content-Type': ' application/json',
                 },
